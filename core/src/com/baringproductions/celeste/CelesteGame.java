@@ -7,8 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2D;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.*;
@@ -21,10 +20,13 @@ public class CelesteGame extends ApplicationAdapter {
 	private Rectangle imageRep;
 	World world;
 
+	Box2DDebugRenderer debugRenderer;
+
 	@Override
 	public void create () {
-		Box2D.init();
-		world = new World(new Vector2(0, 10), true);
+//		Box2D.init();
+		world = new World(new Vector2(0, -10), true);
+		debugRenderer = new Box2DDebugRenderer();
 		batch = new SpriteBatch();
 		image = new Texture("badlogic.jpg");
 		camera = new OrthographicCamera();
@@ -35,9 +37,6 @@ public class CelesteGame extends ApplicationAdapter {
 		imageRep.y = 50;
 		imageRep.width = 64;
 		imageRep.height = 64;
-
-
-
 	}
 
 	@Override
@@ -56,8 +55,10 @@ public class CelesteGame extends ApplicationAdapter {
 		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) imageRep.x -= 200 * Gdx.graphics.getDeltaTime();
 		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) imageRep.x += 200 * Gdx.graphics.getDeltaTime();
 
-		fullScreenToWindowedControls();
 		world.step(1/60f, 6, 2);
+		debugRenderer.render(world, camera.combined);
+
+		fullScreenToWindowedControls();
 	}
 	
 	@Override
