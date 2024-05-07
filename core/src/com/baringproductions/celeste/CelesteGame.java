@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 import java.awt.*;
@@ -35,8 +36,8 @@ public class CelesteGame extends ApplicationAdapter {
 		imageRep = new Rectangle();
 		imageRep.x = Gdx.graphics.getDisplayMode().width / 2 - 64/2;
 		imageRep.y = 50;
-		imageRep.width = 64;
-		imageRep.height = 64;
+		imageRep.width = 16;
+		imageRep.height = 16;
 	}
 
 	@Override
@@ -52,8 +53,8 @@ public class CelesteGame extends ApplicationAdapter {
 
 		batch.end();
 
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) imageRep.x -= 200 * Gdx.graphics.getDeltaTime();
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) imageRep.x += 200 * Gdx.graphics.getDeltaTime();
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) imageRep.x -= (int) (200 * Gdx.graphics.getDeltaTime());
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) imageRep.x += (int) (200 * Gdx.graphics.getDeltaTime());
 
 		world.step(1/60f, 6, 2);
 		debugRenderer.render(world, camera.combined);
