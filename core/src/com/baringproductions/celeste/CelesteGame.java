@@ -23,10 +23,12 @@ public class CelesteGame extends ApplicationAdapter {
 
 	Box2DDebugRenderer debugRenderer;
 
+	Body body;
+
 	@Override
 	public void create () {
 //		Box2D.init();
-		world = new World(new Vector2(0, -10), true);
+		world = new World(new Vector2(0, -18.81f), true);
 		debugRenderer = new Box2DDebugRenderer();
 		batch = new SpriteBatch();
 		image = new Texture("badlogic.jpg");
@@ -39,6 +41,63 @@ public class CelesteGame extends ApplicationAdapter {
 		imageRep.width = 16;
 		imageRep.height = 16;
 
+		paraDiHugaw();
+	}
+
+	@Override
+	public void render () {
+		ScreenUtils.clear(0, 0, 0, 1);
+
+		camera.update();
+		batch.setProjectionMatrix(camera.combined);
+
+		batch.begin();
+
+		batch.draw(image, imageRep.x ,imageRep.y);
+
+		batch.end();
+
+		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) imageRep.x -= (int) (200 * Gdx.graphics.getDeltaTime());
+		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) imageRep.x += (int) (200 * Gdx.graphics.getDeltaTime());
+
+		if(Gdx.input.isKeyPressed(Input.Keys.A))
+			body.applyLinearImpulse(-(body.getMass()*18), 0f, body.getPosition().x, body.getPosition().y, true);
+
+		if(Gdx.input.isKeyPressed(Input.Keys.D))
+			body.applyLinearImpulse(body.getMass()*18, 0f, body.getPosition().x, body.getPosition().y, true);
+
+
+		world.step(1/60f, 6, 2);
+		debugRenderer.render(world, camera.combined);
+
+		if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+//			body.setLinearVelocity(0, body.getLinearVelocity().y);
+			body.applyLinearImpulse(0f, body.getMass()*18, body.getPosition().x, body.getPosition().y, true);
+		}
+		body.setLinearVelocity(0, body.getLinearVelocity().y);
+		fullScreenToWindowedControls();
+	}
+	
+	@Override
+	public void dispose () {
+		batch.dispose();
+	}
+
+	public void fullScreenToWindowedControls(){
+		//Use escape to go from fscreen to windowed
+		//Use F11 to switch switch
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
+			if (Gdx.graphics.isFullscreen())  Gdx.graphics.setWindowedMode(1280, 720);
+		}
+
+		if(Gdx.input.isKeyJustPressed(Input.Keys.F11)){
+			if (!Gdx.graphics.isFullscreen()) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+			else Gdx.graphics.setWindowedMode(1280, 720);
+		}
+	}
+
+	public void paraDiHugaw(){
 		// First we create a body definition
 		BodyDef bodyDef = new BodyDef();
 // We set our body to dynamic, for something like ground which doesn't move we would set it to StaticBody
@@ -47,7 +106,8 @@ public class CelesteGame extends ApplicationAdapter {
 		bodyDef.position.set((float) Gdx.graphics.getDisplayMode().width / 2 - (float) 64 /2, 500);
 
 // Create our body in the world using our body definition
-		Body body = world.createBody(bodyDef);
+		body = world.createBody(bodyDef);
+		body.setFixedRotation(true);
 
 // Create a circle shape and set its radius to 6
 		CircleShape circle = new CircleShape();
@@ -56,9 +116,9 @@ public class CelesteGame extends ApplicationAdapter {
 // Create a fixture definition to apply our shape to
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = circle;
-		fixtureDef.density = 0.5f;
+		fixtureDef.density = 40f;
 		fixtureDef.friction = 0.4f;
-		fixtureDef.restitution = 0.6f; // Make it bounce a little bit
+		fixtureDef.restitution = 0f; // Make it bounce a little bit
 
 // Create our fixture and attach it to the body
 		Fixture fixture = body.createFixture(fixtureDef);
@@ -86,7 +146,7 @@ public class CelesteGame extends ApplicationAdapter {
 		fixtureDef2.shape = rect;
 		fixtureDef2.density = 0.5f;
 		fixtureDef2.friction = 0.4f;
-		fixtureDef2.restitution = 0.6f; // Make it bounce a little bit
+		fixtureDef2.restitution = 0f; // Make it bounce a little bit
 
 // Create our fixture and attach it to the body
 		Fixture fixture2 = body2.createFixture(fixtureDef2);
@@ -94,46 +154,5 @@ public class CelesteGame extends ApplicationAdapter {
 // Remember to dispose of any shapes after you're done with them!
 // BodyDef and FixtureDef don't need disposing, but shapes do.
 		rect.dispose();
-	}
-
-	@Override
-	public void render () {
-		ScreenUtils.clear(0, 0, 0, 1);
-
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-
-		batch.begin();
-
-		batch.draw(image, imageRep.x ,imageRep.y);
-
-		batch.end();
-
-		if(Gdx.input.isKeyPressed(Input.Keys.LEFT)) imageRep.x -= (int) (200 * Gdx.graphics.getDeltaTime());
-		if(Gdx.input.isKeyPressed(Input.Keys.RIGHT)) imageRep.x += (int) (200 * Gdx.graphics.getDeltaTime());
-
-		world.step(1/60f, 6, 2);
-		debugRenderer.render(world, camera.combined);
-
-		fullScreenToWindowedControls();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-	}
-
-	public void fullScreenToWindowedControls(){
-		//Use escape to go from fscreen to windowed
-		//Use F11 to switch switch
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)){
-			if (Gdx.graphics.isFullscreen())  Gdx.graphics.setWindowedMode(1280, 720);
-		}
-
-		if(Gdx.input.isKeyJustPressed(Input.Keys.F11)){
-			if (!Gdx.graphics.isFullscreen()) Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
-			else Gdx.graphics.setWindowedMode(1280, 720);
-		}
 	}
 }
