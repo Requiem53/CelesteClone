@@ -58,11 +58,11 @@ public class CelesteGame extends ApplicationAdapter {
 		batch.end();
 
 
-		if(Gdx.input.isKeyPressed(Input.Keys.A))
+		if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
 			playerBody.applyLinearImpulse(-(playerBody.getMass()*runSpeed), 0f,
 					playerBody.getPosition().x, playerBody.getPosition().y, true);
 
-		if(Gdx.input.isKeyPressed(Input.Keys.D))
+		if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
 			playerBody.applyLinearImpulse(playerBody.getMass()*runSpeed, 0f,
 					playerBody.getPosition().x, playerBody.getPosition().y, true);
 
