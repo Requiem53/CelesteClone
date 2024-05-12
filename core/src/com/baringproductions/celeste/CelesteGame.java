@@ -1,6 +1,6 @@
 package com.baringproductions.celeste;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -11,13 +11,23 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.baringproductions.celeste.Statics.Constants;
 import com.baringproductions.celeste.Statics.Player;
 import com.baringproductions.celeste.Statics.WorldContactListener;
+import com.baringproductions.celeste.Screens.PlayScreen;
+import com.baringproductions.celeste.Utils.WorldCreator;
 
 import static com.baringproductions.celeste.Statics.Constants.PPMScaled;
 import static com.baringproductions.celeste.Statics.Constants.createPlayer;
 
-public class CelesteGame extends ApplicationAdapter {
-	private SpriteBatch batch;
+public class CelesteGame extends Game {
+	public SpriteBatch batch;
 	private OrthographicCamera camera;
+
+	WorldCreator worldCreator;
+
+	public static final int V_WIDTH = 320;
+	public static final int V_HEIGHT = 160;
+	public static final float PPM = 100;
+
+	public static final int GRAVITY = -5;
 
 	Box2DDebugRenderer debugRenderer;
 
@@ -44,6 +54,7 @@ public class CelesteGame extends ApplicationAdapter {
 		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
 
 		batch = new SpriteBatch();
+		setScreen(new PlayScreen(this));
 	}
 
 	@Override
@@ -64,6 +75,7 @@ public class CelesteGame extends ApplicationAdapter {
 
 		playerBody.setLinearVelocity(0, playerBody.getLinearVelocity().y);
 
+		super.render();
 		fullScreenToWindowedControls();
 	}
 	
