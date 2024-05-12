@@ -25,7 +25,7 @@ public class CelesteGame extends Game {
 
 	public static final int V_WIDTH = 320;
 	public static final int V_HEIGHT = 160;
-	public static final float PPM = 100;
+	public static final float PPM = 64;
 
 	public static final int GRAVITY = -5;
 
@@ -37,21 +37,21 @@ public class CelesteGame extends Game {
 
 	@Override
 	public void create () {
-		world = new World(new Vector2(0, -15.81f), true);
-
-		player = createPlayer(world);
-		playerBody = player.body;
-
-		platformMaker(1);
-		platformMaker(5);
-		platformMaker(10);
-		platformMaker(15);
-
-		world.setContactListener(new WorldContactListener(player));
-		debugRenderer = new Box2DDebugRenderer();
-
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
+//		world = new World(new Vector2(0, -15.81f), true);
+//
+//		player = createPlayer(world);
+//		playerBody = player.body;
+//
+//		platformMaker(1);
+//		platformMaker(5);
+//		platformMaker(10);
+//		platformMaker(15);
+//
+//		world.setContactListener(new WorldContactListener(player));
+//		debugRenderer = new Box2DDebugRenderer();
+//
+//		camera = new OrthographicCamera();
+//		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
 
 		batch = new SpriteBatch();
 		setScreen(new PlayScreen(this));
@@ -59,21 +59,21 @@ public class CelesteGame extends Game {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 0, 0, 1);
-
-		camera.update();
-		batch.setProjectionMatrix(camera.combined);
-
-		batch.begin();
-
-		batch.end();
-
-		player.processInputs();
-
-		world.step(1/60f, 6, 2);
-		debugRenderer.render(world, camera.combined);
-
-		playerBody.setLinearVelocity(0, playerBody.getLinearVelocity().y);
+//		ScreenUtils.clear(0, 0, 0, 1);
+//
+//		camera.update();
+//		batch.setProjectionMatrix(camera.combined);
+//
+//		batch.begin();
+//
+//		batch.end();
+//
+//		player.processInputs();
+//
+//		world.step(1/60f, 6, 2);
+//		debugRenderer.render(world, camera.combined);
+//
+//		playerBody.setLinearVelocity(0, playerBody.getLinearVelocity().y);
 
 		super.render();
 		fullScreenToWindowedControls();

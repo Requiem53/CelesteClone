@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="7" nextobjectid="12">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="15">
  <tileset firstgid="1" source="world_tileset.tsx"/>
+ <layer id="8" name="bg" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
+  </data>
+ </layer>
  <layer id="6" name="graphics" width="50" height="50">
   <data encoding="base64" compression="zlib">
    eJzt0TEKwDAIQFE79gje/6KdspQODQQa7Xvg4uTHCAAAAAAAAABY73wxFWT8oyO/O21axnNPpYZBx146ddxbxq6aTj/ZveNoMhe0CgPy
@@ -10,7 +15,7 @@
   <object id="9" x="0" y="784" width="800" height="16"/>
  </objectgroup>
  <objectgroup id="4" name="walls">
-  <object id="11" x="96" y="624">
+  <object id="12" x="96" y="624">
    <polygon points="0,0 144,0 144,48 128,48 128,112 144,112 144,160 48,160 48,128 32,128 32,64 16,64 16,48 0,48"/>
   </object>
  </objectgroup>
