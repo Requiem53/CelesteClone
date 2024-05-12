@@ -27,7 +27,7 @@ public class CelesteGame extends Game {
 	public static final int V_HEIGHT = 160;
 	public static final float PPM = 64;
 
-	public static final int GRAVITY = -5;
+	public static final float GRAVITY = -9.81f;
 
 	Box2DDebugRenderer debugRenderer;
 

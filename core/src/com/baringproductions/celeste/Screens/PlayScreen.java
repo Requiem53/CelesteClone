@@ -41,8 +41,8 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(
-                CelesteGame.V_WIDTH/64f,
-                CelesteGame.V_HEIGHT/64f, camera);
+                CelesteGame.V_WIDTH/48f,
+                CelesteGame.V_HEIGHT/48f, camera);
 
         maploader = new TmxMapLoader();
         map = maploader.load("map.tmx");
@@ -56,7 +56,7 @@ public class PlayScreen implements Screen {
 
         player = new Player(world);
 
-        world.setContactListener(new WorldListener());
+        world.setContactListener(new WorldListener(player));
     }
 
 
@@ -65,6 +65,8 @@ public class PlayScreen implements Screen {
         player.handleInput(dt);
 
         world.step(1/60f, 6, 2);
+
+        player.body.setLinearVelocity(0, player.body.getLinearVelocity().y);
 
         camera.position.x = player.body.getPosition().x;
         

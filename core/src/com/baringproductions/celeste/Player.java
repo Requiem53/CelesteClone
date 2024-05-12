@@ -15,8 +15,8 @@ public class Player extends Sprite {
 
     public Boolean canJump;
 
-    float runSpeed = 0.2f;
-    float jumpHeight = 2f;
+    float runSpeed = 6f;
+    float jumpHeight = 4.5f;
 
     public Player(World world) {
         this.world = world;
@@ -25,7 +25,7 @@ public class Player extends Sprite {
     }
 
     public void init() {
-        canJump = true;
+        canJump = false;
 
         //Body Def and Position
         BodyDef bodyDef = new BodyDef();
@@ -61,7 +61,7 @@ public class Player extends Sprite {
         polygon.setAsBox(0.1f, 0.05f, new Vector2(0, -0.32f), 0);
         fixtureDef.isSensor = true;
         Fixture footSensorFixture = body.createFixture(fixtureDef);
-        footSensorFixture.setUserData("playerFootSensor");
+        footSensorFixture.setUserData("playerFoot");
 
         polygon.dispose();
         circle.dispose();
