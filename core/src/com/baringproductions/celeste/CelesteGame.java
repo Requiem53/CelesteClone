@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.baringproductions.celeste.Statics.Constants;
 import com.baringproductions.celeste.Statics.Player;
+import com.baringproductions.celeste.Statics.WorldContactListener;
 
 import static com.baringproductions.celeste.Statics.Constants.PPMScaled;
 import static com.baringproductions.celeste.Statics.Constants.createPlayer;
@@ -24,18 +25,9 @@ public class CelesteGame extends ApplicationAdapter {
 	Player player;
 	Body playerBody;
 
-	float runSpeed = 6f;
-	float jumpHeight = 10f;
-
 	@Override
 	public void create () {
 		world = new World(new Vector2(0, -15.81f), true);
-		debugRenderer = new Box2DDebugRenderer();
-
-		camera = new OrthographicCamera();
-		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
-
-		batch = new SpriteBatch();
 
 		player = createPlayer(world);
 		playerBody = player.body;
@@ -44,6 +36,14 @@ public class CelesteGame extends ApplicationAdapter {
 		platformMaker(5);
 		platformMaker(10);
 		platformMaker(15);
+
+		world.setContactListener(new WorldContactListener(player));
+		debugRenderer = new Box2DDebugRenderer();
+
+		camera = new OrthographicCamera();
+		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
+
+		batch = new SpriteBatch();
 	}
 
 	@Override
@@ -58,22 +58,11 @@ public class CelesteGame extends ApplicationAdapter {
 		batch.end();
 
 
-		if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
-			playerBody.applyLinearImpulse(-(playerBody.getMass()*runSpeed), 0f,
-					playerBody.getPosition().x, playerBody.getPosition().y, true);
-
-		if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-			playerBody.applyLinearImpulse(playerBody.getMass()*runSpeed, 0f,
-					playerBody.getPosition().x, playerBody.getPosition().y, true);
+		player.processInputs();
 
 		world.step(1/60f, 6, 2);
 		debugRenderer.render(world, camera.combined);
 
-		if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-			playerBody.applyLinearImpulse(0f , playerBody.getMass()*jumpHeight ,
-					playerBody.getPosition().x, playerBody.getPosition().y,true);
-		}
-		playerBody.setLinearVelocity(0, playerBody.getLinearVelocity().y);
 		fullScreenToWindowedControls();
 	}
 	
@@ -107,7 +96,10 @@ public class CelesteGame extends ApplicationAdapter {
 
 		FixtureDef fixtureDef2 = new FixtureDef();
 		fixtureDef2.shape = rect;
-		Fixture fixture2 = body2.createFixture(fixtureDef2);
+		fixtureDef2.friction = 0.8f;
+		Fixture groundFixture = body2.createFixture(fixtureDef2);
+
+		groundFixture.setUserData("ground");
 		rect.dispose();
 	}
 }
