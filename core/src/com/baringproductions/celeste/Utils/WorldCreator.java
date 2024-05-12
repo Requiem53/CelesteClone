@@ -1,5 +1,6 @@
 package com.baringproductions.celeste.Utils;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
@@ -11,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Screens.PlayScreen;
+import com.baringproductions.celeste.Tiles.Ground;
 
 public class WorldCreator {
 
@@ -28,38 +30,68 @@ public class WorldCreator {
         Body body;
 
         // ground
-        for(MapObject object : map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
+        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX() + rect.getWidth() / 2) / CelesteGame.PPM, (rect.getY() + rect.getHeight() / 2) / CelesteGame.PPM);
 
-            body = world.createBody(bdef);
+            new Ground(world, map, rect);
 
-            shape.setAsBox(rect.getWidth() / 2 / CelesteGame.PPM, rect.getHeight() / 2 / CelesteGame.PPM);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        // wall
-        for(MapObject object : map.getLayers().get(2).getObjects()){
-
-            Shape s;
-            if (object instanceof PolylineMapObject)
-                s = createPoly((PolylineMapObject) object);
-            else
-                continue;
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            body = world.createBody(bdef);
-            body.createFixture(s, 1.0f);
-
-            s.dispose();
+//            bdef.type = BodyDef.BodyType.StaticBody;
 //            bdef.position.set((rect.getX() + rect.getWidth() / 2) / CelesteGame.PPM, (rect.getY() + rect.getHeight() / 2) / CelesteGame.PPM);
 //
+//            body = world.createBody(bdef);
 //
 //            shape.setAsBox(rect.getWidth() / 2 / CelesteGame.PPM, rect.getHeight() / 2 / CelesteGame.PPM);
 //            fdef.shape = shape;
+//            body.createFixture(fdef);
+//
+//            shape.dispose();
+        }
+
+        // wall
+        for(MapObject object : map.getLayers().get(3).getObjects().getByType(PolygonMapObject.class)){
+
+//            Polygon polygon = ((PolygonMapObject) object).getPolygon();
+//
+////
+//            bdef.type = BodyDef.BodyType.StaticBody;
+//            bdef.position.set((polygon.getX()/CelesteGame.PPM), (polygon.getY()/CelesteGame.PPM));
+//
+//            polygon.setPosition(0, 0);
+//            polygon.setScale(CelesteGame.PPM, CelesteGame.PPM);
+//
+//            shape.set(polygon.getTransformedVertices());
+//            fdef.shape = shape;
+//
+//            world.createBody(bdef).createFixture(fdef);
+//            body = world.createBody(bdef);
+//
+//
+//            float[] vertices = polygon.getTransformedVertices();
+
+//            _polyShape = new PolygonShape();
+//            Polygon _polygon = ((PolygonMapObject) _mapObject).getPolygon();
+//
+//            _bdef.position.set((_polygon.getX() * MAP_SCALE / PPM),
+//                    _polygon.getY() * MAP_SCALE / PPM);
+//
+//            _polygon.setPosition(0, 0);
+//            _polygon.setScale(MAP_SCALE / PPM, MAP_SCALE / PPM);
+//
+//            _polyShape.set(_polygon.getTransformedVertices());
+//            _fdef.shape = _polyShape;
+//
+//            m_world.createBody(_bdef).createFixture(_fdef);
+
+
+
+
+//            shape.set(vertices);
+////
+//            fdef.shape = shape;
+//            body.createFixture(fdef);
+
+//            shape.dispose();
         }
     }
 
