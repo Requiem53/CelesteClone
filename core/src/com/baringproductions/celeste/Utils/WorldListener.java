@@ -4,6 +4,8 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.baringproductions.celeste.Tiles.InteractiveTile;
 
 public class WorldListener implements ContactListener {
+
+
     @Override
     public void beginContact(Contact contact) {
         Fixture fixtureA = contact.getFixtureA();

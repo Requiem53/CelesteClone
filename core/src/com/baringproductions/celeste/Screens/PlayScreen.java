@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.baringproductions.celeste.Statics.Constants;
 import com.baringproductions.celeste.Utils.WorldCreator;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Player;
@@ -40,8 +41,8 @@ public class PlayScreen implements Screen {
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(
-                CelesteGame.V_WIDTH/CelesteGame.PPM,
-                CelesteGame.V_HEIGHT/CelesteGame.PPM, camera);
+                CelesteGame.V_WIDTH/64f,
+                CelesteGame.V_HEIGHT/64f, camera);
 
         maploader = new TmxMapLoader();
         map = maploader.load("map.tmx");
@@ -57,6 +58,7 @@ public class PlayScreen implements Screen {
 
         world.setContactListener(new WorldListener());
     }
+
 
     public void update(float dt) {
 
