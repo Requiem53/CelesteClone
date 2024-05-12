@@ -57,11 +57,12 @@ public class CelesteGame extends ApplicationAdapter {
 
 		batch.end();
 
-
 		player.processInputs();
 
 		world.step(1/60f, 6, 2);
 		debugRenderer.render(world, camera.combined);
+
+		playerBody.setLinearVelocity(0, playerBody.getLinearVelocity().y);
 
 		fullScreenToWindowedControls();
 	}

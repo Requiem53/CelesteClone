@@ -71,6 +71,5 @@ public class Player {
             body.applyLinearImpulse(0f , body.getMass()*jumpHeight ,
                     body.getPosition().x, body.getPosition().y,true);
         }
-        body.setLinearVelocity(0, body.getLinearVelocity().y);
     }
 }
