@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Timer;
 import com.baringproductions.celeste.Statics.Constants;
 
 import static com.baringproductions.celeste.Statics.Constants.PPMScaled;
@@ -15,8 +16,9 @@ public class Player extends Sprite {
 
     public Boolean canJump;
 
-    float runSpeed = 6f;
+    float runSpeed = 4f;
     float jumpHeight = 4.5f;
+
 
     public Player(World world) {
         this.world = world;
@@ -81,19 +83,64 @@ public class Player extends Sprite {
 //        body.createFixture(fdef);
     }
 
+    private float startTimer = 0f;
+    private float dashPeriod = 5f;
+
+    private float otherTimer = 0f;
+    private float afterDashPeriod = 0.4f;
+
+    private boolean isDashing = false;
+    private boolean canMove = true;
+
     public void handleInput(float dt) {
 
-        if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
+        startTimer += Gdx.graphics.getRawDeltaTime();
+        if(isDashing){
+            body.setLinearVelocity(10f,-body.getLinearVelocity().y);
+//            body.applyLinearImpulse(2f, 0f, body.getPosition().x, body.getPosition().y, true);
+//            body.applyForceToCenter(100f, 0f, true);
+
+            canMove = false;
+        }
+
+        if(startTimer > dashPeriod){
+            isDashing = false;
+            otherTimer += Gdx.graphics.getRawDeltaTime();
+            if(otherTimer > afterDashPeriod){
+                canMove = true;
+                startTimer = 0f;
+                otherTimer = 0f;
+            }
+        }
+
+//        if(Math.abs(body.getLinearVelocity().x) > xMaxSpeed){
+//            if(body.getLinearVelocity().x < 0){
+//                body.setLinearVelocity(-xMaxSpeed, body.getLinearVelocity().y);
+//            }else{
+//                body.setLinearVelocity(xMaxSpeed, body.getLinearVelocity().y);
+//            }
+//
+//        }
+
+        if(canMove && Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
             body.applyLinearImpulse(-(body.getMass()*runSpeed), 0f,
                     body.getPosition().x, body.getPosition().y, true);
 
-        if(Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+        if(canMove && Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
             body.applyLinearImpulse(body.getMass()*runSpeed, 0f,
                     body.getPosition().x, body.getPosition().y, true);
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && canJump){
+        if(canMove && Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && canJump){
             body.applyLinearImpulse(0f , body.getMass()*jumpHeight ,
                     body.getPosition().x, body.getPosition().y,true);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.F) && canMove){
+//            body.applyLinearImpulse(body.getMass()*runSpeed, 0f,
+//                    body.getPosition().x, body.getPosition().y, true);
+            body.setLinearVelocity(0f,0f);
+            body.setAwake(false);
+            isDashing = true;
         }
 
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))

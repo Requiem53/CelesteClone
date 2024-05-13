@@ -57,6 +57,7 @@ public class PlayScreen implements Screen {
         player = new Player(world);
 
         world.setContactListener(new WorldListener(player));
+
     }
 
 
