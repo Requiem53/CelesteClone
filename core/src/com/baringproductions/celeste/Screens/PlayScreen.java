@@ -67,7 +67,7 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f, 6, 2);
 
-        player.body.setLinearVelocity(0, player.body.getLinearVelocity().y);
+//        player.body.setLinearVelocity(0, player.body.getLinearVelocity().y);
 
         camera.position.x = player.body.getPosition().x;
         

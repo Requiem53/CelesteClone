@@ -28,6 +28,7 @@ public class WorldListener implements ContactListener {
 
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
                 player.canJump = true;
+                player.canDash = true;
             }
         }
     }
