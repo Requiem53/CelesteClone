@@ -22,6 +22,7 @@ public class Player extends Sprite {
     public Body body;
 
     public Boolean canJump;
+    public boolean isDead;
 
     float runSpeed = 4f;
     float jumpHeight = 4.5f;
