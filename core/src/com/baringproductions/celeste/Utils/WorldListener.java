@@ -27,8 +27,9 @@ public class WorldListener implements ContactListener {
                     InteractiveTile.class.isAssignableFrom(ground.getUserData().getClass())) {
 
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
-                player.canJump = true;
-                player.canDash = true;
+//                player.canJump = true;
+//                player.canDash = true;
+                player.onGround = true;
             }
         }
     }
@@ -49,6 +50,7 @@ public class WorldListener implements ContactListener {
 
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
                 player.canJump = false;
+                player.onGround = false;
             }
         }
     }
