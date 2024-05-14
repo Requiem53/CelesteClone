@@ -2,15 +2,22 @@ package com.baringproductions.celeste;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
 import com.baringproductions.celeste.Statics.Constants;
 
 import java.util.Stack;
 
 public class Player extends Sprite {
+    public enum State { FALLING, JUMPING, STANDING, RUNNING};
+    public State currentState;
+    public State previousState;
     public World world;
     public Body body;
 
@@ -30,7 +37,16 @@ public class Player extends Sprite {
     float dashDuration = 0.15f;
     float moveAfterDashDuration = 0.2f;
 
+    public static int PLAYER_SPRITE_PIXELS = 25;
+    private TextureRegion stand;
+    private Animation runAnim;
+    private Animation jumpAnim;
+    private Animation fallAnim;
+    private float stateTimer;
+    private boolean facingRight;
+
     public Player(World world) {
+        super(new Texture("player_spritesheet.png"));
         this.world = world;
 
         init();
@@ -76,6 +92,9 @@ public class Player extends Sprite {
         Fixture footSensorFixture = body.createFixture(fixtureDef);
         footSensorFixture.setUserData("playerFoot");
 
+        float width = 16f;
+        float height = 16f;
+
         polygon.dispose();
         circle.dispose();
 
@@ -92,6 +111,85 @@ public class Player extends Sprite {
 //
 //        fdef.shape = shape;
 //        body.createFixture(fdef);
+
+        stand = new TextureRegion(getTexture(), 0, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS);
+        float scaleX =  width / PLAYER_SPRITE_PIXELS;
+        float scaleY = height / PLAYER_SPRITE_PIXELS;
+        setBounds(0, 0, Constants.PPMScaled(PLAYER_SPRITE_PIXELS * scaleX), Constants.PPMScaled(PLAYER_SPRITE_PIXELS * scaleY));
+        setRegion(stand);
+
+        currentState = State.STANDING;
+        previousState = State.STANDING;
+        stateTimer = 0f;
+        facingRight = true;
+
+        //set running animation
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        for(int i=3; i<9; i++){
+            frames.add(new TextureRegion(getTexture(), i * PLAYER_SPRITE_PIXELS, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
+        }
+        runAnim = new Animation(0.1f, frames);
+        frames.clear();
+
+        //set jumping animation
+        for(int i=0; i<2; i++){
+            frames.add(new TextureRegion(getTexture(), i * PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
+        }
+        jumpAnim = new Animation(0.1f, frames);
+        frames.clear();
+
+        //set falling animation
+        for(int i=2; i<4; i++){
+            frames.add(new TextureRegion(getTexture(), i * PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
+        }
+        fallAnim = new Animation(0.1f, frames);
+        frames.clear();
+
+    }
+
+    public void update(float dt){
+        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 - 0.1f);
+        setRegion(getFrame(dt));
+    }
+
+    public TextureRegion getFrame(float dt){
+        currentState = getState();
+
+        TextureRegion region;
+        switch (currentState){
+            case JUMPING:
+                region = (TextureRegion) jumpAnim.getKeyFrame(stateTimer);
+                break;
+            case FALLING:
+                region = (TextureRegion) fallAnim.getKeyFrame(stateTimer);
+                break;
+            case RUNNING:
+                region = (TextureRegion) runAnim.getKeyFrame(stateTimer, true);
+                break;
+            case STANDING:
+            default:
+                region = stand;
+                break;
+        }
+
+        if((body.getLinearVelocity().x < 0 || !facingRight) && !region.isFlipX()) {
+            region.flip(true, false);
+            facingRight = false;
+        }else if ((body.getLinearVelocity().x > 0 || facingRight) && region.isFlipX()){
+            region.flip(true, false);
+            facingRight = true;
+        }
+
+        stateTimer = currentState == previousState ? stateTimer + dt : 0;
+        previousState = currentState;
+        return region;
+    }
+
+    public State getState(){
+        if (body.getLinearVelocity().y > 0) return State.JUMPING;
+        if (body.getLinearVelocity().y < 0) return State.FALLING;
+        if (body.getLinearVelocity().x != 0) return State.RUNNING;
+        return State.STANDING;
     }
 
     private boolean isDashing = false;

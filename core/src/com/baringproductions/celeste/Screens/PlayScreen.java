@@ -67,6 +67,7 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f, 6, 2);
 
+        player.update(dt);
 //        player.body.setLinearVelocity(0, player.body.getLinearVelocity().y);
 
         camera.position.x = player.body.getPosition().x;
@@ -93,6 +94,7 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+        player.draw(game.batch);
         // draw stuff here
         game.batch.end();
     }
