@@ -1,5 +1,7 @@
 package com.baringproductions.celeste.Tiles;
 
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
@@ -15,10 +17,13 @@ public abstract class InteractiveTile {
     Body body;
     Fixture fixture;
 
-    public InteractiveTile(World world, TiledMap map, Rectangle bounds) {
+    MapObject object;
+
+    public InteractiveTile(World world, TiledMap map, MapObject object) {
+        this.object = object;
         this.world = world;
         this.map = map;
-        this.bounds = bounds;
+        this.bounds = ((RectangleMapObject) object).getRectangle();
 
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
@@ -33,6 +38,18 @@ public abstract class InteractiveTile {
         shape.setAsBox(bounds.getWidth()/2/CelesteGame.PPM, bounds.getHeight()/2/CelesteGame.PPM);
         fdef.shape = shape;
         fixture = body.createFixture(fdef);
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
+
+    public float getCenterX() {
+        return (bounds.getX() + bounds.getWidth() / 2) / CelesteGame.PPM;
+    }
+
+    public float getCenterY() {
+        return (bounds.getY() + bounds.getHeight() / 2) / CelesteGame.PPM;
     }
 
     public abstract void onFeetContact();
