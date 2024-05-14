@@ -11,11 +11,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.baringproductions.celeste.Statics.Constants;
+import com.baringproductions.celeste.Tiles.MovingPlatform;
+import com.baringproductions.celeste.Tiles.SpawnPoint;
 import com.baringproductions.celeste.Utils.WorldCreator;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Utils.WorldListener;
+
+import java.util.ArrayList;
 
 public class PlayScreen implements Screen {
 
@@ -34,9 +37,17 @@ public class PlayScreen implements Screen {
     private final Box2DDebugRenderer b2dr;
     private WorldCreator creator;
 
-    Player player;
+    public static Player player;
+    public static ArrayList<SpawnPoint> spawnPoints;
+    public int currSpawnPoint;
+
+    public static ArrayList<MovingPlatform> platforms;
 
     public PlayScreen(CelesteGame game) {
+        currSpawnPoint = 0;
+        spawnPoints = new ArrayList<>();
+        platforms = new ArrayList<>();
+
         this.game = game;
 
         camera = new OrthographicCamera();
@@ -65,10 +76,18 @@ public class PlayScreen implements Screen {
 
         player.handleInput(dt);
 
+        if (player.isDead) {
+            spawnPoints.get(currSpawnPoint).respawnPlayer(player);
+        }
+
         world.step(1/60f, 6, 2);
 
         player.update(dt);
 //        player.body.setLinearVelocity(0, player.body.getLinearVelocity().y);
+
+        for (MovingPlatform platform : platforms) {
+            platform.update(dt, 10);
+        }
 
         camera.position.x = player.body.getPosition().x;
         
@@ -99,7 +118,7 @@ public class PlayScreen implements Screen {
         game.batch.end();
     }
 
-    public com.badlogic.gdx.physics.box2d.World getWorld() { return world; }
+    public World getWorld() { return world; }
     public TiledMap getMap() { return map; }
 
     @Override
