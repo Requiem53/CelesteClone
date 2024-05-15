@@ -11,6 +11,7 @@ public class Player {
 
     public Body body;
     public Boolean canJump;
+    public boolean canMove;
 
     float runSpeed = 6f;
     float jumpHeight = 10f;
@@ -57,7 +58,7 @@ public class Player {
         polygon.dispose();
         circle.dispose();
     }
-    
+
     public void processInputs(){
         if(Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))
             body.applyLinearImpulse(-(body.getMass()*runSpeed), 0f,

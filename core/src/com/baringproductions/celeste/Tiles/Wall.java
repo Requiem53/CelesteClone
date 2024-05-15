@@ -9,6 +9,8 @@ public class Wall extends InteractiveTile {
 
     public Wall(World world, TiledMap map, MapObject object) {
         super(world, map, object);
+
+        fixture.setUserData(this);
     }
 
     @Override

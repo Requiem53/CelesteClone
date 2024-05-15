@@ -27,7 +27,7 @@ public class Player extends Sprite {
     float runSpeed = 4f;
     float jumpHeight = 4.5f;
 
-    float originalXMaxSpeed = 2f;
+    float originalXMaxSpeed = 2f / Constants.PPM;
     float xMaxSpeed = originalXMaxSpeed;
 
     float originalYMaxSpeed = 6f;
@@ -45,6 +45,9 @@ public class Player extends Sprite {
     private Animation fallAnim;
     private float stateTimer;
     private boolean facingRight;
+
+    public Fixture bottomFixture;
+    public float originalFriction = 15f;
 
     public Player(World world) {
         super(new Texture("player_spritesheet.png"));
@@ -72,26 +75,40 @@ public class Player extends Sprite {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = polygon;
         fixtureDef.density = 1f;
+        fixtureDef.friction = 0f;
 
         //Second Part as Circle
         CircleShape circle = new CircleShape();
         circle.setRadius(4f/Constants.PPM);
-        circle.setPosition(new Vector2(0, -0.2f));
+        circle.setPosition(new Vector2(0, -(4f / Constants.PPM)));
 
+        PolygonShape polygon2 = new PolygonShape();
+        polygon2.setAsBox(4f / Constants.PPM,4f / Constants.PPM, new Vector2(0f, -(4f / Constants.PPM)), 0);
         FixtureDef fixtureDef2 = new FixtureDef();
-        fixtureDef2.shape = circle;
-        fixtureDef2.density = 1f;
-        fixtureDef2.friction = 5f;
+        fixtureDef2.shape = polygon2;
+        fixtureDef2.density = 5f;
+        fixtureDef2.friction = originalFriction;
 
         //Connecting Fixtures to Body
         body.createFixture(fixtureDef);
-        body.createFixture(fixtureDef2);
+        bottomFixture = body.createFixture(fixtureDef2);
 
         //Foot sensor
         polygon.setAsBox(0.1f, 0.05f, new Vector2(0, -0.32f), 0);
         fixtureDef.isSensor = true;
         Fixture footSensorFixture = body.createFixture(fixtureDef);
         footSensorFixture.setUserData("playerFoot");
+
+        //Wall sensors
+        polygon.setAsBox(2f/Constants.PPM, (8f/Constants.PPM) - 0.125f, new Vector2(4.2f / Constants.PPM, -4f / Constants.PPM + 0.025f), 0);
+        fixtureDef.isSensor = true;
+        Fixture wallSensorLeft = body.createFixture(fixtureDef);
+        wallSensorLeft.setUserData("wallSensorRight");
+
+        polygon.setAsBox(2f/Constants.PPM, (8f/Constants.PPM) - 0.125f, new Vector2(-4.2f / Constants.PPM, -4f / Constants.PPM + 0.025f), 0);
+        fixtureDef.isSensor = true;
+        Fixture wallSensorRight = body.createFixture(fixtureDef);
+        wallSensorRight.setUserData("wallSensorLeft");
 
         float width = 16f;
         float height = 16f;
@@ -195,8 +212,10 @@ public class Player extends Sprite {
 
     private boolean isDashing = false;
     public boolean canDash = false;
-    private boolean canMove = true;
+    public boolean canMove = true;
     public boolean onGround = false;
+    public boolean canLeft = true;
+    public boolean canRight = true;
 
     private final Timer.Task dashingTask = new Timer.Task() {
         @Override
@@ -227,6 +246,7 @@ public class Player extends Sprite {
     private Stack<Integer> inputStack = new Stack<Integer>();
 
     public void handleInput(float dt) {
+//        System.out.println(bottomFixture.getFriction());
 //        System.out.println(inputStack);
 //        System.out.println(body.getMass());
 //        System.out.println(body.getLinearVelocity());
@@ -245,9 +265,16 @@ public class Player extends Sprite {
             //SOMEHOW NEED NI ANG SETLINEARVELECOITY UG LINEARIMPLUSE
             if(inputStack.isEmpty()){
                 //SHOULD BE BASED ON DIRECTION FACING
-                body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
-                body.applyLinearImpulse(body.getMass()*dashStrength,  0f,
-                        body.getPosition().x, body.getPosition().y,true);
+                if(facingRight){
+                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
+                    body.applyLinearImpulse(body.getMass()*dashStrength,  0f,
+                            body.getPosition().x, body.getPosition().y,true);
+                }else {
+                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
+                    body.applyLinearImpulse(-(body.getMass()*dashStrength),  0f,
+                            body.getPosition().x, body.getPosition().y,true);
+                }
+
             } else if (inputStack.contains(6)) {
                 if (inputStack.contains(8)){
                     body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
@@ -383,7 +410,7 @@ public class Player extends Sprite {
 
 
 
-        if(canMove && (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))){
+        if(canMove && canLeft && (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))){
             if (inputStack.contains(4)){
 //                body.setLinearVelocity(-runSpeed, body.getLinearVelocity().y);
                 body.applyLinearImpulse(-(body.getMass()*runSpeed), 0f,
@@ -393,7 +420,7 @@ public class Player extends Sprite {
 
 
 
-        if(canMove && (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))){
+        if(canMove && canRight && (Gdx.input.isKeyPressed(Input.Keys.D) || Gdx.input.isKeyPressed(Input.Keys.RIGHT))){
             if (inputStack.contains(6)){
 //                body.setLinearVelocity(runSpeed, body.getLinearVelocity().y);
                 body.applyLinearImpulse(body.getMass()*runSpeed, 0f,
@@ -416,7 +443,7 @@ public class Player extends Sprite {
             canDash = false;
 
             //change to determine dash speed
-            xMaxSpeed += 10f;
+            xMaxSpeed = xMaxSpeed + 10f;
             yMaxSpeed -= 1.5f;
 
             //how long the dash is in delay seconds
@@ -426,6 +453,10 @@ public class Player extends Sprite {
                 }
             }
         }
+
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.G)){
+//            bottomFixture.setFriction(0f);
+//        }
 
 //        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
 //            body.applyLinearImpulse(new Vector2(0, 2), body.getWorldCenter(), true);

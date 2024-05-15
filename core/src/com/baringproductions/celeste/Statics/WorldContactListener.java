@@ -19,6 +19,11 @@ public class WorldContactListener implements ContactListener {
             (fixtureB.getUserData() == "playerFootSensor" && fixtureA.getUserData() == "ground")){
             player.canJump = true;
         }
+
+        if((fixtureA.getUserData() == "wallSensor" && fixtureB.getUserData() == "ground") ||
+                (fixtureB.getUserData() == "wallSensor" && fixtureA.getUserData() == "ground")){
+            player.canMove = false;
+        }
     }
 
     @Override
