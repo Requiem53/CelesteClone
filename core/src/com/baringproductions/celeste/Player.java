@@ -110,26 +110,13 @@ public class Player extends Sprite {
         Fixture wallSensorRight = body.createFixture(fixtureDef);
         wallSensorRight.setUserData("wallSensorLeft");
 
-        float width = 16f;
-        float height = 16f;
-
         polygon.dispose();
         circle.dispose();
 
-        //        BodyDef bdef = new BodyDef();
-//
-//        bdef.position.set(32/CelesteGame.PPM, 32/CelesteGame.PPM);
-//        bdef.type = BodyDef.BodyType.DynamicBody;
-//
-//        body = world.createBody(bdef);
-//
-//        FixtureDef fdef = new FixtureDef();
-//        CircleShape shape = new CircleShape();
-//        shape.setRadius(5/CelesteGame.PPM);
-//
-//        fdef.shape = shape;
-//        body.createFixture(fdef);
+        float width = 16f;
+        float height = 16f;
 
+        //Animation chuchu ni jorash
         stand = new TextureRegion(getTexture(), 0, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS);
         float scaleX =  width / PLAYER_SPRITE_PIXELS;
         float scaleY = height / PLAYER_SPRITE_PIXELS;
@@ -258,95 +245,31 @@ public class Player extends Sprite {
         }
 
         if(isDashing){
-//            body.setLinearVelocity(40f,-body.getLinearVelocity().y);
-
             //0.04 pang account sa gamayng error
 
             //SOMEHOW NEED NI ANG SETLINEARVELECOITY UG LINEARIMPLUSE
+            body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
             if(inputStack.isEmpty()){
                 //SHOULD BE BASED ON DIRECTION FACING
-                if(facingRight){
-                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(body.getMass()*dashStrength,  0f,
-                            body.getPosition().x, body.getPosition().y,true);
-                }else {
-                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(-(body.getMass()*dashStrength),  0f,
-                            body.getPosition().x, body.getPosition().y,true);
-                }
+                dash(true, facingRight);
+            } else if (inputStack.size() == 1) {
+                boolean isHorizontal = true;
+                boolean isRightOrUp = true;
 
-            } else if (inputStack.contains(6)) {
-                if (inputStack.contains(8)){
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(body.getMass()*dashStrength/4,  body.getMass()*dashStrength/8,
-                            body.getPosition().x, body.getPosition().y,true);
-                } else if (inputStack.contains(2)) {
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(body.getMass()*dashStrength/4,  -(body.getMass()*dashStrength/8),
-                            body.getPosition().x, body.getPosition().y,true);
-                }else if (!inputStack.contains(4)){
-                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(body.getMass()*dashStrength,  0f,
-                            body.getPosition().x, body.getPosition().y,true);
-                }
-            } else if (inputStack.contains(4)) {
-                if (inputStack.contains(8)){
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(-(body.getMass()*dashStrength/4),  body.getMass()*dashStrength/8,
-                            body.getPosition().x, body.getPosition().y,true);
-                } else if (inputStack.contains(2)) {
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(-(body.getMass()*dashStrength/4),  -(body.getMass()*dashStrength/8),
-                            body.getPosition().x, body.getPosition().y,true);
-                }else if (!inputStack.contains(6)){
-                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(-(body.getMass()*dashStrength),  0f,
-                            body.getPosition().x, body.getPosition().y,true);
-                }
-            } else if (inputStack.contains(2)) {
-                if (inputStack.contains(4)){
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(-(body.getMass()*dashStrength/4),  -(body.getMass()*dashStrength/8),
-                            body.getPosition().x, body.getPosition().y,true);
-                } else if (inputStack.contains(6)) {
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(body.getMass()*dashStrength/4,  -(body.getMass()*dashStrength/8),
-                            body.getPosition().x, body.getPosition().y,true);
-                }else if (!inputStack.contains(8)){
-                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(0f,  -(body.getMass()*dashStrength),
-                            body.getPosition().x, body.getPosition().y,true);
-                }
-            } else if (inputStack.contains(8)) {
-                if (inputStack.contains(4)){
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(-(body.getMass()*dashStrength/4), body.getMass()*dashStrength/8,
-                            body.getPosition().x, body.getPosition().y,true);
-                } else if (inputStack.contains(6)) {
-                    body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f, -body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(body.getMass()*dashStrength/4,  body.getMass()*dashStrength/8,
-                            body.getPosition().x, body.getPosition().y,true);
-                }else if (!inputStack.contains(2)){
-                    body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
-                    body.applyLinearImpulse(0f,  body.getMass()*dashStrength,
-                            body.getPosition().x, body.getPosition().y,true);
-                }
+                if(inputStack.peek() == 2 || inputStack.peek() == 8) isHorizontal = false;
+                if(inputStack.peek() == 4 || inputStack.peek() == 2) isRightOrUp = false;
+
+                dash(isHorizontal, isRightOrUp);
+            }else {
+                boolean isRight = true;
+                boolean isUp = true;
+
+                if(inputStack.contains(2)) isUp = false;
+                if(inputStack.contains(4)) isRight = false;
+
+                diagonalDash(isRight, isUp);
             }
-
-
-//            body.applyLinearImpulse(2f, 0f, body.getPosition().x, body.getPosition().y, true);
-//            body.applyForceToCenter(100f, 0f, true);
         }
-//
-//        if(startTimer > dashPeriod){
-//            isDashing = false;
-//            otherTimer += Gdx.graphics.getDeltaTime();
-//            if(otherTimer > afterDashPeriod){
-//                canMove = true;
-//                startTimer = 0f;
-//                otherTimer = 0f;
-//            }
-//        }
 
         //Naa ra man guro ni code na ma clamp
         if(Math.abs(body.getLinearVelocity().x) > xMaxSpeed){
@@ -453,17 +376,32 @@ public class Player extends Sprite {
                 }
             }
         }
+    }
 
-//        if(Gdx.input.isKeyJustPressed(Input.Keys.G)){
-//            bottomFixture.setFriction(0f);
-//        }
+    public void diagonalDash(boolean isRight, boolean isUp){
+        float xForce = body.getMass()*dashStrength / 4;
+        float yForce = body.getMass()*dashStrength / 8;
 
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE))
-//            body.applyLinearImpulse(new Vector2(0, 2), body.getWorldCenter(), true);
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.D) && body.getLinearVelocity().x <= 2)
-//            body.applyLinearImpulse(new Vector2(0.1f, 0), body.getWorldCenter(), true);
-//        if (Gdx.input.isKeyPressed(Input.Keys.A) && body.getLinearVelocity().x >= -2)
-//            body.applyLinearImpulse(new Vector2(-0.1f, 0), body.getWorldCenter(), true);
+        if(!isRight) xForce *= -1;
+        if(!isUp) yForce *= -1;
+
+        body.applyLinearImpulse(xForce, yForce, body.getPosition().x,  body.getPosition().y, true);
+    }
+
+    public void dash(boolean isHorizontal, boolean isRightOrUp){
+        float xForce = body.getMass()*dashStrength;
+        float yForce = body.getMass()*dashStrength;
+
+        if(!isRightOrUp){
+            xForce *= -1;
+            yForce *= -1;
+        }
+        if(!isHorizontal){
+            xForce *= 0;
+        }else {
+            yForce *= 0;
+        }
+
+        body.applyLinearImpulse(xForce, yForce, body.getPosition().x,  body.getPosition().y, true);
     }
 }
