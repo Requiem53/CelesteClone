@@ -18,9 +18,12 @@ public class Ground extends InteractiveTile {
 
     @Override
     public void onFeetContact() {
-        PlayScreen.player.canJump = true;
-        PlayScreen.player.canDash = true;
-        PlayScreen.player.onGround = true;
+        PlayScreen.player.landed();
+    }
+
+    @Override
+    public void onFeetLeave() {
+
     }
 
 }

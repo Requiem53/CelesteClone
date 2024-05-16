@@ -50,5 +50,12 @@ public class WorldCreator {
             PlayScreen.platforms.add(new MovingPlatform(world, map, object));
         }
 
+        //dash gem
+        for (RectangleMapObject object :
+            map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
+
+            new DashGem(world, map, object);
+        }
+
     }
 }

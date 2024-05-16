@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.physics.box2d.World;
 import com.baringproductions.celeste.CelesteGame;
+import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
 
 public class MovingPlatform extends InteractiveTile {
@@ -16,10 +17,13 @@ public class MovingPlatform extends InteractiveTile {
 
     @Override
     public void onFeetContact() {
+        PlayScreen.player.landed();
+        PlayScreen.player.onPlatform = true;
+    }
 
-        PlayScreen.player.canJump = true;
-        PlayScreen.player.canDash = true;
-        PlayScreen.player.onGround = true;
+    @Override
+    public void onFeetLeave() {
+        PlayScreen.player.onPlatform = false;
     }
 
 

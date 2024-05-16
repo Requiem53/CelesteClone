@@ -25,31 +25,20 @@ public class WorldListener implements ContactListener {
 
             if (ground.getUserData() != null &&
                     InteractiveTile.class.isAssignableFrom(ground.getUserData().getClass())) {
-
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
-
-//                if(player.bottomFixture.getFriction() != player.originalFriction){
-//                    player.bottomFixture.setFriction(player.originalFriction);
-//                    player.body.setLinearVelocity(-player.body.getLinearVelocity().x,-player.body.getLinearVelocity().y);
-////                    player.body.applyLinearImpulse(0f, 0.5f,
-////                            player.body.getPosition().x, player.body.getPosition().y, true);
-//                }
-////                player.onGround = true;
             }
         }
 
+        //AYAW HILABTI
         if ((fixtureA.getUserData() == "wallSensorLeft") ||
                 (fixtureB.getUserData() == "wallSensorLeft")) {
 
             Fixture feet = fixtureA.getUserData() == "wallSensorLeft" ? fixtureA : fixtureB;
             Fixture wall = feet == fixtureA ? fixtureB : fixtureA;
 
-            if (wall.getUserData() != null &&
-                    InteractiveTile.class.isAssignableFrom(wall.getUserData().getClass())) {
+            if (wall.getUserData() == "Wall") {
 
-                ((InteractiveTile) wall.getUserData()).onFeetContact();
                 player.canLeft = false;
-                System.out.println("LEFT");
             }
         }
 
@@ -59,12 +48,23 @@ public class WorldListener implements ContactListener {
             Fixture feet = fixtureA.getUserData() == "wallSensorRight" ? fixtureA : fixtureB;
             Fixture wall = feet == fixtureA ? fixtureB : fixtureA;
 
-            if (wall.getUserData() != null &&
-                    InteractiveTile.class.isAssignableFrom(wall.getUserData().getClass())) {
+            if (wall.getUserData() == "Wall") {
 
-                ((InteractiveTile) wall.getUserData()).onFeetContact();
                 player.canRight = false;
-                System.out.println("RIGHT");
+            }
+        }
+
+        if ((fixtureA.getUserData() == "playerBody") ||
+                (fixtureB.getUserData() == "playerBody")) {
+
+            Fixture body = fixtureA.getUserData() == "playerBody" ? fixtureA : fixtureB;
+            Fixture dashGem = body == fixtureA ? fixtureB : fixtureA;
+
+            if (dashGem.getUserData() != null &&
+                    InteractiveTile.class.isAssignableFrom(dashGem.getUserData().getClass())) {
+
+                ((InteractiveTile) dashGem.getUserData()).onFeetContact();
+
             }
         }
     }
@@ -86,7 +86,6 @@ public class WorldListener implements ContactListener {
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
                 player.canJump = false;
                 player.onGround = false;
-//                player.bottomFixture.setFriction(0f);
             }
         }
 
@@ -96,12 +95,9 @@ public class WorldListener implements ContactListener {
             Fixture feet = fixtureA.getUserData() == "wallSensorLeft" ? fixtureA : fixtureB;
             Fixture wall = feet == fixtureA ? fixtureB : fixtureA;
 
-            if (wall.getUserData() != null &&
-                    InteractiveTile.class.isAssignableFrom(wall.getUserData().getClass())) {
+            if (wall.getUserData() == "Wall") {
 
-                ((InteractiveTile) wall.getUserData()).onFeetContact();
                 player.canLeft = true;
-                System.out.println("LEFT");
             }
         }
 
@@ -111,12 +107,9 @@ public class WorldListener implements ContactListener {
             Fixture feet = fixtureA.getUserData() == "wallSensorRight" ? fixtureA : fixtureB;
             Fixture wall = feet == fixtureA ? fixtureB : fixtureA;
 
-            if (wall.getUserData() != null &&
-                    InteractiveTile.class.isAssignableFrom(wall.getUserData().getClass())) {
+            if (wall.getUserData() == "Wall") {
 
-                ((InteractiveTile) wall.getUserData()).onFeetContact();
                 player.canRight = true;
-                System.out.println("RIGHT");
             }
         }
     }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
+import com.baringproductions.celeste.Screens.PlayScreen;
 import com.baringproductions.celeste.Statics.Constants;
 
 import java.util.Stack;
@@ -20,9 +21,6 @@ public class Player extends Sprite {
     public State previousState;
     public World world;
     public Body body;
-
-    public Boolean canJump;
-    public boolean isDead;
 
     float runSpeed = 4f;
     float jumpHeight = 4.5f;
@@ -90,8 +88,11 @@ public class Player extends Sprite {
         fixtureDef2.friction = originalFriction;
 
         //Connecting Fixtures to Body
-        body.createFixture(fixtureDef);
+        Fixture nigga = body.createFixture(fixtureDef);
         bottomFixture = body.createFixture(fixtureDef2);
+
+        nigga.setUserData("playerBody");
+        bottomFixture.setUserData("playerBody");
 
         //Foot sensor
         polygon.setAsBox(0.1f, 0.05f, new Vector2(0, -0.32f), 0);
@@ -197,12 +198,21 @@ public class Player extends Sprite {
         return State.STANDING;
     }
 
-    private boolean isDashing = false;
-    public boolean canDash = false;
-    public boolean canMove = true;
     public boolean onGround = false;
+    public boolean canJump = false;
+    public boolean canDash = false;
+    private boolean isDashing = false;
+    public boolean canMove = true;
     public boolean canLeft = true;
     public boolean canRight = true;
+    public boolean isDead = false;
+    public boolean onPlatform = false;
+
+    public void landed(){
+        canJump = true;
+        canDash = true;
+        onGround = true;
+    }
 
     private final Timer.Task dashingTask = new Timer.Task() {
         @Override
@@ -239,16 +249,20 @@ public class Player extends Sprite {
 //        System.out.println(body.getLinearVelocity());
 //        System.out.println(onGround);
 //        startTimer += Gdx.graphics.getDeltaTime();
-        if (onGround){
-            canDash = true;
-            canJump = true;
+//        if (onGround){
+//            canDash = true;
+//            canJump = true;
+//        }
+
+        if(onPlatform){
+            body.setAwake(true);
         }
 
         if(isDashing){
             //0.04 pang account sa gamayng error
 
             //SOMEHOW NEED NI ANG SETLINEARVELECOITY UG LINEARIMPLUSE
-            body.setLinearVelocity(body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
+            body.setLinearVelocity(-body.getLinearVelocity().x,-body.getLinearVelocity().y + 0.04f);
             if(inputStack.isEmpty()){
                 //SHOULD BE BASED ON DIRECTION FACING
                 dash(true, facingRight);
@@ -351,12 +365,12 @@ public class Player extends Sprite {
             }
         }
 
-        if(canMove && Gdx.input.isKeyJustPressed(Input.Keys.SPACE) && canJump){
+        if(canMove && canJump && Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             body.applyLinearImpulse(0f , body.getMass()*jumpHeight ,
                     body.getPosition().x, body.getPosition().y,true);
         }
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.F) && canMove && canDash){
+        if(canMove && canDash && Gdx.input.isKeyJustPressed(Input.Keys.F)){
 //            body.applyLinearImpulse(body.getMass()*runSpeed, 0f,
 //                    body.getPosition().x, body.getPosition().y, true);
             body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f,-body.getLinearVelocity().y + 0.04f);
@@ -379,8 +393,8 @@ public class Player extends Sprite {
     }
 
     public void diagonalDash(boolean isRight, boolean isUp){
-        float xForce = body.getMass()*dashStrength / 4;
-        float yForce = body.getMass()*dashStrength / 8;
+        float xForce = body.getMass()*dashStrength / 4f;
+        float yForce = body.getMass()*dashStrength / 12f;
 
         if(!isRight) xForce *= -1;
         if(!isUp) yForce *= -1;

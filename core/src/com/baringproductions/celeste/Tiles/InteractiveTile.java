@@ -53,4 +53,5 @@ public abstract class InteractiveTile {
     }
 
     public abstract void onFeetContact();
+    public abstract void onFeetLeave();
 }

@@ -18,6 +18,11 @@ public class SpawnPoint extends InteractiveTile {
 
     }
 
+    @Override
+    public void onFeetLeave() {
+
+    }
+
     public void respawnPlayer(Player player) {
         float x = getCenterX();
         float y = getCenterY() + 20/CelesteGame.PPM;
