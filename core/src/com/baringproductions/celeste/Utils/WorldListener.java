@@ -27,9 +27,7 @@ public class WorldListener implements ContactListener {
                     InteractiveTile.class.isAssignableFrom(ground.getUserData().getClass())) {
 
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
-                player.canJump = true;
-                player.canDash = true;
-                player.onGround = true;
+
 //                if(player.bottomFixture.getFriction() != player.originalFriction){
 //                    player.bottomFixture.setFriction(player.originalFriction);
 //                    player.body.setLinearVelocity(-player.body.getLinearVelocity().x,-player.body.getLinearVelocity().y);
