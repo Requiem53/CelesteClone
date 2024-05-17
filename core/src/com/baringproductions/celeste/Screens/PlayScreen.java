@@ -1,16 +1,21 @@
 package com.baringproductions.celeste.Screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.baringproductions.celeste.Statics.Constants;
 import com.baringproductions.celeste.Tiles.MovingPlatform;
 import com.baringproductions.celeste.Tiles.SpawnPoint;
 import com.baringproductions.celeste.Utils.WorldCreator;
@@ -38,8 +43,16 @@ public class PlayScreen implements Screen {
     private WorldCreator creator;
 
     public static Player player;
+    public static Rectangle trackedPoint;
+    public ShapeRenderer trackedPointDebug;
     public static ArrayList<SpawnPoint> spawnPoints;
     public int currSpawnPoint;
+
+    public static Body trackedBody;
+    public static Fixture trackedFixture;
+
+    public static float trackedBodyWidth = CelesteGame.V_WIDTH/96f;
+    public static float trackedBodyHeight = CelesteGame.V_HEIGHT/96f;
 
     public static ArrayList<MovingPlatform> platforms;
 
@@ -67,8 +80,35 @@ public class PlayScreen implements Screen {
 
         player = new Player(world);
 
-        world.setContactListener(new WorldListener(player));
+        trackedPoint = new Rectangle();
+//        trackedPoint.setPosition(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2);
+        trackedPoint.setPosition(0, 0);
+        trackedPoint.setWidth(CelesteGame.V_WIDTH/48f);
+        trackedPoint.setHeight(CelesteGame.V_HEIGHT/48f);
+        System.out.println("SIZE: " + trackedPoint.getWidth() + " " + trackedPoint.getHeight());
 
+        BodyDef trackDef = new BodyDef();
+        trackDef.type = BodyDef.BodyType.KinematicBody;
+        trackDef.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2);
+
+        trackedBody = world.createBody(trackDef);
+
+        PolygonShape trackPoly = new PolygonShape();
+        trackPoly.setAsBox(CelesteGame.V_WIDTH/96f ,CelesteGame.V_HEIGHT/96f);
+
+        FixtureDef trackFixtureDef = new FixtureDef();
+        trackFixtureDef.shape = trackPoly;
+        trackFixtureDef.isSensor = true;
+
+        trackedFixture = trackedBody.createFixture(trackFixtureDef);
+        trackedFixture.setUserData("trackedBody");
+
+        trackedBody = world.createBody(trackDef);
+        trackedBody.setFixedRotation(true);
+
+        trackedPointDebug = new ShapeRenderer();
+
+        world.setContactListener(new WorldListener(player));
     }
 
 
@@ -89,8 +129,20 @@ public class PlayScreen implements Screen {
             platform.update(dt, 10);
         }
 
-        camera.position.x = player.body.getPosition().x;
-        
+//        camera.position.x = player.body.getPosition().x;
+//        camera.position.y = player.body.getPosition().y;
+
+        camera.position.x = trackedBody.getPosition().x;
+        camera.position.y = trackedBody.getPosition().y;
+
+        //WIDTH AND HEIGHT OF TRACKED POINT
+//        camera.position.x = trackedPoint.getWidth() / 2;
+//        camera.position.y = trackedPoint.getHeight() / 2;
+
+//
+//        System.out.println("SIZE: " + trackedPoint.getWidth() + " " + trackedPoint.getHeight());
+//        System.out.println("SIZE: " + trackedPoint.x + " " + trackedPoint.y);
+//
         camera.update();
         renderer.setView(camera);
     }
@@ -113,6 +165,13 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(camera.combined);
 
         game.batch.begin();
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        trackedPointDebug.setProjectionMatrix(camera.combined);
+        trackedPointDebug.begin(ShapeRenderer.ShapeType.Filled);
+        trackedPointDebug.setColor(new Color(0, 1, 0, 0.5f));
+        trackedPointDebug.rect(trackedPoint.x, trackedPoint.y, trackedPoint.width, trackedPoint.height);
+        trackedPointDebug.end();
+
 //        player.draw(game.batch);
         // draw stuff here
         game.batch.end();

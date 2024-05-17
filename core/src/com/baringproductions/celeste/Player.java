@@ -207,6 +207,12 @@ public class Player extends Sprite {
     public boolean canRight = true;
     public boolean isDead = false;
     public boolean onPlatform = false;
+//    public boolean toMoveCamera = false;
+//
+//    public void moveTargetObject(){
+//        toMoveCamera = true;
+//
+//    }
 
     public void landed(){
         canJump = true;
@@ -220,7 +226,6 @@ public class Player extends Sprite {
             isDashing = false;
             xMaxSpeed = originalXMaxSpeed;
             yMaxSpeed = originalYMaxSpeed;
-            System.out.println("Done Dashing");
             synchronized (moveAfterDashTask) {
                 if (!moveAfterDashTask.isScheduled()) {
                     if(!onGround) Timer.schedule(moveAfterDashTask, moveAfterDashDuration, 0.1f, 4);
@@ -235,8 +240,6 @@ public class Player extends Sprite {
         public void run() {
             if(onGround) cancel();
             canMove = true;
-            System.out.println("Can Move After Dashing");
-
         }
     };
 

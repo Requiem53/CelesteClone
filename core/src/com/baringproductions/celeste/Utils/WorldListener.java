@@ -1,7 +1,9 @@
 package com.baringproductions.celeste.Utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.baringproductions.celeste.Player;
+import com.baringproductions.celeste.Screens.PlayScreen;
 import com.baringproductions.celeste.Tiles.InteractiveTile;
 
 public class WorldListener implements ContactListener {
@@ -96,7 +98,6 @@ public class WorldListener implements ContactListener {
             Fixture wall = feet == fixtureA ? fixtureB : fixtureA;
 
             if (wall.getUserData() == "Wall") {
-
                 player.canLeft = true;
             }
         }
@@ -110,6 +111,24 @@ public class WorldListener implements ContactListener {
             if (wall.getUserData() == "Wall") {
 
                 player.canRight = true;
+            }
+        }
+
+        if ((fixtureA.getUserData() == "trackedBody") ||
+                (fixtureB.getUserData() == "trackedBody")) {
+
+            Fixture feet = fixtureA.getUserData() == "trackedBody" ? fixtureA : fixtureB;
+            Fixture wall = feet == fixtureA ? fixtureB : fixtureA;
+
+            if (wall.getUserData() == "playerBody") {
+                System.out.println("BEFORE: " + PlayScreen.trackedBody.getPosition().x);
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        PlayScreen.trackedBody.setTransform(PlayScreen.trackedBody.getPosition().x + PlayScreen.trackedBodyWidth, PlayScreen.trackedBody.getPosition().y, 0);
+                    }
+                });
+                System.out.println("AFTER: " + PlayScreen.trackedBody.getPosition().x);
             }
         }
     }
