@@ -120,22 +120,22 @@ public class WorldListener implements ContactListener {
             Fixture feet = fixtureA.getUserData() == "trackedBody" ? fixtureA : fixtureB;
             Fixture wall = feet == fixtureA ? fixtureB : fixtureA;
 
-            if (wall.getUserData() == "wallSensorRight") {
-                if(!player.toMoveCamera){
-                    player.origXCamPosition = PlayScreen.trackedBody.getPosition().x;
-                    PlayScreen.trackedBody.setLinearVelocity(10f, 0f);
-                    player.cameraToLeft = false;
-                    player.toMoveCamera = true;
-                }
-            }
-            else if (wall.getUserData() == "wallSensorLeft") {
-                if(!player.toMoveCamera){
-                    player.origXCamPosition = PlayScreen.trackedBody.getPosition().x;
-                    PlayScreen.trackedBody.setLinearVelocity(-10f, 0f);
-                    player.cameraToLeft = true;
-                    player.toMoveCamera = true;
-                }
-            }
+//            if (wall.getUserData() == "wallSensorRight") {
+//                if(!player.toMoveCamera){
+//                    player.origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+//                    PlayScreen.trackedBody.setLinearVelocity(10f, 0f);
+//                    player.cameraToLeft = false;
+//                    player.toMoveCamera = true;
+//                }
+//            }
+//            else if (wall.getUserData() == "wallSensorLeft") {
+//                if(!player.toMoveCamera){
+//                    player.origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+//                    PlayScreen.trackedBody.setLinearVelocity(-10f, 0f);
+//                    player.cameraToLeft = true;
+//                    player.toMoveCamera = true;
+//                }
+//            }
         }
     }
 

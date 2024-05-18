@@ -55,6 +55,7 @@ public class PlayScreen implements Screen {
     public static float trackedBodyHeight = CelesteGame.V_HEIGHT/96f;
 
     public static ArrayList<MovingPlatform> platforms;
+    ;
 
     public PlayScreen(CelesteGame game) {
         currSpawnPoint = 0;
@@ -77,8 +78,6 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
 
         creator = new WorldCreator(this);
-
-        player = new Player(world);
 
         trackedPoint = new Rectangle();
 //        trackedPoint.setPosition(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2);
@@ -107,6 +106,7 @@ public class PlayScreen implements Screen {
 //        trackedBody.setFixedRotation(true);
 
         trackedPointDebug = new ShapeRenderer();
+        player = new Player(world);
 
         world.setContactListener(new WorldListener(player));
     }
