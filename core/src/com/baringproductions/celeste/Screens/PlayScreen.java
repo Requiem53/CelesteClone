@@ -104,7 +104,7 @@ public class PlayScreen implements Screen {
         trackedFixture.setUserData("trackedBody");
 
         trackedBody = world.createBody(trackDef);
-        trackedBody.setFixedRotation(true);
+//        trackedBody.setFixedRotation(true);
 
         trackedPointDebug = new ShapeRenderer();
 

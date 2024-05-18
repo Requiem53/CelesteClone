@@ -207,7 +207,11 @@ public class Player extends Sprite {
     public boolean canRight = true;
     public boolean isDead = false;
     public boolean onPlatform = false;
-//    public boolean toMoveCamera = false;
+
+    public boolean toMoveCamera = false;
+    public float origXCamPosition;
+    public boolean cameraToLeft = false;
+    public boolean debugCam = false;
 //
 //    public void moveTargetObject(){
 //        toMoveCamera = true;
@@ -256,6 +260,57 @@ public class Player extends Sprite {
 //            canDash = true;
 //            canJump = true;
 //        }
+        if(toMoveCamera){
+            System.out.println("CURRENT: " + PlayScreen.trackedBody.getPosition().x );
+            System.out.println("DESTINATION: " + ((origXCamPosition - PlayScreen.trackedBodyWidth)));
+            if(cameraToLeft){
+                if(PlayScreen.trackedBody.getPosition().x <= (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f))){
+                    System.out.println("TO ZE LEFT");
+                    PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                    toMoveCamera = false;
+                }
+            }else {
+                if(PlayScreen.trackedBody.getPosition().x >= (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f))){
+                    System.out.println("TO ZE RIGHT");
+                    PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                    toMoveCamera = false;
+                }
+            }
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
+            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+            PlayScreen.trackedBody.setLinearVelocity(-10f, 0f);
+            debugCam = true;
+            cameraToLeft = true;
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+            PlayScreen.trackedBody.setLinearVelocity(10f, 0f);
+            debugCam = true;
+            cameraToLeft = false;
+        }
+
+        if(debugCam){
+            System.out.println("CURRENT: " + PlayScreen.trackedBody.getPosition().x );
+            System.out.println("DESTINATION: " + ((origXCamPosition - PlayScreen.trackedBodyWidth)));
+            if(cameraToLeft){
+                if(PlayScreen.trackedBody.getPosition().x <= (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f))){
+                    System.out.println("TO ZE LEFT");
+                    PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                    debugCam = false;
+                }
+            }else {
+                if(PlayScreen.trackedBody.getPosition().x >= (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f))){
+                    System.out.println("TO ZE RIGHT");
+                    PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                    debugCam = false;
+                }
+            }
+        }
+
+
 
         if(onPlatform){
             body.setAwake(true);
