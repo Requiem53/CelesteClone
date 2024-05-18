@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="14" nextobjectid="66">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="50" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="71">
  <tileset firstgid="1" source="world_tileset.tsx"/>
  <tileset firstgid="257" source="yeah.tsx"/>
  <layer id="8" name="bg" width="50" height="50">
@@ -9,7 +9,7 @@
  </layer>
  <layer id="6" name="graphics" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt0sEJgCAYhuEaoXW6e+hQLVBd2qAtqvWC1knhP4gohEKhvA98VPArfmRVAQAAAAAAAAAAAACAvv77BOlMB7fHrr8PyZlJR1+PHJXcw75Xudytkv/H23WDJ2NgL998aDZGbI9Jr1GSTZ6rzhLYy8zPTkKzMVJ6tDqd1UfJ2S7JLTHvX/RoCskDecQe9g==
+   eJzt0tEJwyAUhWEdoev03Yc+JF2g6Us36BZN1it0nSq9EBFtqIZUw//BIQZuxENUCgAAAAAAAAAAAAAAdPrfJyjnOoQ9HvZ9lEyNdIz1+KbXn9Tm1x4xNXRbulet3K01/kcNcnt0er5Pfs6JvWLzqdkcuT0u9hsjucvzZnNN7OXmhyCp2RwlPY42J6+PkbM9JS+JW2/R47CTvAFwmSAy
   </data>
  </layer>
  <layer id="12" name="platforms" width="50" height="50">
@@ -44,5 +44,9 @@
  </objectgroup>
  <objectgroup id="13" name="dashGem">
   <object id="55" x="624" y="624" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup id="14" name="collapsing platforms">
+  <object id="68" x="176" y="672" width="32" height="16"/>
+  <object id="70" x="256" y="688" width="32" height="16"/>
  </objectgroup>
 </map>

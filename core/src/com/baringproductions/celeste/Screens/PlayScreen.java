@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.baringproductions.celeste.Statics.Constants;
+import com.baringproductions.celeste.Tiles.CollapsingPlatform;
 import com.baringproductions.celeste.Tiles.MovingPlatform;
 import com.baringproductions.celeste.Tiles.SpawnPoint;
 import com.baringproductions.celeste.Utils.WorldCreator;
@@ -54,13 +55,15 @@ public class PlayScreen implements Screen {
     public static float trackedBodyWidth = CelesteGame.V_WIDTH/96f;
     public static float trackedBodyHeight = CelesteGame.V_HEIGHT/96f;
 
-    public static ArrayList<MovingPlatform> platforms;
-    ;
+    public static ArrayList<MovingPlatform> movingPlatforms;
+    public static ArrayList<CollapsingPlatform> collapsingPlatforms;
+
 
     public PlayScreen(CelesteGame game) {
         currSpawnPoint = 0;
         spawnPoints = new ArrayList<>();
-        platforms = new ArrayList<>();
+        movingPlatforms = new ArrayList<>();
+        collapsingPlatforms = new ArrayList<>();
 
         this.game = game;
 
@@ -113,7 +116,6 @@ public class PlayScreen implements Screen {
 
 
     public void update(float dt) {
-
         player.handleInput(dt);
 
         if (player.isDead) {
@@ -168,9 +170,16 @@ public class PlayScreen implements Screen {
 //        trackedPointDebug.end();
 
         player.draw(game.batch);
-        for (MovingPlatform platform : platforms) {
-            platform.update(dt, 10);
-            platform.sprite.draw(game.batch);
+        for (MovingPlatform mplatform : movingPlatforms) {
+            mplatform.update(dt, 10);
+            mplatform.sprite.draw(game.batch);
+        }
+        for(CollapsingPlatform cplatform : collapsingPlatforms){
+            if(cplatform.collapsed) continue;
+            cplatform.sprite.draw(game.batch);
+            if(cplatform.isShaking) {
+                cplatform.updateShaking(dt);
+            }
         }
         // draw stuff here
         game.batch.end();

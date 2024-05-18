@@ -43,11 +43,11 @@ public class WorldCreator {
             PlayScreen.spawnPoints.add(new SpawnPoint(world, map, object));
         }
 
-        // platforms
+        // moving platforms
         for (RectangleMapObject object :
                 map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
 
-            PlayScreen.platforms.add(new MovingPlatform(world, map, object));
+            PlayScreen.movingPlatforms.add(new MovingPlatform(world, map, object));
         }
 
         //dash gem
@@ -57,5 +57,11 @@ public class WorldCreator {
             new DashGem(world, map, object);
         }
 
+        //collapsing platforms
+        for (RectangleMapObject object :
+                map.getLayers().get(9).getObjects().getByType(RectangleMapObject.class)) {
+
+            PlayScreen.collapsingPlatforms.add(new CollapsingPlatform(world, map, object));
+        }
     }
 }

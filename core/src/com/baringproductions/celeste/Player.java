@@ -86,6 +86,11 @@ public class Player extends Sprite {
         fixtureDef2.shape = polygon2;
         fixtureDef2.density = 5f;
         fixtureDef2.friction = originalFriction;
+//
+        fixtureDef.filter.categoryBits = CelesteGame.PLAYER_BIT;
+        fixtureDef.filter.maskBits = CelesteGame.DEFAULT_BIT;
+        fixtureDef2.filter.categoryBits = CelesteGame.PLAYER_BIT;
+        fixtureDef2.filter.maskBits = CelesteGame.DEFAULT_BIT;
 
         //Connecting Fixtures to Body
         Fixture nigga = body.createFixture(fixtureDef);
@@ -295,8 +300,8 @@ public class Player extends Sprite {
         }
 
         if(debugCam){
-            System.out.println("CURRENT: " + PlayScreen.trackedBody.getPosition().x );
-            System.out.println("DESTINATION: " + ((origXCamPosition - PlayScreen.trackedBodyWidth)));
+//            System.out.println("CURRENT: " + PlayScreen.trackedBody.getPosition().x );
+//            System.out.println("DESTINATION: " + ((origXCamPosition - PlayScreen.trackedBodyWidth)));
             if(cameraToLeft){
                 if(PlayScreen.trackedBody.getPosition().x <= (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f))){
                     System.out.println("TO ZE LEFT");
@@ -314,8 +319,8 @@ public class Player extends Sprite {
             }
         }
 
-        System.out.println("CURRENT: " + body.getPosition().x);
-        System.out.println("DESTINATION: " + ((origXCamPosition + (PlayScreen.trackedBodyWidth * 2f)) - 3.2636f));
+//        System.out.println("CURRENT: " + body.getPosition().x);
+//        System.out.println("DESTINATION: " + ((origXCamPosition + (PlayScreen.trackedBodyWidth * 2f)) - 3.2636f));
 
         if(body.getPosition().x <= (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f)) + 3.2636f){
             PlayScreen.trackedBody.setLinearVelocity(-10f, 0f);

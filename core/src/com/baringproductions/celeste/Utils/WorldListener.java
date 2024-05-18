@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
 import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
+import com.baringproductions.celeste.Tiles.CollapsingPlatform;
+import com.baringproductions.celeste.Tiles.DashGem;
 import com.baringproductions.celeste.Tiles.InteractiveTile;
 
 public class WorldListener implements ContactListener {
@@ -28,6 +30,7 @@ public class WorldListener implements ContactListener {
             if (ground.getUserData() != null &&
                     InteractiveTile.class.isAssignableFrom(ground.getUserData().getClass())) {
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
+                System.out.println("foot contact");
             }
         }
 
@@ -65,7 +68,9 @@ public class WorldListener implements ContactListener {
             if (dashGem.getUserData() != null &&
                     InteractiveTile.class.isAssignableFrom(dashGem.getUserData().getClass())) {
 
-                ((InteractiveTile) dashGem.getUserData()).onFeetContact();
+                if(dashGem.getUserData() instanceof DashGem){
+                    ((InteractiveTile) dashGem.getUserData()).onFeetContact();
+                }
 
             }
         }
@@ -85,7 +90,11 @@ public class WorldListener implements ContactListener {
             if (ground.getUserData() != null &&
                     InteractiveTile.class.isAssignableFrom(ground.getUserData().getClass())) {
 
-                ((InteractiveTile) ground.getUserData()).onFeetContact();
+                if(ground.getUserData() instanceof CollapsingPlatform) {
+                    ((InteractiveTile) ground.getUserData()).onFeetLeave();
+                }
+//                ((InteractiveTile) ground.getUserData()).onFeetContact();
+                System.out.println("foot left");
                 player.canJump = false;
                 player.onGround = false;
             }

@@ -38,6 +38,8 @@ public abstract class InteractiveTile {
         shape.setAsBox(bounds.getWidth()/2/CelesteGame.PPM, bounds.getHeight()/2/CelesteGame.PPM);
         fdef.shape = shape;
         fixture = body.createFixture(fdef);
+
+        setCategoryFilter(CelesteGame.DEFAULT_BIT);
     }
 
     public Rectangle getBounds() {
@@ -54,4 +56,10 @@ public abstract class InteractiveTile {
 
     public abstract void onFeetContact();
     public abstract void onFeetLeave();
+
+    public void setCategoryFilter(short filterBit) {
+        Filter filter = new Filter();
+        filter.categoryBits = filterBit;
+        fixture.setFilterData(filter);
+    }
 }

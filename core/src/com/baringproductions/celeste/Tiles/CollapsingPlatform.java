@@ -8,51 +8,48 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Screens.PlayScreen;
+import com.badlogic.gdx.utils.Timer;
 
-import java.awt.*;
 
-public class MovingPlatform extends InteractiveTile {
+public class CollapsingPlatform extends InteractiveTile{
     public Sprite sprite;
-    public MovingPlatform(World world, TiledMap map, MapObject object) {
+    private float shakeTime;
+    private float shakeDuration;    //in seconds
+    private float shakeAmplitude;   //in pixels
+    public boolean isShaking;
+
+    private float spriteOriginalX, spriteOriginalY;
+
+    public boolean collapsed;
+    public CollapsingPlatform(World world, TiledMap map, MapObject object) {
         super(world, map, object);
-        setSpriteRegion();
         fixture.setUserData(this);
+        setSpriteRegion();
+
+        shakeDuration = 2.0f;
+        shakeAmplitude = 1.0f / CelesteGame.PPM;
+        isShaking = false;
+        spriteOriginalX = sprite.getX();
+        spriteOriginalY = sprite.getY();
+        collapsed = false;
     }
 
     @Override
     public void onFeetContact() {
+        System.out.println("feet contact");
         PlayScreen.player.landed();
-        PlayScreen.player.onPlatform = true;
+        startShaking();
     }
 
     @Override
     public void onFeetLeave() {
-        PlayScreen.player.onPlatform = false;
-    }
-
-
-    public void updatePosition(float newX, float newY) {
-        // Convert newX and newY from pixels to Box2D units
-        float newBox2DPosX = newX / CelesteGame.PPM;
-        float newBox2DPosY = newY / CelesteGame.PPM;
-        // Update the Box2D body position
-        body.setTransform(newBox2DPosX, newBox2DPosY, body.getAngle());
-
-        // Update the RectangleMapObject position
-        bounds.setPosition(newX, newY);
-        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2 - 0.075f);
-    }
-
-    public void update(float delta, float speed) {
-        // Increase the x-coordinate based on the speed and delta time
-        float newX = bounds.getX() + speed * delta;
-        float newY = bounds.getY();
-
-        updatePosition(newX, newY);
+        System.out.println("feet left");
+        stopShaking();
     }
 
     private void setSpriteRegion(){
@@ -91,5 +88,40 @@ public class MovingPlatform extends InteractiveTile {
         sprite = new Sprite(texture);
         sprite.setRegion(0, 0, numTilesX * 16, numTilesY * 16);
         sprite.setBounds(0, 0, (numTilesX * 16) / CelesteGame.PPM, (numTilesY * 16) / CelesteGame.PPM);
+        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
     }
+
+
+    public void startShaking(){
+        isShaking = true;
+        shakeTime = 0;
+    }
+    public void stopShaking(){
+        isShaking = false;
+        shakeTime = 0;
+        sprite.setPosition(spriteOriginalX, spriteOriginalY); // Reset to original position
+    }
+    public void updateShaking(float dt){
+        shakeTime += dt;
+
+        if (shakeTime < shakeDuration) {
+            float shakeX = MathUtils.random(-shakeAmplitude, shakeAmplitude);
+            sprite.setPosition(spriteOriginalX + shakeX, spriteOriginalY);
+        } else {
+            stopShaking();
+            setCategoryFilter(CelesteGame.DESTROYED_BIT);
+            collapsed = true;
+            synchronized (waitForRespawn){
+                Timer.schedule(waitForRespawn, 5f);
+            }
+        }
+    }
+
+    public final Timer.Task waitForRespawn = new Timer.Task() {
+        @Override
+        public void run() {
+            collapsed = false;
+            setCategoryFilter(CelesteGame.DEFAULT_BIT);
+        }
+    };
 }
