@@ -123,7 +123,7 @@ public class Player extends Sprite {
         stand = new TextureRegion(getTexture(), 0, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS);
         float scaleX =  width / PLAYER_SPRITE_PIXELS;
         float scaleY = height / PLAYER_SPRITE_PIXELS;
-        setBounds(0, 0, Constants.PPMScaled(PLAYER_SPRITE_PIXELS * scaleX), Constants.PPMScaled(PLAYER_SPRITE_PIXELS * scaleY));
+        setBounds(0, 0, (PLAYER_SPRITE_PIXELS * 1.1f) / CelesteGame.PPM, (PLAYER_SPRITE_PIXELS * 1.1f) / CelesteGame.PPM);
         setRegion(stand);
 
         currentState = State.STANDING;
@@ -156,7 +156,7 @@ public class Player extends Sprite {
     }
 
     public void update(float dt){
-        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 - 0.1f);
+        setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 - 0.05f);
         setRegion(getFrame(dt));
     }
 
@@ -196,7 +196,7 @@ public class Player extends Sprite {
     public State getState(){
         if (body.getLinearVelocity().y > 0) return State.JUMPING;
         if (body.getLinearVelocity().y < 0) return State.FALLING;
-        if (body.getLinearVelocity().x != 0) return State.RUNNING;
+        if (Math.abs(body.getLinearVelocity().x) >= 0.20) return State.RUNNING;
         return State.STANDING;
     }
 

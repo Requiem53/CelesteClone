@@ -125,10 +125,6 @@ public class PlayScreen implements Screen {
         player.update(dt);
 //        player.body.setLinearVelocity(0, player.body.getLinearVelocity().y);
 
-        for (MovingPlatform platform : platforms) {
-            platform.update(dt, 10);
-        }
-
 //        camera.position.x = player.body.getPosition().x;
 //        camera.position.y = player.body.getPosition().y;
 
@@ -163,16 +159,19 @@ public class PlayScreen implements Screen {
         b2dr.render(world, camera.combined);
 
         game.batch.setProjectionMatrix(camera.combined);
-
         game.batch.begin();
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        trackedPointDebug.setProjectionMatrix(camera.combined);
-        trackedPointDebug.begin(ShapeRenderer.ShapeType.Filled);
-        trackedPointDebug.setColor(new Color(0, 1, 0, 0.5f));
-        trackedPointDebug.rect(trackedPoint.x, trackedPoint.y, trackedPoint.width, trackedPoint.height);
-        trackedPointDebug.end();
+//        Gdx.gl.glEnable(GL20.GL_BLEND);
+//        trackedPointDebug.setProjectionMatrix(camera.combined);
+//        trackedPointDebug.begin(ShapeRenderer.ShapeType.Filled);
+//        trackedPointDebug.setColor(new Color(0, 1, 0, 0.5f));
+//        trackedPointDebug.rect(trackedPoint.x, trackedPoint.y, trackedPoint.width, trackedPoint.height);
+//        trackedPointDebug.end();
 
-//        player.draw(game.batch);
+        player.draw(game.batch);
+        for (MovingPlatform platform : platforms) {
+            platform.update(dt, 10);
+            platform.sprite.draw(game.batch);
+        }
         // draw stuff here
         game.batch.end();
     }
