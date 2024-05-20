@@ -16,6 +16,7 @@ import com.baringproductions.celeste.Statics.Constants;
 import java.util.Stack;
 
 public class Player extends Sprite {
+    public static int berryCount;
     public enum State { FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
     public State previousState;
@@ -57,6 +58,7 @@ public class Player extends Sprite {
     }
 
     public void init() {
+        berryCount = 0;
         canJump = false;
 
         //Body Def and Position
@@ -90,9 +92,9 @@ public class Player extends Sprite {
         fixtureDef2.friction = originalFriction;
 //
         fixtureDef.filter.categoryBits = CelesteGame.PLAYER_BIT;
-        fixtureDef.filter.maskBits = CelesteGame.DEFAULT_BIT;
+        fixtureDef.filter.maskBits = CelesteGame.DEFAULT_BIT | CelesteGame.BERRY_BIT;
         fixtureDef2.filter.categoryBits = CelesteGame.PLAYER_BIT;
-        fixtureDef2.filter.maskBits = CelesteGame.DEFAULT_BIT;
+        fixtureDef2.filter.maskBits = CelesteGame.DEFAULT_BIT | CelesteGame.BERRY_BIT;
 
         //Connecting Fixtures to Body
         Fixture nigga = body.createFixture(fixtureDef);
@@ -568,5 +570,9 @@ public class Player extends Sprite {
         }
 
         body.applyLinearImpulse(xForce, yForce, body.getPosition().x,  body.getPosition().y, true);
+    }
+    public static void collectBerry() {
+        berryCount++;
+        System.out.println(berryCount);
     }
 }

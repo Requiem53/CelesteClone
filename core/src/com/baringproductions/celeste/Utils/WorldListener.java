@@ -2,11 +2,14 @@ package com.baringproductions.celeste.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.physics.box2d.*;
+import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
+import com.baringproductions.celeste.Tiles.Berry;
 import com.baringproductions.celeste.Tiles.CollapsingPlatform;
 import com.baringproductions.celeste.Tiles.DashGem;
 import com.baringproductions.celeste.Tiles.InteractiveTile;
+import com.sun.jndi.ldap.Ber;
 
 public class WorldListener implements ContactListener {
 
@@ -30,7 +33,9 @@ public class WorldListener implements ContactListener {
             if (ground.getUserData() != null &&
                     InteractiveTile.class.isAssignableFrom(ground.getUserData().getClass())) {
                 ((InteractiveTile) ground.getUserData()).onFeetContact();
-                System.out.println("foot contact");
+//                System.out.println("foot contact");
+//                System.out.println(ground.getUserData().getClass());
+
             }
         }
 
@@ -63,16 +68,20 @@ public class WorldListener implements ContactListener {
                 (fixtureB.getUserData() == "playerBody")) {
 
             Fixture body = fixtureA.getUserData() == "playerBody" ? fixtureA : fixtureB;
-            Fixture dashGem = body == fixtureA ? fixtureB : fixtureA;
+            Fixture fixture = body == fixtureA ? fixtureB : fixtureA;
 
-            if (dashGem.getUserData() != null &&
-                    InteractiveTile.class.isAssignableFrom(dashGem.getUserData().getClass())) {
+            if (fixture.getUserData() != null &&
+                    InteractiveTile.class.isAssignableFrom(fixture.getUserData().getClass())) {
 
-                if(dashGem.getUserData() instanceof DashGem){
-                    ((InteractiveTile) dashGem.getUserData()).onFeetContact();
+                if(fixture.getUserData() instanceof DashGem){
+                    ((InteractiveTile) fixture.getUserData()).onFeetContact();
+                }
+                else if(fixture.getUserData() instanceof Berry){
+                    ((Berry) fixture.getUserData()).onBodyContact();
                 }
 
             }
+
         }
     }
 
@@ -95,6 +104,8 @@ public class WorldListener implements ContactListener {
                 }
 //                ((InteractiveTile) ground.getUserData()).onFeetContact();
 //                System.out.println("foot left");
+//                System.out.println(ground.getUserData().getClass());
+
                 player.canJump = false;
                 player.onGround = false;
             }
