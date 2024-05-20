@@ -5,10 +5,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
-import com.baringproductions.celeste.Tiles.Berry;
-import com.baringproductions.celeste.Tiles.CollapsingPlatform;
-import com.baringproductions.celeste.Tiles.DashGem;
-import com.baringproductions.celeste.Tiles.InteractiveTile;
+import com.baringproductions.celeste.Tiles.*;
 import com.sun.jndi.ldap.Ber;
 
 public class WorldListener implements ContactListener {
@@ -36,6 +33,30 @@ public class WorldListener implements ContactListener {
 //                System.out.println("foot contact");
 //                System.out.println(ground.getUserData().getClass());
 
+            }
+        }
+
+        if (
+                ((fixtureA.getUserData() == "wallSensorLeft") || (fixtureA.getUserData() == "wallSensorRight")) ||
+                ((fixtureB.getUserData() == "wallSensorLeft") || (fixtureB.getUserData() == "wallSensorRight"))
+        ) {
+
+            Fixture sensor, tile;
+
+            if (
+                    ((fixtureA.getUserData() == "wallSensorLeft") || (fixtureA.getUserData() == "wallSensorRight"))
+                ) {
+                sensor = fixtureA;
+                tile = fixtureB;
+            } else {
+                sensor = fixtureB;
+                tile = fixtureA;
+            }
+
+
+
+            if (tile.getUserData() instanceof Spring) {
+                ((Spring) tile.getUserData()).activateSpring();
             }
         }
 

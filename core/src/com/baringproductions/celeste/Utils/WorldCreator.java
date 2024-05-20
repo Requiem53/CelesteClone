@@ -71,5 +71,12 @@ public class WorldCreator {
 
             new Berry(world, map, object);
         }
+
+        // spring
+        for (RectangleMapObject object :
+                map.getLayers().get("spring").getObjects().getByType(RectangleMapObject.class)) {
+
+            new Spring(world, map, object);
+        }
     }
 }
