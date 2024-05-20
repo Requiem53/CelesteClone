@@ -94,7 +94,7 @@ public class WorldListener implements ContactListener {
                     ((InteractiveTile) ground.getUserData()).onFeetLeave();
                 }
 //                ((InteractiveTile) ground.getUserData()).onFeetContact();
-                System.out.println("foot left");
+//                System.out.println("foot left");
                 player.canJump = false;
                 player.onGround = false;
             }

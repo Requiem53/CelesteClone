@@ -22,7 +22,7 @@ public class Player extends Sprite {
     public World world;
     public Body body;
 
-    float runSpeed = 4f;
+    float runSpeed = 2f;
     float jumpHeight = 4.5f;
 
     float originalXMaxSpeed = 2f / Constants.PPM;
@@ -34,7 +34,9 @@ public class Player extends Sprite {
     float dashStrength = 100f;
 
     float dashDuration = 0.15f;
-    float moveAfterDashDuration = 0.2f;
+    float moveAfterDashDuration = 0f;
+
+    public float cameraSpeed = 20f;
 
     public static int PLAYER_SPRITE_PIXELS = 25;
     private TextureRegion stand;
@@ -100,6 +102,7 @@ public class Player extends Sprite {
         bottomFixture.setUserData("playerBody");
 
         origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+        origYCamPosition = PlayScreen.trackedBody.getPosition().y;
 
         //Foot sensor
         polygon.setAsBox(0.1f, 0.05f, new Vector2(0, -0.32f), 0);
@@ -217,7 +220,9 @@ public class Player extends Sprite {
 
     public boolean toMoveCamera = false;
     public float origXCamPosition;
-    public boolean cameraToLeft = false;
+    public float origYCamPosition;
+    public boolean cameraToLeftOrDown = false;
+    public boolean cameraHorizontal = false;
     public boolean debugCam = false;
 //
 //    public void moveTargetObject(){
@@ -239,8 +244,13 @@ public class Player extends Sprite {
             yMaxSpeed = originalYMaxSpeed;
             synchronized (moveAfterDashTask) {
                 if (!moveAfterDashTask.isScheduled()) {
-                    if(!onGround) Timer.schedule(moveAfterDashTask, moveAfterDashDuration, 0.1f, 4);
-                    else Timer.schedule(moveAfterDashTask, 0f);
+                    if(!onGround){
+                        Timer.schedule(moveAfterDashTask, moveAfterDashDuration, 0.1f, 4);
+                    }
+//                    else Timer.schedule(moveAfterDashTask, 0f);
+                    else {
+                        Timer.schedule(moveAfterDashTask, 0f);
+                    }
                 }
             }
         }
@@ -257,16 +267,17 @@ public class Player extends Sprite {
     private Stack<Integer> inputStack = new Stack<Integer>();
 
     public void handleInput(float dt) {
+//        System.out.println(canJump);
 //        System.out.println(bottomFixture.getFriction());
 //        System.out.println(inputStack);
 //        System.out.println(body.getMass());
 //        System.out.println(body.getLinearVelocity());
 //        System.out.println(onGround);
 //        startTimer += Gdx.graphics.getDeltaTime();
-//        if (onGround){
-//            canDash = true;
-//            canJump = true;
-//        }
+        if (onGround){
+            canDash = true;
+            canJump = true;
+        }
 //        if(toMoveCamera){
 //            System.out.println("CURRENT: " + PlayScreen.trackedBody.getPosition().x );
 //            System.out.println("DESTINATION: " + ((origXCamPosition - PlayScreen.trackedBodyWidth)));
@@ -285,53 +296,114 @@ public class Player extends Sprite {
 //            }
 //        }
 
+        //FOR DEBUGGING
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
+//            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+//            PlayScreen.trackedBody.setLinearVelocity(-10f, 0f);
+//            debugCam = true;
+//            cameraToLeftOrDown = true;
+//        }
+//
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
+//            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+//            PlayScreen.trackedBody.setLinearVelocity(10f, 0f);
+//            debugCam = true;
+//            cameraToLeftOrDown = false;
+//        }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
-            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
-            PlayScreen.trackedBody.setLinearVelocity(-10f, 0f);
+            origYCamPosition = PlayScreen.trackedBody.getPosition().y;
+            PlayScreen.trackedBody.setLinearVelocity(0f, cameraSpeed);
+            cameraHorizontal = false;
+            cameraToLeftOrDown = false;
             debugCam = true;
-            cameraToLeft = true;
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.K)){
-            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
-            PlayScreen.trackedBody.setLinearVelocity(10f, 0f);
+            origYCamPosition = PlayScreen.trackedBody.getPosition().y;
+            PlayScreen.trackedBody.setLinearVelocity(0f, -cameraSpeed);
+            cameraHorizontal = false;
+            cameraToLeftOrDown = true;
             debugCam = true;
-            cameraToLeft = false;
         }
 
         if(debugCam){
 //            System.out.println("CURRENT: " + PlayScreen.trackedBody.getPosition().x );
 //            System.out.println("DESTINATION: " + ((origXCamPosition - PlayScreen.trackedBodyWidth)));
-            if(cameraToLeft){
-                if(PlayScreen.trackedBody.getPosition().x <= (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f))){
-                    System.out.println("TO ZE LEFT");
-                    PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
-                    debugCam = false;
-                    origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+            if(cameraHorizontal){
+                if(cameraToLeftOrDown){
+                    if(PlayScreen.trackedBody.getPosition().x <= (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f))){
+//                        System.out.println("TO ZE LEFT");
+                        PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                        debugCam = false;
+                        origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+                    }
+                }else {
+                    if(PlayScreen.trackedBody.getPosition().x >= (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f))){
+//                        System.out.println("TO ZE RIGHT");
+                        PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                        debugCam = false;
+                        origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+                    }
                 }
-            }else {
-                if(PlayScreen.trackedBody.getPosition().x >= (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f))){
-                    System.out.println("TO ZE RIGHT");
-                    PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
-                    debugCam = false;
-                    origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+            }else{
+                if(cameraToLeftOrDown){
+                    if(PlayScreen.trackedBody.getPosition().y <= (origYCamPosition - (PlayScreen.trackedBodyHeight * 2.25f))){
+                        PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                        debugCam = false;
+                        origYCamPosition = PlayScreen.trackedBody.getPosition().y;
+                    }
+                }else {
+                    if(PlayScreen.trackedBody.getPosition().y >= (origYCamPosition + (PlayScreen.trackedBodyHeight * 2.25f))){
+                        PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
+                        debugCam = false;
+                        origYCamPosition = PlayScreen.trackedBody.getPosition().y;
+                    }
                 }
             }
+
         }
 
 //        System.out.println("CURRENT: " + body.getPosition().x);
 //        System.out.println("DESTINATION: " + ((origXCamPosition + (PlayScreen.trackedBodyWidth * 2f)) - 3.2636f));
 
+//        System.out.println("CURRENT: " + body.getPosition().x);
+//        System.out.println("DESTINATION: " + ((origXCamPosition + (PlayScreen.trackedBodyWidth * 2f))));
+
+//        System.out.println("CURRENT: " + body.getPosition().y);
+//        System.out.println("DESTINATION: " + ((origYCamPosition + (PlayScreen.trackedBodyHeight * 2.25f))));
+
+
+        //CAMERA MOVEMENT
+        //HORIZONTAL
         if(body.getPosition().x <= (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f)) + 3.2636f){
-            PlayScreen.trackedBody.setLinearVelocity(-10f, 0f);
-            cameraToLeft = true;
+            PlayScreen.trackedBody.setLinearVelocity(-cameraSpeed, 0f);
+            cameraHorizontal = true;
+            cameraToLeftOrDown = true;
             debugCam = true;
         }else if(body.getPosition().x >= (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f)) - 3.2636f){
-            PlayScreen.trackedBody.setLinearVelocity(10f, 0f);
-            cameraToLeft = false;
+//            System.out.println("PLAYER: " + body.getPosition().x);
+//            System.out.println("SENSOR: " + (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f)));
+            PlayScreen.trackedBody.setLinearVelocity(cameraSpeed, 0f);
+            cameraHorizontal = true;
+            cameraToLeftOrDown = false;
             debugCam = true;
         }
 
+        //VERTICAL
+        if(body.getPosition().y <= (origYCamPosition - (PlayScreen.trackedBodyHeight * 2.5f)) + 1.9016669f){
+            PlayScreen.trackedBody.setLinearVelocity(0f, -cameraSpeed);
+            cameraHorizontal = false;
+            cameraToLeftOrDown = true;
+            debugCam = true;
+        }else if(body.getPosition().y >= (origYCamPosition + (PlayScreen.trackedBodyHeight * 2.5f)) - 1.9016669f){
+//            System.out.println("PLAYER: " + body.getPosition().y);
+//            System.out.println("SENSOR: " + (origYCamPosition + (PlayScreen.trackedBodyHeight * 2f)));
+            PlayScreen.trackedBody.setLinearVelocity(0f, cameraSpeed);
+            cameraHorizontal = false;
+            cameraToLeftOrDown = false;
+            debugCam = true;
+        }
 
         if(onPlatform){
             body.setAwake(true);
@@ -459,7 +531,7 @@ public class Player extends Sprite {
             canDash = false;
 
             //change to determine dash speed
-            xMaxSpeed = xMaxSpeed + 10f;
+            xMaxSpeed = xMaxSpeed + 7f;
             yMaxSpeed -= 1.5f;
 
             //how long the dash is in delay seconds
@@ -472,8 +544,8 @@ public class Player extends Sprite {
     }
 
     public void diagonalDash(boolean isRight, boolean isUp){
-        float xForce = body.getMass()*dashStrength / 4f;
-        float yForce = body.getMass()*dashStrength / 12f;
+        float xForce = body.getMass()*dashStrength / 12f;
+        float yForce = body.getMass()*dashStrength / 24f;
 
         if(!isRight) xForce *= -1;
         if(!isUp) yForce *= -1;
