@@ -10,7 +10,7 @@
  </layer>
  <layer id="6" name="graphics" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1NEJgzAUhWHTBaTr+O6DD9YFqi/doFvYrie4ThN6iyJJtbEYI/8HBxViuAeDSQIAAAAAAAAAAAAAiEF6Cj3BsZUq9ATrmQ7THq1+fkiekXS09fjmot7Zm1972Oyh29y5iuVs/eN7fIT8H/v2KNVwnsapHHvZ1rvW+vDtcdXv5JK7XG86jWMvs76exLXWx5IetvNi5sp0ilGfXGbrJL3E3G/R43yQvABi4iBl
+   eJzt1NEJgzAUhWHTBaTr9N0HH2wXaPvSDdxCXU9wnSb0SiUkqGkxRv4PDirEkIMXswwAAAAAAAAAAAAAkIL8FPsEx1ap2Cf4nelg92j0cyvpEulo97iqT1Lj+h5r7aH73FylMlv/+B6jmP/j0B6V+s7TNDfPXq71vrUhQnvc9TuFpJbrS+fp2cusf1jxrQ2xpIdrXsy5LjrlpE8hZ+slg8Tcb9HjfJC8AXaiIGU=
   </data>
  </layer>
  <objectgroup id="3" name="ground" visible="0">
@@ -42,7 +42,7 @@
   <object id="55" x="624" y="624" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="14" name="collapsing platforms">
-  <object id="68" x="176" y="672" width="32" height="16"/>
+  <object id="68" x="48" y="672" width="32" height="16"/>
   <object id="70" x="256" y="688" width="32" height="16"/>
  </objectgroup>
  <objectgroup id="15" name="berry">
