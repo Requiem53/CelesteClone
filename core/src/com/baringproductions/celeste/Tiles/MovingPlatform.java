@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.baringproductions.celeste.CelesteGame;
+import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
 
 import java.awt.*;
@@ -51,6 +50,11 @@ public class MovingPlatform extends InteractiveTile {
         // Increase the x-coordinate based on the speed and delta time
         float newX = bounds.getX() + speed * delta;
         float newY = bounds.getY();
+
+        Player player = PlayScreen.player;
+        if(player.onPlatform){
+            player.body.setTransform(player.body.getPosition().x + (speed * delta) / CelesteGame.PPM / 2, player.body.getPosition().y, player.body.getAngle());
+        }
 
         updatePosition(newX, newY);
     }

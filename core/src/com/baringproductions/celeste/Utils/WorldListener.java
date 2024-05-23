@@ -120,9 +120,8 @@ public class WorldListener implements ContactListener {
             if (ground.getUserData() != null &&
                     InteractiveTile.class.isAssignableFrom(ground.getUserData().getClass())) {
 
-                if(ground.getUserData() instanceof CollapsingPlatform) {
-                    ((InteractiveTile) ground.getUserData()).onFeetLeave();
-                }
+                ((InteractiveTile) ground.getUserData()).onFeetLeave();
+
 //                ((InteractiveTile) ground.getUserData()).onFeetContact();
 //                System.out.println("foot left");
 //                System.out.println(ground.getUserData().getClass());
