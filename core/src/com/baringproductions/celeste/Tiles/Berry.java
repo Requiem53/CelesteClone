@@ -13,6 +13,7 @@ public class Berry extends InteractiveTile{
     public Berry(World world, TiledMap map, MapObject object) {
         super(world, map, object);
 
+        fixture.setSensor(true);
         setCategoryFilter(CelesteGame.BERRY_BIT);
         TiledMapTileLayer tileLayer = (TiledMapTileLayer) map.getLayers().get("graphics");
 //        cell = tileLayer.getCell((int)(bounds.getX() / 16), (int)(bounds.getX() / 16));
@@ -22,16 +23,20 @@ public class Berry extends InteractiveTile{
         fixture.setUserData(this);
     }
 
-    synchronized public void onBodyContact(){
+    public void onBodyContact(){
         if(fixture.getFilterData().categoryBits != CelesteGame.DESTROYED_BIT){
-            setCategoryFilter(CelesteGame.DESTROYED_BIT);
             Player.collectBerry();
-            cell.setTile(null);
+            destroyBerry();
         }
+    }
+
+    public void destroyBerry(){
+        setCategoryFilter(CelesteGame.DESTROYED_BIT);
+        cell.setTile(null);
+        PlayScreen.bodiesToDestroy.add(body);
     }
     @Override
     public void onFeetContact() {
-        PlayScreen.player.landed();
     }
 
     @Override

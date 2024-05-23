@@ -68,7 +68,6 @@ public class WorldCreator {
         //berry
         for (RectangleMapObject object :
                 map.getLayers().get("berry").getObjects().getByType(RectangleMapObject.class)) {
-
             new Berry(world, map, object);
         }
 
