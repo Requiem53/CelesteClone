@@ -30,11 +30,17 @@ public class Spring extends InteractiveTile {
     }
 
     public void activateSpring() {
-        float impulseY = 2.0f;
+        float impulseY = 2.5f;
         Player p = PlayScreen.player;
-        p.body.setLinearVelocity(new Vector2(0.0f, 0.0f));
-        p.body.applyLinearImpulse(0.0f, impulseY, p.getX(), p.getY(), true);
 
+        if(p.isDashing){
+            p.body.setLinearVelocity(new Vector2(-p.body.getLinearVelocity().x, -p.body.getLinearVelocity().y));
+        }
+
+        p.body.setLinearVelocity(new Vector2(0.0f, 0.0f));
+
+        p.body.applyLinearImpulse(0.0f, impulseY, p.getX(), p.getY(), true);
+        p.canDash = true;
     }
 
 }

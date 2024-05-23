@@ -116,7 +116,7 @@ public class PlayScreen implements Screen {
 
 
     public void update(float dt) {
-        player.handleInput(dt);
+        player.allProcesses(dt);
 
         if (player.isDead) {
             spawnPoints.get(currSpawnPoint).respawnPlayer(player);
