@@ -31,7 +31,7 @@ public class CollapsingPlatform extends InteractiveTile{
         fixture.setUserData(this);
         setSpriteRegion();
 
-        shakeDuration = 2.0f;
+        shakeDuration = 1.0f;
         shakeAmplitude = 1.0f / CelesteGame.PPM;
         isShaking = false;
         spriteOriginalX = sprite.getX();
@@ -53,13 +53,12 @@ public class CollapsingPlatform extends InteractiveTile{
     }
 
     private void setSpriteRegion(){
-        Rectangle rect = ((RectangleMapObject) object).getRectangle();
-        int numTilesX = (int) (rect.getWidth() / 16);
-        int numTilesY = (int) (rect.getHeight() / 16);
+        int numTilesX = (int) (bounds.getWidth() / 16);
+        int numTilesY = (int) (bounds.getHeight() / 16);
         if(numTilesY == 0) numTilesY = 1;
 
-        int cellX = (int) (rect.getX() / 16);
-        int cellY = (int) (rect.getY() / 16);
+        int cellX = (int) (bounds.getX() / 16);
+        int cellY = (int) (bounds.getY() / 16);
 
         Pixmap pixmap = new Pixmap(numTilesX * 16, numTilesY * 16, Pixmap.Format.RGBA8888);
         // Render each tile to the Pixmap
@@ -112,7 +111,7 @@ public class CollapsingPlatform extends InteractiveTile{
             setCategoryFilter(CelesteGame.DESTROYED_BIT);
             collapsed = true;
             synchronized (waitForRespawn){
-                Timer.schedule(waitForRespawn, 5f);
+                Timer.schedule(waitForRespawn, 2f);
             }
         }
     }

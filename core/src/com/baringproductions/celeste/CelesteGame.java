@@ -32,6 +32,7 @@ public class CelesteGame extends Game {
 	public static final short DEFAULT_BIT = 1;
 	public static final short PLAYER_BIT = 2;
 	public static final short DESTROYED_BIT = 4;
+	public static final short BERRY_BIT = 8;
 
 	Box2DDebugRenderer debugRenderer;
 

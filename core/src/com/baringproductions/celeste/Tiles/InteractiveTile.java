@@ -18,6 +18,7 @@ public abstract class InteractiveTile {
     Fixture fixture;
 
     MapObject object;
+    public static boolean isNewASensor = false;
 
     public InteractiveTile(World world, TiledMap map, MapObject object) {
         this.object = object;
@@ -27,6 +28,10 @@ public abstract class InteractiveTile {
 
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
+        if(isNewASensor){
+            fdef.isSensor = true;
+            isNewASensor = false;
+        }
         PolygonShape shape = new PolygonShape();
 
         bdef.type = BodyDef.BodyType.StaticBody;
@@ -40,6 +45,10 @@ public abstract class InteractiveTile {
         fixture = body.createFixture(fdef);
 
         setCategoryFilter(CelesteGame.DEFAULT_BIT);
+    }
+    
+    public static void setNewSensor(){
+        isNewASensor = true;
     }
 
     public Rectangle getBounds() {

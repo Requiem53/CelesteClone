@@ -16,6 +16,7 @@ import com.baringproductions.celeste.Statics.Constants;
 import java.util.Stack;
 
 public class Player extends Sprite {
+    public static int berryCount;
     public enum State { FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
     public State previousState;
@@ -32,9 +33,9 @@ public class Player extends Sprite {
     float originalYMaxSpeed = 6f;
     float yMaxSpeed = originalYMaxSpeed;
 
-    float dashStrength = 100f;
+    float dashStrength = 50f;
 
-    float dashDuration = 0.15f;
+    float dashDuration = 0.25f;
     float moveAfterDashDuration = 0f;
 
     public float cameraSpeed = 20f;
@@ -59,6 +60,9 @@ public class Player extends Sprite {
     }
 
     public void init() {
+        berryCount = 0;
+        canJump = false;
+
         //Body Def and Position
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyDef.BodyType.DynamicBody;
@@ -91,9 +95,9 @@ public class Player extends Sprite {
 
         //Jorash Code
         fixtureDef.filter.categoryBits = CelesteGame.PLAYER_BIT;
-        fixtureDef.filter.maskBits = CelesteGame.DEFAULT_BIT;
+        fixtureDef.filter.maskBits = CelesteGame.DEFAULT_BIT | CelesteGame.BERRY_BIT;
         fixtureDef2.filter.categoryBits = CelesteGame.PLAYER_BIT;
-        fixtureDef2.filter.maskBits = CelesteGame.DEFAULT_BIT;
+        fixtureDef2.filter.maskBits = CelesteGame.DEFAULT_BIT | CelesteGame.BERRY_BIT;
 
         //Connecting Fixtures to Body
         //Maurice ani pero di nako hilabtan naa niyay maguba -Slamm
@@ -233,7 +237,13 @@ public class Player extends Sprite {
         onGround = true;
     }
 
+    //Merge conflict things
+    boolean canDashAfterGround = false;
+    boolean cameraMovable = true;
+
     //Hashiri Dashing Task
+
+
     private final Timer.Task dashingTask = new Timer.Task() {
         @Override
         public void run() {
@@ -243,7 +253,9 @@ public class Player extends Sprite {
             synchronized (moveAfterDashTask) {
                 if (!moveAfterDashTask.isScheduled()) {
                     if(!onGround){
+                        body.applyForce(-0.5f, -0.5f, body.getPosition().x, body.getPosition().y, true);
                         Timer.schedule(moveAfterDashTask, moveAfterDashDuration, 0.1f, 4);
+                        Timer.schedule(dashCooldown, 0.25f);
                     }
                     else {
                         Timer.schedule(moveAfterDashTask, 0f);
@@ -260,6 +272,22 @@ public class Player extends Sprite {
             //??
             if(onGround) cancel();
             canMove = true;
+        }
+    };
+
+    //Merge Conflict Things
+    private final Timer.Task dashCooldown = new Timer.Task() {
+        @Override
+        public void run() {
+            if(onGround) canDash = true;
+        }
+    };
+
+    private final Timer.Task moveCameraCooldown = new Timer.Task() {
+        @Override
+        public void run() {
+            cameraMovable = true;
+            System.out.println("DONE");
         }
     };
 
@@ -355,7 +383,7 @@ public class Player extends Sprite {
             canDash = false;
 
             //change to determine dash speed
-            xMaxSpeed = xMaxSpeed + 7f;
+            xMaxSpeed = xMaxSpeed + 4f;
             yMaxSpeed -= 1.5f;
 
             //how long the dash is in delay seconds
@@ -477,8 +505,8 @@ public class Player extends Sprite {
     }
 
     public void diagonalDash(boolean isRight, boolean isUp){
-        float xForce = body.getMass()*dashStrength / 12f;
-        float yForce = body.getMass()*dashStrength / 24f;
+        float xForce = body.getMass()*dashStrength / 10f;
+        float yForce = body.getMass()*dashStrength / 10f;
 
         if(!isRight) xForce *= -1;
         if(!isUp) yForce *= -1;
@@ -488,7 +516,7 @@ public class Player extends Sprite {
 
     public void dash(boolean isHorizontal, boolean isRightOrUp){
         float xForce = body.getMass()*dashStrength;
-        float yForce = body.getMass()*dashStrength;
+        float yForce = body.getMass()*dashStrength / 8f;
 
         if(!isRightOrUp){
             xForce *= -1;
@@ -534,5 +562,9 @@ public class Player extends Sprite {
             cameraHorizontal = false;
             toMoveCamera = true;
         }
+    }
+    public static void collectBerry() {
+        berryCount++;
+        System.out.println(berryCount);
     }
 }
