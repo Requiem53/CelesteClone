@@ -486,7 +486,6 @@ public class Player extends Sprite {
                     toMoveCamera = true;
                     camCurrentlyAdjusting = true;
             }
-            PlayScreen.resetLevelInteractiveTiles();
             //VERTICAL
             if((body.getPosition().y < (origYCamPosition - (PlayScreen.trackedBodyHeight * 2.5f)) + 1.9016669f)
                     || (body.getPosition().y > (origYCamPosition + (PlayScreen.trackedBodyHeight * 2.5f)) - 1.9016669f)){
@@ -520,7 +519,10 @@ public class Player extends Sprite {
                     if(!camCooldown.isScheduled()) Timer.schedule(camCooldown, 0.50f);
                 }
             }
+
+            PlayScreen.resetLevelInteractiveTiles();
         }
+
     }
 
     public void stateValidation(){
