@@ -25,7 +25,7 @@ public class SpawnPoint extends InteractiveTile {
 
     public void respawnPlayer(Player player) {
         float x = getCenterX();
-        float y = getCenterY() + 50/CelesteGame.PPM;
+        float y = getCenterY() + 30/CelesteGame.PPM;
 
         Gdx.app.log("X", x+"");
         Gdx.app.log("Y", y+"");
