@@ -76,8 +76,8 @@
                     CelesteGame.V_HEIGHT/48f, camera);
 
             maploader = new TmxMapLoader();
-//            map = maploader.load("demo.tmx");
-            map = maploader.load("map.tmx");
+            map = maploader.load("demo.tmx");
+//            map = maploader.load("map.tmx");
             renderer = new OrthogonalTiledMapRenderer(map, 1 / CelesteGame.PPM);
             camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
 
@@ -181,7 +181,7 @@
     //        trackedPointDebug.end();
 
             for (MovingPlatform mplatform : movingPlatforms) {
-                mplatform.update(dt, 10);
+                mplatform.update(dt, 25);
                 mplatform.sprite.draw(game.batch);
             }
             for(CollapsingPlatform cplatform : collapsingPlatforms){

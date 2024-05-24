@@ -463,6 +463,8 @@ public class Player extends Sprite {
     Timer.Task camCooldown = new Timer.Task() {
         @Override
         public void run() {
+            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+            origYCamPosition = PlayScreen.trackedBody.getPosition().y;
             camCurrentlyAdjusting = false;
         }
     };
@@ -475,12 +477,14 @@ public class Player extends Sprite {
             //HORIZONTAL
             if((body.getPosition().x < (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f)) + 3.2636f)
                     || (body.getPosition().x > (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f)) - 3.2636f)){
-                if(body.getPosition().x < (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f)) + 3.2636f)
-                    PlayScreen.trackedBody.setLinearVelocity(-cameraSpeed, 0f);
-                else
-                    PlayScreen.trackedBody.setLinearVelocity(cameraSpeed, 0f);
-                cameraHorizontal = true;
-                toMoveCamera = true;
+
+                    if(body.getPosition().x < (origXCamPosition - (PlayScreen.trackedBodyWidth * 2f)) + 3.2636f)
+                        PlayScreen.trackedBody.setLinearVelocity(-cameraSpeed, 0f);
+                    else
+                        PlayScreen.trackedBody.setLinearVelocity(cameraSpeed, 0f);
+                    cameraHorizontal = true;
+                    toMoveCamera = true;
+                    camCurrentlyAdjusting = true;
             }
 
             //VERTICAL
@@ -493,6 +497,7 @@ public class Player extends Sprite {
                     PlayScreen.trackedBody.setLinearVelocity(0f, cameraSpeed);
                 cameraHorizontal = false;
                 toMoveCamera = true;
+                camCurrentlyAdjusting = true;
             }
         }
 
@@ -503,19 +508,18 @@ public class Player extends Sprite {
                         || (PlayScreen.trackedBody.getPosition().x > (origXCamPosition + (PlayScreen.trackedBodyWidth * 2f)))){
                     PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
                     toMoveCamera = false;
-                    origXCamPosition = PlayScreen.trackedBody.getPosition().x;
-                    if(!camCooldown.isScheduled()) Timer.schedule(camCooldown, 0.25f);
+//                    origXCamPosition = PlayScreen.trackedBody.getPosition().x;
+                    if(!camCooldown.isScheduled()) Timer.schedule(camCooldown, 0.50f);
                 }
             }else{
                 if((PlayScreen.trackedBody.getPosition().y < (origYCamPosition - (PlayScreen.trackedBodyHeight * 2.25f)))
                         || ((PlayScreen.trackedBody.getPosition().y > (origYCamPosition + (PlayScreen.trackedBodyHeight * 2.25f))))){
                     PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
                     toMoveCamera = false;
-                    origYCamPosition = PlayScreen.trackedBody.getPosition().y;
-                    if(!camCooldown.isScheduled()) Timer.schedule(camCooldown, 0.25f);
+//                    origYCamPosition = PlayScreen.trackedBody.getPosition().y;
+                    if(!camCooldown.isScheduled()) Timer.schedule(camCooldown, 0.50f);
                 }
             }
-
         }
     }
 
