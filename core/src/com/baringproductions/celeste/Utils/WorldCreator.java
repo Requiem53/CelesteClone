@@ -75,7 +75,7 @@ public class WorldCreator {
         for (RectangleMapObject object :
                 map.getLayers().get("spring").getObjects().getByType(RectangleMapObject.class)) {
 
-            new Spring(world, map, object);
+            PlayScreen.springs.add(new Spring(world, map, object));
         }
     }
 }

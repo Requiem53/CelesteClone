@@ -16,10 +16,7 @@
     import com.badlogic.gdx.utils.viewport.FitViewport;
     import com.badlogic.gdx.utils.viewport.Viewport;
     import com.baringproductions.celeste.Statics.Constants;
-    import com.baringproductions.celeste.Tiles.CollapsingPlatform;
-    import com.baringproductions.celeste.Tiles.InteractiveTile;
-    import com.baringproductions.celeste.Tiles.MovingPlatform;
-    import com.baringproductions.celeste.Tiles.SpawnPoint;
+    import com.baringproductions.celeste.Tiles.*;
     import com.baringproductions.celeste.Utils.WorldCreator;
     import com.baringproductions.celeste.CelesteGame;
     import com.baringproductions.celeste.Player;
@@ -60,6 +57,8 @@
         public static ArrayList<CollapsingPlatform> collapsingPlatforms;
         public static ArrayList<Body> bodiesToDestroy;
 
+        public static ArrayList<Spring> springs;
+
 
         public PlayScreen(CelesteGame game) {
             currSpawnPoint = 0;
@@ -67,6 +66,8 @@
             movingPlatforms = new ArrayList<>();
             collapsingPlatforms = new ArrayList<>();
             bodiesToDestroy = new ArrayList<>();
+
+            springs = new ArrayList<>();
 
             this.game = game;
 
@@ -200,7 +201,14 @@
                     cplatform.updateShaking(dt);
                 }
             }
+
+            for (Spring spring : springs) {
+                spring.update(dt);
+                spring.drawSpring(game.batch);
+            }
+
             player.draw(game.batch);
+
             // draw stuff here
             game.batch.end();
         }

@@ -13,7 +13,7 @@
    eJzt1NEJgzAUhWHTBaTr9N0HH2wXaPvSDdxCXU9wnSb0SiUkqGkxRv4PDirEkIMXswwAAAAAAAAAAAAAkIL8FPsEx1ap2Cf4nelg92j0cyvpEulo97iqT1Lj+h5r7aH73FylMlv/+B6jmP/j0B6V+s7TNDfPXq71vrUhQnvc9TuFpJbrS+fp2cusf1jxrQ2xpIdrXsy5LjrlpE8hZ+slg8Tcb9HjfJC8AXaiIGU=
   </data>
  </layer>
- <objectgroup id="3" name="ground" visible="0">
+ <objectgroup id="3" name="ground">
   <object id="9" x="0" y="784" width="800" height="16"/>
   <object id="34" x="208" y="736" width="112" height="16"/>
   <object id="35" x="400" y="736" width="96" height="16"/>
@@ -60,6 +60,6 @@
   <object id="73" x="128" y="768" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="16" name="spring">
-  <object id="83" x="224" y="720" width="16" height="16"/>
+  <object id="83" x="224" y="730.182" width="16" height="5.81818"/>
  </objectgroup>
 </map>
