@@ -127,13 +127,7 @@
         player.allProcesses(dt);
 
             if (player.isDead) {
-                spawnPoints.get(currSpawnPoint).respawnPlayer(player);
-                for(MovingPlatform mplatform : movingPlatforms){
-                    mplatform.resetPosition();
-                }
-                for(CollapsingPlatform cPlatform : collapsingPlatforms){
-                    cPlatform.forceRespawn();
-                }
+                resetLevelInteractiveTiles();
             }
 
             world.step(1/60f, 6, 2);
@@ -164,6 +158,15 @@
 //                }
 //                bodiesToDestroy.clear();
 //            }
+        }
+
+        public static void resetLevelInteractiveTiles(){
+            for(MovingPlatform mplatform : movingPlatforms){
+                mplatform.resetPosition();
+            }
+            for(CollapsingPlatform cPlatform : collapsingPlatforms){
+                cPlatform.forceRespawn();
+            }
         }
 
         @Override

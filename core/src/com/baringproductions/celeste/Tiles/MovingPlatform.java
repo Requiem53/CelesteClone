@@ -18,14 +18,20 @@ import java.awt.*;
 public class MovingPlatform extends InteractiveTile {
     public Sprite sprite;
     public Vector2 originalPosition;
+    private float range;
+    private float distanceTravelled;
+    private boolean goingRight;
 
     public MovingPlatform(World world, TiledMap map, MapObject object) {
         super(world, map, object);
         setSpriteRegion();
         fixture.setUserData(this);
         originalPosition = new Vector2(body.getPosition());
-    }
 
+        range = 3f;         //range based on tiles travelled
+        distanceTravelled = 0f;
+        goingRight = true;
+    }
     @Override
     public void onFeetContact() {
         PlayScreen.player.landed();
@@ -56,8 +62,21 @@ public class MovingPlatform extends InteractiveTile {
     }
     public void update(float delta, float speed) {
         // Increase the x-coordinate based on the speed and delta time
-        float newX = body.getPosition().x + (speed * delta / CelesteGame.PPM);
+        float newX = body.getPosition().x;
         float newY = body.getPosition().y;
+
+        float distance = (speed * delta);
+
+        if(distanceTravelled >= range) goingRight = false;
+        if(distanceTravelled <= 0) goingRight = true;
+
+        if(goingRight){
+            distanceTravelled += distance / 16;
+            newX += distance / CelesteGame.PPM;
+        }else{
+            distanceTravelled -= distance / 16;
+            newX -= distance / CelesteGame.PPM;
+        }
 
         Player player = PlayScreen.player;
         if(player.onPlatform){
