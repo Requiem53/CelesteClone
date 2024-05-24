@@ -23,7 +23,7 @@ public class MovingPlatform extends InteractiveTile {
         super(world, map, object);
         setSpriteRegion();
         fixture.setUserData(this);
-        originalPosition = body.getPosition();
+        originalPosition = new Vector2(body.getPosition());
     }
 
     @Override
@@ -37,23 +37,27 @@ public class MovingPlatform extends InteractiveTile {
         PlayScreen.player.onPlatform = false;
     }
 
-
-    public void updatePosition(float newX, float newY) {
-        // Convert newX and newY from pixels to Box2D units
-        float newBox2DPosX = newX / CelesteGame.PPM;
-        float newBox2DPosY = newY / CelesteGame.PPM;
-        // Update the Box2D body position
-        body.setTransform(newBox2DPosX, newBox2DPosY, body.getAngle());
-
-        // Update the RectangleMapObject position
-        bounds.setPosition(newX, newY);
-        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2 - 0.075f);
+    public void resetPosition(){
+        body.setTransform(originalPosition.x, originalPosition.y, body.getAngle());
+        bounds.setPosition((originalPosition.x * CelesteGame.PPM - bounds.getWidth()/2), (originalPosition.y * CelesteGame.PPM - bounds.getHeight()/2));
+        sprite.setPosition(originalPosition.x - sprite.getWidth() / 2, originalPosition.y - sprite.getHeight() / 2 - 0.075f);
     }
 
+    public void updatePosition(float newX, float newY) {
+        // Convert newX and newY from Body position to bounds position
+        float newBoundsPosX = newX * CelesteGame.PPM;
+        float newBoundsPosY = newY * CelesteGame.PPM;
+        // Update the Box2D body position
+        body.setTransform(newX, newY, body.getAngle());
+
+        // Update the RectangleMapObject position
+        bounds.setPosition(newBoundsPosX , newBoundsPosY);
+        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2 - 0.075f);
+    }
     public void update(float delta, float speed) {
         // Increase the x-coordinate based on the speed and delta time
-        float newX = bounds.getX() + speed * delta;
-        float newY = bounds.getY();
+        float newX = body.getPosition().x + (speed * delta / CelesteGame.PPM);
+        float newY = body.getPosition().y;
 
         Player player = PlayScreen.player;
         if(player.onPlatform){

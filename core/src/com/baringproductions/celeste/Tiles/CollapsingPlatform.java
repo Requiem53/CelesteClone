@@ -28,6 +28,8 @@ public class CollapsingPlatform extends InteractiveTile{
     public boolean collapsed;
     public CollapsingPlatform(World world, TiledMap map, MapObject object) {
         super(world, map, object);
+
+        System.out.println(bounds.x);
         fixture.setUserData(this);
         setSpriteRegion();
 
@@ -123,4 +125,14 @@ public class CollapsingPlatform extends InteractiveTile{
             setCategoryFilter(CelesteGame.DEFAULT_BIT);
         }
     };
+
+    public void forceRespawn(){
+        collapsed = false;
+        setCategoryFilter(CelesteGame.DEFAULT_BIT);
+        synchronized (waitForRespawn) {
+            if(waitForRespawn.isScheduled()){
+                waitForRespawn.cancel();
+            }
+        }
+    }
 }

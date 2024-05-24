@@ -116,6 +116,9 @@
             player = new Player(world);
 
             world.setContactListener(new WorldListener(player));
+
+            //para mospawn sa spawn point, dili sa 0, 0
+            spawnPoints.get(currSpawnPoint).respawnPlayer(player);
         }
 
 
@@ -124,6 +127,12 @@
 
             if (player.isDead) {
                 spawnPoints.get(currSpawnPoint).respawnPlayer(player);
+                for(MovingPlatform mplatform : movingPlatforms){
+                    mplatform.resetPosition();
+                }
+                for(CollapsingPlatform cPlatform : collapsingPlatforms){
+                    cPlatform.forceRespawn();
+                }
             }
 
             world.step(1/60f, 6, 2);
