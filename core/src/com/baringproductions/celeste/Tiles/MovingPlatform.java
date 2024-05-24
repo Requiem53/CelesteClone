@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Player;
@@ -16,10 +17,13 @@ import java.awt.*;
 
 public class MovingPlatform extends InteractiveTile {
     public Sprite sprite;
+    public Vector2 originalPosition;
+
     public MovingPlatform(World world, TiledMap map, MapObject object) {
         super(world, map, object);
         setSpriteRegion();
         fixture.setUserData(this);
+        originalPosition = body.getPosition();
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.baringproductions.celeste.Player;
 public class SpawnPoint extends InteractiveTile {
     public SpawnPoint(World world, TiledMap map, MapObject object) {
         super(world, map, object);
-
+        fixture.setSensor(true);
     }
 
     @Override

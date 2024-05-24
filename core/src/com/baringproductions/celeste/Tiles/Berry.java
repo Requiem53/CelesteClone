@@ -31,9 +31,9 @@ public class Berry extends InteractiveTile{
     }
 
     public void destroyBerry(){
-        setCategoryFilter(CelesteGame.DESTROYED_BIT);
-        cell.setTile(null);
-        PlayScreen.bodiesToDestroy.add(body);
+//        setCategoryFilter(CelesteGame.DESTROYED_BIT);
+//        cell.setTile(null);
+//        PlayScreen.bodiesToDestroy.add(body);
     }
     @Override
     public void onFeetContact() {

@@ -33,7 +33,7 @@ public class Player extends Sprite {
     float originalYMaxSpeed = 6f;
     float yMaxSpeed = originalYMaxSpeed;
 
-    float dashStrength = 50f;
+    float dashStrength = 40f;
 
     float dashDuration = 0.15f;
     float moveAfterDashDuration = 0f;
@@ -281,8 +281,8 @@ public class Player extends Sprite {
             canDash = false;
 
             //change to determine dash speed
-            xMaxSpeed += 6f;
-            yMaxSpeed += 10f;
+            xMaxSpeed += 20f;
+            yMaxSpeed += 20f;
 
             //how long the dash is in delay seconds
             synchronized (dashingTask) {
@@ -449,8 +449,8 @@ public class Player extends Sprite {
     }
 
     public void diagonalDash(boolean isRight, boolean isUp){
-        float xForce = body.getMass()*dashStrength / 6f;
-        float yForce = body.getMass()*dashStrength / 6f;
+        float xForce = body.getMass()*dashStrength / 5f;
+        float yForce = body.getMass()*dashStrength / 5f;
 
         if(!isRight) xForce *= -1;
         if(!isUp) yForce *= -1;
@@ -504,7 +504,7 @@ public class Player extends Sprite {
                     PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
                     toMoveCamera = false;
                     origXCamPosition = PlayScreen.trackedBody.getPosition().x;
-                    Timer.schedule(camCooldown, 0.25f);
+                    if(!camCooldown.isScheduled()) Timer.schedule(camCooldown, 0.25f);
                 }
             }else{
                 if((PlayScreen.trackedBody.getPosition().y <= (origYCamPosition - (PlayScreen.trackedBodyHeight * 2.25f)))
@@ -512,7 +512,7 @@ public class Player extends Sprite {
                     PlayScreen.trackedBody.setLinearVelocity(0f, 0f);
                     toMoveCamera = false;
                     origYCamPosition = PlayScreen.trackedBody.getPosition().y;
-                    Timer.schedule(camCooldown, 0.25f);
+                    if(!camCooldown.isScheduled()) Timer.schedule(camCooldown, 0.25f);
                 }
             }
 
