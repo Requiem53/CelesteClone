@@ -44,14 +44,12 @@ public class MenuHUD {
         stage = new Stage(viewport, sb);
         Gdx.input.setInputProcessor(stage);
 
-        title1 = new Label("Celeste", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+
 
         table = new Table();
         table.top();
         table.setFillParent(true);
 
-        txtUsername = new Label("Username", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-        txtPassword = new Label("Password", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
         MenuButtonStyle titleStyle = new MenuButtonStyle();
         Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle();
         title = new Label("Celeste", titleStyleLabel);
