@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.baringproductions.celeste.Screens.MenuScreen;
 import com.baringproductions.celeste.Statics.Constants;
 import com.baringproductions.celeste.Statics.Player;
 import com.baringproductions.celeste.Statics.WorldContactListener;
@@ -59,7 +60,8 @@ public class CelesteGame extends Game {
 //		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
 
 		batch = new SpriteBatch();
-		setScreen(new PlayScreen(this));
+		setScreen(new MenuScreen(this));
+
 	}
 
 	@Override
