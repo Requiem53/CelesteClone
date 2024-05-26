@@ -29,7 +29,6 @@ public class DashGem extends InteractiveTile{
             sprite.setBounds(0, 0, 16 / CelesteGame.PPM, 16 / CelesteGame.PPM);
             sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
         }
-
     }
 
     @Override
