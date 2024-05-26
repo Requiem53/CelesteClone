@@ -48,9 +48,8 @@ public class MenuHUD {
         table.setFillParent(true);
 
         MenuButtonStyle titleStyle = new MenuButtonStyle();
-        Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(25);
+        Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(38);
         title = new Label("Celeste", titleStyleLabel);
-        title.getStyle().font.getData().setScale(1.5f);
 
 
 
