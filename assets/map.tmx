@@ -3,6 +3,8 @@
  <tileset firstgid="1" source="world_tileset.tsx"/>
  <tileset firstgid="257" source="yeah.tsx"/>
  <tileset firstgid="527" source="berry.tsx"/>
+ <tileset firstgid="528" source="gem.tsx"/>
+ <tileset firstgid="1452" source="gem.tsx"/>
  <layer id="8" name="bg" width="50" height="50">
   <data encoding="base64" compression="zlib">
    eJztwQENAAAAwqD3T20ON6AAAAAAAAAAAADg3wAnEAAB
@@ -10,7 +12,7 @@
  </layer>
  <layer id="6" name="graphics" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJzt1NEJgzAUhWHTBaTr9N0HH2wXaPvSDdxCXU9wnSb0SiUkqGkxRv4PDirEkIMXswwAAAAAAAAAAAAAkIL8FPsEx1ap2Cf4nelg92j0cyvpEulo97iqT1Lj+h5r7aH73FylMlv/+B6jmP/j0B6V+s7TNDfPXq71vrUhQnvc9TuFpJbrS+fp2cusf1jxrQ2xpIdrXsy5LjrlpE8hZ+slg8Tcb9HjfJC8AXaiIGU=
+   eJzt1EEKwjAQheFG6Fq8jvsuuoheQN30Bt6i9SoeR/A6JjhiCQnWoI0j/wePtjANeTS0qgAAAAAAAAAAAAAAGiwXpXegz7mePmvN9/YxF98h7NG750FyUtIx7LEx92gT+x7v+oXur86VlrP1ie/xUPJ/nNvDmud5GmebWCs2n5rNkdtj595pJEe5di6HxFp+fh8kNZtjSo/YefH7Wru0oz6N7O0iuUr8/Rw9Vn+SG/wkIRY=
   </data>
  </layer>
  <objectgroup id="3" name="ground">
