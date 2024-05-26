@@ -19,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Screens.GameMenuScreen;
+import com.baringproductions.celeste.Screens.LoadMenuScreen;
 import com.baringproductions.celeste.Screens.PlayScreen;
 
 import javax.swing.text.View;
@@ -79,7 +80,7 @@ public class MenuHUD {
             public void clicked (InputEvent event, float x, float y) {
                 System.out.println("height: " + btnNewGame.getHeight());
                 System.out.println("width: " + btnNewGame.getWidth());
-                game.setScreen(new GameMenuScreen(game));
+                game.setScreen(new LoadMenuScreen(game));
 
             }
         });
