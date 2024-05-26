@@ -15,14 +15,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MenuButtonStyle {
 
-    public Label.LabelStyle createTitleTextButtonStyle() {
+    public Label.LabelStyle createTitleTextButtonStyle(int fontSize) {
 
         Texture buttonUpTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
         Texture buttonDownTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/COOPBL.TTF"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 25;
+        parameter.size = fontSize;
         parameter.minFilter = Texture.TextureFilter.Linear;
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.genMipMaps = true; // Enable mipmapping
@@ -61,11 +61,11 @@ public class MenuButtonStyle {
         return style;
     }
 
-    public LabelStyle createLabelStyle() {
+    public LabelStyle createLabelStyle(int fontSize) {
 
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/your_font.ttf"));
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ARLRDBD.TTF"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 8; // Set the font size
+        parameter.size = fontSize; // Set the font size
         parameter.minFilter = Texture.TextureFilter.Linear;
         parameter.magFilter = Texture.TextureFilter.Linear;
         parameter.genMipMaps = true;
