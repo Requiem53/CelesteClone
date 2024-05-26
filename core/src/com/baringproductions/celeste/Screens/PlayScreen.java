@@ -163,9 +163,6 @@
             for(MovingPlatform mplatform : movingPlatforms){
                 mplatform.resetPosition();
             }
-            for(CollapsingPlatform cPlatform : collapsingPlatforms){
-                cPlatform.forceRespawn();
-            }
             for(DashGem dashGem : dashGems){
                 dashGem.forceRespawn();
             }

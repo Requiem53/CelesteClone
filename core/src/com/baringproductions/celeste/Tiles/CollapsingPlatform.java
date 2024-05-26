@@ -125,14 +125,4 @@ public class CollapsingPlatform extends InteractiveTile{
             setCategoryFilter(CelesteGame.DEFAULT_BIT);
         }
     };
-
-    public void forceRespawn(){
-        collapsed = false;
-        setCategoryFilter(CelesteGame.DEFAULT_BIT);
-        synchronized (waitForRespawn) {
-            if(waitForRespawn.isScheduled()){
-                waitForRespawn.cancel();
-            }
-        }
-    }
 }
