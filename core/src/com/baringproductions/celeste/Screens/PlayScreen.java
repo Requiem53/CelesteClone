@@ -128,6 +128,7 @@
 
             if (player.isDead) {
                 resetLevelInteractiveTiles();
+                spawnPoints.get(currSpawnPoint).respawnPlayer(player);
             }
 
             world.step(1/60f, 6, 2);

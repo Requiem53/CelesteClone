@@ -100,7 +100,7 @@ public class WorldListener implements ContactListener {
                 else if(fixture.getUserData() instanceof Berry){
                     ((Berry) fixture.getUserData()).onBodyContact();
                 }else if(fixture.getUserData() instanceof Spike){
-                    ((Spike) fixture.getUserData()).onFeetContact();
+                    ((Spike) fixture.getUserData()).onBodyContact();
                 }
 
             }

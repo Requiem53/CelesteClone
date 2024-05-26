@@ -16,6 +16,10 @@ public class Spike extends InteractiveTile {
 
     @Override
     public void onFeetContact() {
+//        PlayScreen.player.isDead = true;
+    }
+
+    public void onBodyContact(){
         PlayScreen.player.isDead = true;
     }
 
