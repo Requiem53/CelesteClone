@@ -14,13 +14,16 @@ import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
 
 import java.awt.*;
+import java.util.Iterator;
 
 public class MovingPlatform extends InteractiveTile {
     public Sprite sprite;
     public Vector2 originalPosition;
+    private float speed;
     private float range;
     private float distanceTravelled;
     private boolean goingRight;
+    public boolean playerOnThisPlatform;
 
     public MovingPlatform(World world, TiledMap map, MapObject object) {
         super(world, map, object);
@@ -28,25 +31,42 @@ public class MovingPlatform extends InteractiveTile {
         fixture.setUserData(this);
         originalPosition = new Vector2(body.getPosition());
 
-        range = 3f;         //range based on tiles travelled
+//        range = 5;         //range based on tiles travelled
+        try{
+            range = (Integer) object.getProperties().get("range");
+        }catch (NullPointerException e){
+            range = 5f;
+        }
+        try{
+            speed = (Integer) object.getProperties().get("speed");
+        }catch (NullPointerException e){
+            speed = 10f;
+        }
+
         distanceTravelled = 0f;
         goingRight = true;
+        playerOnThisPlatform = false;
+
     }
     @Override
     public void onFeetContact() {
         PlayScreen.player.landed();
         PlayScreen.player.onPlatform = true;
+        playerOnThisPlatform = true;
     }
 
     @Override
     public void onFeetLeave() {
         PlayScreen.player.onPlatform = false;
+        playerOnThisPlatform = false;
     }
 
     public void resetPosition(){
         body.setTransform(originalPosition.x, originalPosition.y, body.getAngle());
         bounds.setPosition((originalPosition.x * CelesteGame.PPM - bounds.getWidth()/2), (originalPosition.y * CelesteGame.PPM - bounds.getHeight()/2));
         sprite.setPosition(originalPosition.x - sprite.getWidth() / 2, originalPosition.y - sprite.getHeight() / 2 - 0.075f);
+        goingRight = true;
+        distanceTravelled = 0f;
     }
 
     public void updatePosition(float newX, float newY) {
@@ -57,30 +77,27 @@ public class MovingPlatform extends InteractiveTile {
         body.setTransform(newX, newY, body.getAngle());
 
         // Update the RectangleMapObject position
-        bounds.setPosition(newBoundsPosX , newBoundsPosY);
+        bounds.setPosition(newBoundsPosX, newBoundsPosY);
         sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2 - 0.075f);
     }
-    public void update(float delta, float speed) {
+    public void update(float delta) {
         // Increase the x-coordinate based on the speed and delta time
+        float distance = (speed * delta);
+
         float newX = body.getPosition().x;
         float newY = body.getPosition().y;
-
-        float distance = (speed * delta);
 
         if(distanceTravelled >= range) goingRight = false;
         if(distanceTravelled <= 0) goingRight = true;
 
-        if(goingRight){
-            distanceTravelled += distance / 16;
-            newX += distance / CelesteGame.PPM;
-        }else{
-            distanceTravelled -= distance / 16;
-            newX -= distance / CelesteGame.PPM;
-        }
+        if(!goingRight) distance *= -1;
+
+        distanceTravelled += distance / 16;
+        newX += (distance / CelesteGame.PPM / 2);
 
         Player player = PlayScreen.player;
-        if(player.onPlatform){
-            player.body.setTransform(player.body.getPosition().x + (speed * delta) / CelesteGame.PPM / 2, player.body.getPosition().y, player.body.getAngle());
+        if(player.onPlatform && playerOnThisPlatform){
+            player.body.setTransform(player.body.getPosition().x + (distance / CelesteGame.PPM / 2), player.body.getPosition().y, player.body.getAngle());
         }
 
         updatePosition(newX, newY);

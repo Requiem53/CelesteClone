@@ -55,8 +55,7 @@
 
         public static ArrayList<MovingPlatform> movingPlatforms;
         public static ArrayList<CollapsingPlatform> collapsingPlatforms;
-        public static ArrayList<Body> bodiesToDestroy;
-
+        public static ArrayList<DashGem> dashGems;
         public static ArrayList<Spring> springs;
 
 
@@ -65,8 +64,7 @@
             spawnPoints = new ArrayList<>();
             movingPlatforms = new ArrayList<>();
             collapsingPlatforms = new ArrayList<>();
-            bodiesToDestroy = new ArrayList<>();
-
+            dashGems = new ArrayList<>();
             springs = new ArrayList<>();
 
             this.game = game;
@@ -77,8 +75,8 @@
                     CelesteGame.V_HEIGHT/48f, camera);
 
             maploader = new TmxMapLoader();
-            map = maploader.load("demo.tmx");
-//            map = maploader.load("map.tmx");
+//            map = maploader.load("demo.tmx");
+            map = maploader.load("map.tmx");
             renderer = new OrthogonalTiledMapRenderer(map, 1 / CelesteGame.PPM);
             camera.position.set(viewport.getWorldWidth()/2, viewport.getWorldHeight()/2, 0);
 
@@ -152,13 +150,6 @@
     //
             camera.update();
             renderer.setView(camera);
-
-//            if(!bodiesToDestroy.isEmpty()){
-//                for(Body body: bodiesToDestroy){
-//                    world.destroyBody(body);
-//                }
-//                bodiesToDestroy.clear();
-//            }
         }
 
         public static void resetLevelInteractiveTiles(){
@@ -167,6 +158,9 @@
             }
             for(CollapsingPlatform cPlatform : collapsingPlatforms){
                 cPlatform.forceRespawn();
+            }
+            for(DashGem dashGem : dashGems){
+                dashGem.forceRespawn();
             }
         }
 
@@ -195,7 +189,7 @@
     //        trackedPointDebug.end();
 
             for (MovingPlatform mplatform : movingPlatforms) {
-                mplatform.update(dt, 25);
+                mplatform.update(dt);
                 mplatform.sprite.draw(game.batch);
             }
             for(CollapsingPlatform cplatform : collapsingPlatforms){
@@ -204,6 +198,10 @@
                 if(cplatform.isShaking) {
                     cplatform.updateShaking(dt);
                 }
+            }
+
+            for(DashGem dashGem : dashGems){
+                if(dashGem.isActive) dashGem.sprite.draw(game.batch);
             }
 
             for (Spring spring : springs) {

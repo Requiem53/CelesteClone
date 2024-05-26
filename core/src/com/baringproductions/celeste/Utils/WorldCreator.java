@@ -55,7 +55,7 @@ public class WorldCreator {
         for (RectangleMapObject object :
             map.getLayers().get("dashGem").getObjects().getByType(RectangleMapObject.class)) {
 
-            new DashGem(world, map, object);
+            PlayScreen.dashGems.add(new DashGem(world, map, object));
         }
 
         //collapsing platforms
