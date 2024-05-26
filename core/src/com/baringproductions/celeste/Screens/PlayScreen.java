@@ -1,6 +1,8 @@
     package com.baringproductions.celeste.Screens;
 
+    import Scenes.PlayScreenHUD;
     import com.badlogic.gdx.Gdx;
+    import com.badlogic.gdx.Input;
     import com.badlogic.gdx.Screen;
     import com.badlogic.gdx.graphics.Color;
     import com.badlogic.gdx.graphics.GL20;
@@ -30,6 +32,7 @@
         private final CelesteGame game;
         private final OrthographicCamera camera;
         private final Viewport viewport;
+        PlayScreenHUD hud;
 
         //Tiled map variables
         private TmxMapLoader maploader;
@@ -73,6 +76,7 @@
             viewport = new FitViewport(
                     CelesteGame.V_WIDTH/48f,
                     CelesteGame.V_HEIGHT/48f, camera);
+            hud = new PlayScreenHUD(game.batch, game);
 
             maploader = new TmxMapLoader();
             map = maploader.load("demo.tmx");
@@ -150,6 +154,9 @@
     //
             camera.update();
             renderer.setView(camera);
+            if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+                hud.stage.addActor(hud.table);
+            }
         }
 
         public static void resetLevelInteractiveTiles(){
@@ -213,6 +220,7 @@
 
             // draw stuff here
             game.batch.end();
+            hud.stage.draw();
         }
 
         public World getWorld() { return world; }

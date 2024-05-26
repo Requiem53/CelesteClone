@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MenuButtonStyle {
@@ -32,7 +33,49 @@ public class MenuButtonStyle {
 
         Label.LabelStyle style = new Label.LabelStyle();
         style.font = font;
-        style.fontColor = Color.BLUE;
+        style.fontColor = Color.SKY;
+
+        return style;
+    }
+    public Label.LabelStyle createPlayScreenTitleStyle(int fontSize) {
+
+        Texture buttonUpTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
+        Texture buttonDownTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/COOPBL.TTF"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = fontSize;
+        parameter.minFilter = Texture.TextureFilter.Linear;
+        parameter.magFilter = Texture.TextureFilter.Linear;
+        parameter.genMipMaps = true; // Enable mipmapping
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+
+
+        Label.LabelStyle style = new Label.LabelStyle();
+        style.font = font;
+        style.fontColor = Color.BLACK;
+
+        return style;
+    }
+    public Window.WindowStyle createWindowStyle(int fontSize) {
+
+        Texture buttonUpTexture = new Texture(Gdx.files.internal("game_menu_background.jpg"));
+        Texture buttonDownTexture = new Texture(Gdx.files.internal("game_menu_background.jpg"));
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/COOPBL.TTF"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = fontSize;
+        parameter.minFilter = Texture.TextureFilter.Linear;
+        parameter.magFilter = Texture.TextureFilter.Linear;
+        parameter.genMipMaps = true; // Enable mipmapping
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+
+
+        Window.WindowStyle style = new Window.WindowStyle();
+        style.titleFont = font;
+        style.titleFontColor = Color.SKY;
 
         return style;
     }
