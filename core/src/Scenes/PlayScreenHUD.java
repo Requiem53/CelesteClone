@@ -59,9 +59,8 @@ public class PlayScreenHUD {
         table.setFillParent(true);
 
         titleStyle = new MenuButtonStyle();
-        Label.LabelStyle titleStyleLabel = titleStyle.createPlayScreenTitleStyle(15);
+        Label.LabelStyle titleStyleLabel = titleStyle.createPlayScreenTitleStyle(23);
         title = new Label("Menu", titleStyleLabel);
-        title.getStyle().font.getData().setScale(1.5f);
 
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();

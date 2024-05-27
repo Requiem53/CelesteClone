@@ -37,9 +37,8 @@ public class LoadGameHUD {
         savedGames.setFillParent(true);
 
         MenuButtonStyle titleStyle = new MenuButtonStyle();
-        Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(15);
+        Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(23);
         title = new Label("Load Game", titleStyleLabel);
-        title.getStyle().font.getData().setScale(1.5f);
 
         mainTable.add(title).colspan(2).center().padTop(10).padBottom(18);
         mainTable.row();

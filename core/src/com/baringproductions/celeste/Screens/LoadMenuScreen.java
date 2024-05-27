@@ -106,6 +106,8 @@ public class LoadMenuScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        map.dispose();
+        renderer.dispose();
+        hud.stage.dispose();
     }
 }

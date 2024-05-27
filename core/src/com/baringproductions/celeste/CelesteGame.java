@@ -3,6 +3,7 @@ package com.baringproductions.celeste;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -34,6 +35,7 @@ public class CelesteGame extends Game {
 	public static final short PLAYER_BIT = 2;
 	public static final short DESTROYED_BIT = 4;
 	public static final short BERRY_BIT = 8;
+	private Screen currentScreen;
 
 	Box2DDebugRenderer debugRenderer;
 
@@ -62,6 +64,17 @@ public class CelesteGame extends Game {
 		batch = new SpriteBatch();
 		setScreen(new MenuScreen(this));
 
+	}
+
+	@Override
+	public void setScreen(Screen screen) {
+		// Dispose of the current screen
+		if (currentScreen != null) {
+			currentScreen.dispose();
+		}
+		// Set the new screen
+		currentScreen = screen;
+		super.setScreen(screen);
 	}
 
 	@Override
