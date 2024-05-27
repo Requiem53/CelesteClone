@@ -6,7 +6,6 @@ import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
 import com.baringproductions.celeste.Tiles.*;
-import com.sun.jndi.ldap.Ber;
 
 public class WorldListener implements ContactListener {
 
