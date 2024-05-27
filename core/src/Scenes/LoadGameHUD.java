@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Screens.GameMenuScreen;
 import com.baringproductions.celeste.Screens.PlayScreen;
+import com.baringproductions.celeste.User;
 
 public class LoadGameHUD {
     public Stage stage;
@@ -62,7 +63,8 @@ public class LoadGameHUD {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Loading " + slotName);
-                game.setScreen(new PlayScreen(game));
+                User user = new User(0, "Temp");    //dapat = SQL.getUser()
+                game.setScreen(new PlayScreen(user, game));
             }
         });
 
