@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="216" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="132">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="216" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="15" nextobjectid="140">
  <tileset firstgid="1" source="world_tileset.tsx"/>
  <tileset firstgid="257" source="berry.tsx"/>
  <tileset firstgid="258" source="background_glacial_mountains.tsx"/>
@@ -126,6 +126,11 @@
  </objectgroup>
  <objectgroup id="8" name="spawn">
   <object id="17" x="32" y="400" width="16" height="16"/>
+  <object id="133" x="480" y="288" width="16" height="16"/>
+  <object id="134" x="912" y="320" width="16" height="16"/>
+  <object id="136" x="1376" y="384" width="16" height="16"/>
+  <object id="137" x="1792" y="384" width="16" height="16"/>
+  <object id="139" x="2224" y="128" width="16" height="16"/>
  </objectgroup>
  <objectgroup id="10" name="moving platforms">
   <object id="24" x="480" y="400" width="64" height="16"/>
