@@ -550,6 +550,15 @@ public class Player extends Sprite {
             origXCamPosition = PlayScreen.trackedBody.getPosition().x;
         }
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.L)){
+            onGround = true;
+            canDash = true;
+            canJump = true;
+            canMove = true;
+            canLeft = true;
+            canRight = true;
+        }
+
         //Horizontal
 //        if(Gdx.input.isKeyJustPressed(Input.Keys.J)){
 //            origXCamPosition = PlayScreen.trackedBody.getPosition().x;
