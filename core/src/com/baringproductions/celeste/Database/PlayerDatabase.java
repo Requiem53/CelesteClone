@@ -14,7 +14,7 @@ public class PlayerDatabase {
     public static void loadPlayer() {
         try (Connection c = MySQLConnection.getConnection();
              PreparedStatement statement = c.prepareStatement(
-                     "CREATE TABLE IF NOT EXISTS users (" +
+                     "CREATE TABLE IF NOT EXISTS tbluser (" +
                              "id INT AUTO_INCREMENT PRIMARY KEY," +
                              "name VARCHAR(50) NOT NULL," +
                              "email VARCHAR(100) NOT NULL," +
@@ -52,6 +52,6 @@ public class PlayerDatabase {
 //        }catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-     return null;
+        return null;
     }
 }
