@@ -249,5 +249,6 @@
             renderer.dispose();
             world.dispose();
             b2dr.dispose();
+            hud.stage.dispose();
         }
     }
