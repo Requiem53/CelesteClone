@@ -25,6 +25,8 @@ public class CelesteGame extends Game {
 
 	WorldCreator worldCreator;
 
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 720;
 	public static final int V_WIDTH = 320;
 	public static final int V_HEIGHT = 160;
 	public static final float PPM = 64;

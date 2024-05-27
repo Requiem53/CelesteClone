@@ -37,7 +37,7 @@ public class MenuHUD {
     public MenuHUD(SpriteBatch sb, CelesteGame game) {
 
         LoadGameHUD hud = new LoadGameHUD(sb, game);
-        viewport = new FitViewport(CelesteGame.V_WIDTH, CelesteGame.V_HEIGHT);
+        viewport = new FitViewport(CelesteGame.WIDTH, CelesteGame.HEIGHT);
         stage = new Stage(viewport, sb);
         Gdx.input.setInputProcessor(stage);
 

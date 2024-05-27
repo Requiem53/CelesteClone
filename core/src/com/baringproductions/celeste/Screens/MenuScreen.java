@@ -41,7 +41,7 @@ public class MenuScreen implements Screen {
         hud = new MenuHUD(game.batch, game);
         menuBackground = new Texture("menu_background.jpg");
         camera = new OrthographicCamera();
-        gamePort = new FitViewport(CelesteGame.V_WIDTH,CelesteGame.V_HEIGHT,camera);
+        gamePort = new FitViewport(CelesteGame.WIDTH, CelesteGame.HEIGHT,camera);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level2Celeste.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -74,7 +74,7 @@ public class MenuScreen implements Screen {
         renderer.render();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.getBatch().begin();
-        hud.stage.getBatch().draw(menuBackground, 0, 0, CelesteGame.V_WIDTH, CelesteGame.V_HEIGHT);
+        hud.stage.getBatch().draw(menuBackground, 0, 0, CelesteGame.WIDTH, CelesteGame.HEIGHT);
         hud.stage.getBatch().end();
         hud.stage.draw();
 
