@@ -21,6 +21,7 @@ import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Screens.GameMenuScreen;
 import com.baringproductions.celeste.Screens.LoadMenuScreen;
 import com.baringproductions.celeste.Screens.PlayScreen;
+import com.baringproductions.celeste.User;
 
 import javax.swing.text.View;
 import java.awt.*;
@@ -70,7 +71,10 @@ public class MenuHUD {
             public void clicked (InputEvent event, float x, float y) {
                 System.out.println("height: " + btnNewGame.getHeight());
                 System.out.println("width: " + btnNewGame.getWidth());
-                game.setScreen(new PlayScreen(game));
+                int id = 0; //SQL get latest ID
+                String name = "Temp"; //ASk for name
+                User user = new User(id, name);
+                game.setScreen(new PlayScreen(user, game));
 
             }
         });

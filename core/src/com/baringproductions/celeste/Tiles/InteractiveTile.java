@@ -13,7 +13,7 @@ public abstract class InteractiveTile {
     World world;
     TiledMap map;
     Rectangle bounds;
-    Body body;
+    public Body body;
     Fixture fixture;
 
     MapObject object;

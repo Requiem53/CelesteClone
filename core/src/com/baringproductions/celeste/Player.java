@@ -17,6 +17,7 @@ import java.util.Stack;
 
 public class Player extends Sprite {
     public static int berryCount;
+    public User user;
     public enum State { FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
     public State previousState;
@@ -581,6 +582,5 @@ public class Player extends Sprite {
 
     public static void collectBerry() {
         berryCount++;
-        System.out.println(berryCount);
     }
 }

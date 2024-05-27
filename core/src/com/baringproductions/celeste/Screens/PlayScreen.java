@@ -19,6 +19,7 @@
     import com.badlogic.gdx.utils.viewport.Viewport;
     import com.baringproductions.celeste.Statics.Constants;
     import com.baringproductions.celeste.Tiles.*;
+    import com.baringproductions.celeste.User;
     import com.baringproductions.celeste.Utils.WorldCreator;
     import com.baringproductions.celeste.CelesteGame;
     import com.baringproductions.celeste.Player;
@@ -43,12 +44,13 @@
         private final World world;
         private final Box2DDebugRenderer b2dr;
         private WorldCreator creator;
+        private User user;
 
         public static Player player;
         public static Rectangle trackedPoint;
         public ShapeRenderer trackedPointDebug;
         public static ArrayList<SpawnPoint> spawnPoints;
-        public int currSpawnPoint;
+        public static int currSpawnPoint;
 
         public static Body trackedBody;
         public static Fixture trackedFixture;
@@ -62,7 +64,7 @@
         public static ArrayList<Spring> springs;
 
 
-        public PlayScreen(CelesteGame game) {
+        public PlayScreen(User user, CelesteGame game) {
             currSpawnPoint = 0;
             spawnPoints = new ArrayList<>();
             movingPlatforms = new ArrayList<>();
@@ -156,6 +158,12 @@
             renderer.setView(camera);
             if(Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
                 hud.stage.addActor(hud.table);
+            }
+
+            int i=0;
+            while(i<spawnPoints.size() && spawnPoints.get(i).body.getPosition().x <= player.body.getPosition().x){
+                currSpawnPoint = i;
+                i++;
             }
         }
 
