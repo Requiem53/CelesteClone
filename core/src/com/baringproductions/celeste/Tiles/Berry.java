@@ -24,7 +24,7 @@ public class Berry extends InteractiveTile{
 
     public void onBodyContact(){
         if(fixture.getFilterData().categoryBits != CelesteGame.DESTROYED_BIT){
-            Player.collectBerry();
+            Player.collectBerry(body.getPosition());
             destroyBerry();
         }
     }

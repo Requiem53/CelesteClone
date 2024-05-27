@@ -24,6 +24,7 @@ import com.baringproductions.celeste.Screens.GameMenuScreen;
 import com.baringproductions.celeste.Screens.LoadMenuScreen;
 import com.baringproductions.celeste.Screens.MenuScreen;
 import com.baringproductions.celeste.Screens.PlayScreen;
+import com.baringproductions.celeste.User;
 
 import javax.swing.*;
 import javax.swing.text.View;
@@ -40,9 +41,11 @@ public class PlayScreenHUD {
     public Table table;
     public  Window gameMenu;
     Label title;
+    User user;
 
-    public PlayScreenHUD(SpriteBatch sb, CelesteGame game) {
+    public PlayScreenHUD(User user, SpriteBatch sb, CelesteGame game) {
 
+        this.user = user;
         MenuButtonStyle titleStyle = new MenuButtonStyle();
         LoadGameHUD hud = new LoadGameHUD(sb, game);
         gameMenu = new Window("Game Menu", titleStyle.createWindowStyle(25));
@@ -84,18 +87,24 @@ public class PlayScreenHUD {
             public void clicked (InputEvent event, float x, float y) {
                 table.remove();
 
+                //SQL update gamit si User
+
+
             }
         });
         btnExit.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                game.setScreen(new MenuScreen(game));
+                // call SQL save
 
+                game.setScreen(new MenuScreen(game));
             }
         });
         btnQuit.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
+                // call SQL save
+
                 game.setScreen(new MenuScreen(game));
 
             }

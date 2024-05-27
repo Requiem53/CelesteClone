@@ -72,13 +72,14 @@
             dashGems = new ArrayList<>();
             springs = new ArrayList<>();
 
+            this.user = user;
             this.game = game;
 
             camera = new OrthographicCamera();
             viewport = new FitViewport(
                     CelesteGame.V_WIDTH/48f,
                     CelesteGame.V_HEIGHT/48f, camera);
-            hud = new PlayScreenHUD(game.batch, game);
+            hud = new PlayScreenHUD(user, game.batch, game);
 
             maploader = new TmxMapLoader();
             map = maploader.load("demo.tmx");
@@ -118,7 +119,7 @@
     //        trackedBody.setFixedRotation(true);
 
             trackedPointDebug = new ShapeRenderer();
-            player = new Player(world);
+            player = new Player(user, world);
 
             world.setContactListener(new WorldListener(player));
 
@@ -162,8 +163,11 @@
 
             int i=0;
             while(i<spawnPoints.size() && spawnPoints.get(i).body.getPosition().x <= player.body.getPosition().x){
-                currSpawnPoint = i;
                 i++;
+            }
+            if(currSpawnPoint != --i){
+                currSpawnPoint = i;
+                user.updateSpawn(i);
             }
         }
 

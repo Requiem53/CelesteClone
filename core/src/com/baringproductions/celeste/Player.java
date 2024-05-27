@@ -17,7 +17,7 @@ import java.util.Stack;
 
 public class Player extends Sprite {
     public static int berryCount;
-    public User user;
+    public static User user;
     public enum State { FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
     public State previousState;
@@ -53,8 +53,9 @@ public class Player extends Sprite {
     private float stateTimer;
     private boolean facingRight;
 
-    public Player(World world) {
+    public Player(User user, World world) {
         super(new Texture("player_spritesheet.png"));
+        this.user = user;
         this.world = world;
 
         init();
@@ -580,7 +581,7 @@ public class Player extends Sprite {
 //        }
     }
 
-    public static void collectBerry() {
-        berryCount++;
+    public static void collectBerry(Vector2 vector) {
+        user.addBerry(vector);
     }
 }

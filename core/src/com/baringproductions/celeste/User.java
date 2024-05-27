@@ -21,8 +21,10 @@ public class User {
 
     public void addBerry(Vector2 vector){
         berriesCollected.add(vector);
+        System.out.println("Berries collected: " + berriesCollected.size());
     }
     public void updateSpawn(int spawn){
         this.spawn = spawn;
+        System.out.println("New spawn: " + spawn);
     }
 }
