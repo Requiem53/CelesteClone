@@ -92,7 +92,7 @@ public class MovingPlatform extends InteractiveTile {
 
         if(!goingRight) distance *= -1;
 
-        distanceTravelled += distance / 16;
+        distanceTravelled += distance / 16 / 2;
         newX += (distance / CelesteGame.PPM / 2);
 
         Player player = PlayScreen.player;
