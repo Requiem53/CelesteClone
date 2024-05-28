@@ -232,6 +232,10 @@
                 spring.drawSpring(game.batch);
             }
 
+            if(!player.canDash) player.applyHairTint(Color.BLUE);
+            else player.applyHairTint(Color.WHITE.cpy());
+
+            player.hair_sprite.draw(game.batch);
             player.draw(game.batch);
 
             // draw stuff here

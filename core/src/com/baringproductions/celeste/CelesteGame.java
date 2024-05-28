@@ -76,6 +76,8 @@ public class CelesteGame extends Game {
 		manager.load("Audio/SoundEffects/platform_collapse.wav", Sound.class);
 		manager.load("Audio/SoundEffects/dashgem_get.wav", Sound.class);
 		manager.load("Audio/SoundEffects/die.mp3", Sound.class);
+		manager.load("Audio/SoundEffects/jump.mp3", Sound.class);
+		manager.load("Audio/SoundEffects/dash.wav", Sound.class);
 		manager.finishLoading();
 
 		setScreen(new MenuScreen(this));

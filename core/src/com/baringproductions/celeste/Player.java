@@ -2,6 +2,8 @@ package com.baringproductions.celeste;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -16,6 +18,7 @@ import com.baringproductions.celeste.Statics.Constants;
 import java.util.Stack;
 
 public class Player extends Sprite {
+    public Sprite hair_sprite;
     public static int berryCount;
     public static User user;
     public enum State { FALLING, JUMPING, STANDING, RUNNING};
@@ -47,15 +50,21 @@ public class Player extends Sprite {
     //Jorash Variables
     public static int PLAYER_SPRITE_PIXELS = 25;
     private TextureRegion stand;
+    private TextureRegion standHair;
     private Animation runAnim;
+    private Animation runAnimHair;
     private Animation jumpAnim;
+    private Animation jumpAnimHair;
     private Animation fallAnim;
+    private Animation fallAnimHair;
+
     private float stateTimer;
     private boolean facingRight;
 
     public Player(User user, World world) {
-        super(new Texture("player_spritesheet.png"));
-        this.user = user;
+        super(new Texture("Player_Sprite/player_spritesheet_body.png"));
+        hair_sprite = new Sprite(new Texture("Player_Sprite/player_spritesheet_hair.png"));
+        Player.user = user;
         this.world = world;
 
         init();
@@ -135,15 +144,13 @@ public class Player extends Sprite {
         circle.dispose();
 
         //Jorash Code
-        float width = 16f;
-        float height = 16f;
-
         //Animation chuchu ni jorash
         stand = new TextureRegion(getTexture(), 0, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS);
-        float scaleX =  width / PLAYER_SPRITE_PIXELS;
-        float scaleY = height / PLAYER_SPRITE_PIXELS;
+        standHair = new TextureRegion(hair_sprite.getTexture(), 0, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS);
         setBounds(0, 0, (PLAYER_SPRITE_PIXELS * 1.1f) / CelesteGame.PPM, (PLAYER_SPRITE_PIXELS * 1.1f) / CelesteGame.PPM);
+        hair_sprite.setBounds(0, 0, (PLAYER_SPRITE_PIXELS * 1.1f) / CelesteGame.PPM, (PLAYER_SPRITE_PIXELS * 1.1f) / CelesteGame.PPM);
         setRegion(stand);
+        hair_sprite.setRegion(standHair);
 
         currentState = State.STANDING;
         previousState = State.STANDING;
@@ -152,63 +159,82 @@ public class Player extends Sprite {
 
         //set running animation
         Array<TextureRegion> frames = new Array<TextureRegion>();
+        Array<TextureRegion> framesHair = new Array<TextureRegion>();
         for(int i=3; i<9; i++){
             frames.add(new TextureRegion(getTexture(), i * PLAYER_SPRITE_PIXELS, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
+            framesHair.add(new TextureRegion(hair_sprite.getTexture(), i * PLAYER_SPRITE_PIXELS, 0, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
         }
         runAnim = new Animation(0.1f, frames);
+        runAnimHair = new Animation(0.1f, framesHair);
         frames.clear();
+        framesHair.clear();
 
         //set jumping animation
         for(int i=0; i<2; i++){
             frames.add(new TextureRegion(getTexture(), i * PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
+            framesHair.add(new TextureRegion(hair_sprite.getTexture(), i * PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
+
         }
         jumpAnim = new Animation(0.1f, frames);
+        jumpAnimHair = new Animation(0.1f, framesHair);
+
         frames.clear();
+        framesHair.clear();
 
         //set falling animation
         for(int i=2; i<4; i++){
             frames.add(new TextureRegion(getTexture(), i * PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
+            framesHair.add(new TextureRegion(hair_sprite.getTexture(), i * PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS, PLAYER_SPRITE_PIXELS));
         }
         fallAnim = new Animation(0.1f, frames);
+        fallAnimHair = new Animation(0.1f, framesHair);
         frames.clear();
+        framesHair.clear();
 
+        applyHairTint(Color.WHITE.cpy());
     }
 
     public void update(float dt){
         setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 - 0.05f);
-        setRegion(getFrame(dt));
+        hair_sprite.setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2 - 0.05f);
+        setSpriteRegions(dt);
     }
 
-    public TextureRegion getFrame(float dt){
+    private void setSpriteRegions(float dt){
         currentState = getState();
 
-        TextureRegion region;
+        TextureRegion region, regionHair;
         switch (currentState){
             case JUMPING:
                 region = (TextureRegion) jumpAnim.getKeyFrame(stateTimer);
+                regionHair = (TextureRegion) jumpAnimHair.getKeyFrame(stateTimer);
                 break;
             case FALLING:
                 region = (TextureRegion) fallAnim.getKeyFrame(stateTimer);
+                regionHair = (TextureRegion) fallAnimHair.getKeyFrame(stateTimer);
                 break;
             case RUNNING:
                 region = (TextureRegion) runAnim.getKeyFrame(stateTimer, true);
+                regionHair = (TextureRegion) runAnimHair.getKeyFrame(stateTimer, true);
                 break;
             case STANDING:
             default:
                 region = stand;
+                regionHair = standHair;
                 break;
         }
-
         if((facingRight && region.isFlipX())
-        || (!facingRight && !region.isFlipX())){
+                || (!facingRight && !region.isFlipX())){
             region.flip(true, false);
+            regionHair.flip(true, false);
         }
 
         stateTimer = currentState == previousState ? stateTimer + dt : 0;
         previousState = currentState;
-        return region;
-    }
 
+        setRegion(region);
+        hair_sprite.setRegion(regionHair);
+    }
     public State getState(){
         if (body.getLinearVelocity().y > 0) return State.JUMPING;
         if (body.getLinearVelocity().y < 0) return State.FALLING;
@@ -273,9 +299,11 @@ public class Player extends Sprite {
         if(canMove && canJump && Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             body.applyLinearImpulse(0f , body.getMass()*jumpHeight ,
                     body.getPosition().x, body.getPosition().y,true);
+            CelesteGame.manager.get("Audio/SoundEffects/jump.mp3", Sound.class).play(0.15f);
         }
 
         if(canMove && canDash && Gdx.input.isKeyJustPressed(Input.Keys.F)){
+            CelesteGame.manager.get("Audio/SoundEffects/dash.wav", Sound.class).play(2f);
             body.setLinearVelocity(-body.getLinearVelocity().x + 0.04f,-body.getLinearVelocity().y + 0.04f);
             body.setAwake(false);
             isDashing = true;
@@ -595,5 +623,15 @@ public class Player extends Sprite {
 
     public static void collectBerry(Vector2 vector) {
         user.addBerry(vector);
+    }
+
+    public void applyHairTint(Color color) {
+        hair_sprite.setColor(color.r, color.g, color.b, color.a);
+    }
+    public static Color customColor(int r, int g, int b, float a) {
+        float rNormalized = r / 255f;
+        float gNormalized = g / 255f;
+        float bNormalized = b / 255f;
+        return new Color(rNormalized, gNormalized, bNormalized, a);
     }
 }
