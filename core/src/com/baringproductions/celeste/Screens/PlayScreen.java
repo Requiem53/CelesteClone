@@ -26,6 +26,7 @@
     import com.baringproductions.celeste.Player;
     import com.baringproductions.celeste.Utils.WorldListener;
 
+    import java.sql.SQLException;
     import java.util.ArrayList;
 
     public class PlayScreen implements Screen {

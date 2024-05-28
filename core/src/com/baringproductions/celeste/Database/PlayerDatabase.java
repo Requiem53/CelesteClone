@@ -3,11 +3,13 @@ package com.baringproductions.celeste.Database;
 import com.baringproductions.celeste.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class PlayerDatabase {
     private static String name;
     private static User user;
     private static int spawn;
+    public static ArrayList<GameClass> game;
     public static void initTables() {
         try (Connection c = MySQLConnection.getConnection();
              Statement statement = c.createStatement()) {
@@ -31,13 +33,15 @@ public class PlayerDatabase {
             e.printStackTrace();
         }
     }
-    public static void saveGame() {
+    public static void loadPlayer() {
 
+    }
+    public static void saveGame() throws SQLException {
     }
     public static User getNewUser(String name) {
         try (Connection c = MySQLConnection.getConnection();
              PreparedStatement statement = c.prepareStatement(
-                     "INSERT INTO users (name) VALUES (?)");) {
+                     "INSERT INTO tbluser (name) VALUES (?)");) {
             statement.setString(1, name);
             int CURRENT_USER_ID = 0;
             int row = statement.executeUpdate();
@@ -57,6 +61,33 @@ public class PlayerDatabase {
         }catch (SQLException e) {
             e.printStackTrace();
         }
+
         return null;
+    }
+    public static ArrayList<GameClass> loadGame() {
+        game = new ArrayList<>();
+        try (Connection c = MySQLConnection.getConnection();
+             Statement statement = c.createStatement();) {
+            String query = "SELECT * FROM tbluser";
+            ResultSet res = statement.executeQuery(query);
+            while (res.next()) {
+                game.add(new GameClass(res.getString("name"), res.getInt("id")));
+            }
+            return game;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static void saveGame(String gameID) {
+        try (Connection c = MySQLConnection.getConnection();
+             PreparedStatement statement = c.prepareStatement(
+                     "UPDATE tbluserberries SET =? WHERE password=? "
+             )){
+            int rowsUpdated = statement.executeUpdate();
+            System.out.println("rowsUpdated: " + rowsUpdated);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

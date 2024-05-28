@@ -29,6 +29,7 @@ import com.baringproductions.celeste.User;
 import javax.swing.*;
 import javax.swing.text.View;
 import java.awt.*;
+import java.sql.SQLException;
 
 public class PlayScreenHUD {
     public Stage stage;
@@ -51,18 +52,16 @@ public class PlayScreenHUD {
         gameMenu = new Window("Game Menu", titleStyle.createWindowStyle(25));
         gameMenu.top();
         gameMenu.setFillParent(true);
-        viewport = new FitViewport(CelesteGame.V_WIDTH, CelesteGame.V_HEIGHT);
+        viewport = new FitViewport(CelesteGame.WIDTH, CelesteGame.HEIGHT);
         stage = new Stage(viewport, sb);
         Gdx.input.setInputProcessor(stage);
-
-
 
         table = new Table();
         table.top();
         table.setFillParent(true);
 
         titleStyle = new MenuButtonStyle();
-        Label.LabelStyle titleStyleLabel = titleStyle.createPlayScreenTitleStyle(23);
+        Label.LabelStyle titleStyleLabel = titleStyle.createPlayScreenTitleStyle(75);
         title = new Label("Menu", titleStyleLabel);
 
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
@@ -81,22 +80,17 @@ public class PlayScreenHUD {
         btnClose.setText("Close");
         btnClose.pad(5);
 
-
         btnSave.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 table.remove();
-
                 //SQL update gamit si User
-
-
             }
         });
         btnExit.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 // call SQL save
-
                 game.setScreen(new MenuScreen(game));
             }
         });
@@ -104,28 +98,26 @@ public class PlayScreenHUD {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 // call SQL save
-
                 game.setScreen(new MenuScreen(game));
-
+                Gdx.app.exit();
             }
         });
         btnClose.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
                 table.remove();
-
             }
         });
 
-        table.add(title).colspan(3).center();
+        table.add(title).colspan(3).center().padTop(55);
         table.row();
         table.add(btnSave).colspan(3).center().padTop(15);
         table.row();
-        table.row().padTop(2);
+        table.row().padTop(8);
         table.add(btnExit).colspan(3).center();
-        table.row().padTop(2);
+        table.row().padTop(8);
         table.add(btnQuit).colspan(3).center();
-        table.row().padTop(2);
+        table.row().padTop(8);
         table.add(btnClose).colspan(3).center();
         gameMenu.add(table);
 

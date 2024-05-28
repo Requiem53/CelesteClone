@@ -26,6 +26,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.baringproductions.celeste.CelesteGame;
 import com.sun.org.apache.xpath.internal.operations.Or;
 
+import java.sql.SQLException;
+
 public class LoadMenuScreen implements Screen {
     private CelesteGame game;
     private OrthographicCamera camera;
@@ -42,7 +44,7 @@ public class LoadMenuScreen implements Screen {
         hud = new LoadGameHUD(game.batch, game);
         menuBackground = new Texture("menu_background.jpg");
         camera = new OrthographicCamera();
-        gamePort = new FitViewport(CelesteGame.V_WIDTH,CelesteGame.V_HEIGHT,camera);
+        gamePort = new FitViewport(CelesteGame.WIDTH, CelesteGame.HEIGHT,camera);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("level2Celeste.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
@@ -75,7 +77,7 @@ public class LoadMenuScreen implements Screen {
         renderer.render();
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.getBatch().begin();
-        hud.stage.getBatch().draw(menuBackground, 0, 0, CelesteGame.V_WIDTH, CelesteGame.V_HEIGHT);
+        hud.stage.getBatch().draw(menuBackground, 0, 0, CelesteGame.WIDTH, CelesteGame.HEIGHT);
         hud.stage.getBatch().end();
         hud.stage.draw();
 

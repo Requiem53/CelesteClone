@@ -17,6 +17,8 @@ import com.baringproductions.celeste.Statics.WorldContactListener;
 import com.baringproductions.celeste.Screens.PlayScreen;
 import com.baringproductions.celeste.Utils.WorldCreator;
 
+import java.sql.SQLException;
+
 import static com.baringproductions.celeste.Statics.Constants.PPMScaled;
 import static com.baringproductions.celeste.Statics.Constants.createPlayer;
 
@@ -80,9 +82,10 @@ public class CelesteGame extends Game {
 		manager.load("Audio/SoundEffects/dash.wav", Sound.class);
 		manager.finishLoading();
 
+
 		setScreen(new MenuScreen(this));
 
-	}
+    }
 
 	@Override
 	public void setScreen(Screen screen) {

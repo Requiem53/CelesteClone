@@ -18,8 +18,8 @@ public class MenuButtonStyle {
 
     public Label.LabelStyle createTitleTextButtonStyle(int fontSize) {
 
-        Texture buttonUpTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
-        Texture buttonDownTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
+        Texture buttonUpTexture = new Texture(Gdx.files.internal("menu_button_background2.jpg"));
+        Texture buttonDownTexture = new Texture(Gdx.files.internal("menu_button_background2.jpg"));
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/COOPBL.TTF"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -81,13 +81,13 @@ public class MenuButtonStyle {
     }
     public TextButton.TextButtonStyle createTextButtonStyle() {
 
-        Texture buttonUpTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
-        Texture buttonDownTexture = new Texture(Gdx.files.internal("menu_button_background.jpg"));
+        Texture buttonUpTexture = new Texture(Gdx.files.internal("menu_button_background2.jpg"));
+        Texture buttonDownTexture = new Texture(Gdx.files.internal("menu_button_background2.jpg"));
 
 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ARLRDBD.TTF"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = 12;
+        parameter.size = 35;
         parameter.minFilter = Texture.TextureFilter.Nearest;
         parameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
         parameter.genMipMaps = true;

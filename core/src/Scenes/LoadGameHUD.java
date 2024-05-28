@@ -10,9 +10,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.baringproductions.celeste.CelesteGame;
+import com.baringproductions.celeste.Database.GameClass;
+import com.baringproductions.celeste.Database.PlayerDatabase;
 import com.baringproductions.celeste.Screens.GameMenuScreen;
 import com.baringproductions.celeste.Screens.PlayScreen;
 import com.baringproductions.celeste.User;
+
+import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class LoadGameHUD {
     public Stage stage;
@@ -23,9 +28,10 @@ public class LoadGameHUD {
     public Table mainTable;
     public Table savedGames;
     Label title;
+    ArrayList<GameClass> loadedGames;
 
     public LoadGameHUD(SpriteBatch sb, CelesteGame game) {
-        viewport = new FitViewport(CelesteGame.V_WIDTH, CelesteGame.V_HEIGHT);
+        viewport = new FitViewport(CelesteGame.WIDTH, CelesteGame.HEIGHT);
         stage = new Stage(viewport, sb);
         Gdx.input.setInputProcessor(stage);
 
@@ -38,21 +44,24 @@ public class LoadGameHUD {
         savedGames.setFillParent(true);
 
         MenuButtonStyle titleStyle = new MenuButtonStyle();
-        Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(23);
+        Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(135);
         title = new Label("Load Game", titleStyleLabel);
 
         mainTable.add(title).colspan(2).center().padTop(10).padBottom(18);
         mainTable.row();
 
-        addSavedGameBlock("Slot 1", game);
-        addSavedGameBlock("Slot 2", game);
+        loadedGames = PlayerDatabase.loadGame();
+
+        /*for (GameClass gameloaded: loadedGames) {
+            addSavedGameBlock(gameloaded.getName(), game);
+        }*/
 
         stage.addActor(mainTable);
     }
 
     private void addSavedGameBlock(String slotName, CelesteGame game) {
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
-        Label.LabelStyle gameNameStyleLabel = buttonStyle.createLabelStyle(15);
+        Label.LabelStyle gameNameStyleLabel = buttonStyle.createLabelStyle(35);
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
 
         Label gameName = new Label(slotName, gameNameStyleLabel);
@@ -68,7 +77,7 @@ public class LoadGameHUD {
             }
         });
 
-        mainTable.add(gameName).left().padRight(10).padBottom(10);
+        mainTable.add(gameName).padBottom(10);
         mainTable.add(loadButton).padBottom(10);
         mainTable.row();
     }
