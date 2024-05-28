@@ -1,6 +1,7 @@
 package com.baringproductions.celeste.Tiles;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -102,6 +103,7 @@ public class Spring extends InteractiveTile {
         activeDuration = 0.5f;
         activeTimer = 0f;
 
+        CelesteGame.manager.get("Audio/SoundEffects/spring_bounce.wav", Sound.class).play(0.8f);
 
         float impulse = 2.5f;
         Player p = PlayScreen.player;

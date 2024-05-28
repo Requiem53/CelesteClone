@@ -1,9 +1,9 @@
 package com.baringproductions.celeste;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -45,6 +45,9 @@ public class CelesteGame extends Game {
 	Player player;
 	Body playerBody;
 
+
+	public static AssetManager manager;
+
 	@Override
 	public void create () {
 //		world = new World(new Vector2(0, -15.81f), true);
@@ -64,6 +67,15 @@ public class CelesteGame extends Game {
 //		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
 
 		batch = new SpriteBatch();
+
+		manager = new AssetManager();
+		manager.load("Audio/Music/bg_music.mp3", Music.class);
+		manager.load("Audio/SoundEffects/spring_bounce.wav", Sound.class);
+		manager.load("Audio/SoundEffects/platform_collapse.wav", Sound.class);
+		manager.load("Audio/SoundEffects/dashgem_get.wav", Sound.class);
+		manager.load("Audio/SoundEffects/die.mp3", Sound.class);
+		manager.finishLoading();
+
 		setScreen(new MenuScreen(this));
 
 	}

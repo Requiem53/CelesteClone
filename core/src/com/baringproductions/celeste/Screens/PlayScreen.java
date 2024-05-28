@@ -4,6 +4,7 @@
     import com.badlogic.gdx.Gdx;
     import com.badlogic.gdx.Input;
     import com.badlogic.gdx.Screen;
+    import com.badlogic.gdx.audio.Music;
     import com.badlogic.gdx.graphics.Color;
     import com.badlogic.gdx.graphics.GL20;
     import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -34,6 +35,7 @@
         private final OrthographicCamera camera;
         private final Viewport viewport;
         PlayScreenHUD hud;
+        private Music music;
 
         //Tiled map variables
         private TmxMapLoader maploader;
@@ -122,6 +124,11 @@
             player = new Player(user, world);
 
             world.setContactListener(new WorldListener(player));
+
+            music = CelesteGame.manager.get("Audio/Music/bg_music.mp3", Music.class);
+            music.setLooping(true);
+            music.setVolume(0.5f);
+            music.play();
 
             //para mospawn sa spawn point, dili sa 0, 0
             spawnPoints.get(currSpawnPoint).respawnPlayer(player);

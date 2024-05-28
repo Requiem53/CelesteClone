@@ -1,5 +1,6 @@
 package com.baringproductions.celeste.Tiles;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -33,7 +34,11 @@ public class DashGem extends InteractiveTile{
 
     @Override
     public void onFeetContact() {
-        if(isActive) PlayScreen.player.canDash = true;
+        if (isActive) {
+            PlayScreen.player.canDash = true;
+            CelesteGame.manager.get("Audio/SoundEffects/dashgem_get.wav", Sound.class).play(0.2f);
+        }
+
         isActive = false;
 
         synchronized (restoreGem){

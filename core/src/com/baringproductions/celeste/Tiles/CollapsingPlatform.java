@@ -1,5 +1,6 @@
 package com.baringproductions.celeste.Tiles;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -112,6 +113,9 @@ public class CollapsingPlatform extends InteractiveTile{
             stopShaking();
             setCategoryFilter(CelesteGame.DESTROYED_BIT);
             collapsed = true;
+
+            CelesteGame.manager.get("Audio/SoundEffects/platform_collapse.wav", Sound.class).play(0.5f);
+
             synchronized (waitForRespawn){
                 Timer.schedule(waitForRespawn, 2f);
             }

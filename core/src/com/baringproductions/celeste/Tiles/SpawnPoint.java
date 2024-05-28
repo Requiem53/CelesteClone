@@ -1,6 +1,7 @@
 package com.baringproductions.celeste.Tiles;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.physics.box2d.World;
@@ -26,6 +27,11 @@ public class SpawnPoint extends InteractiveTile {
     public void respawnPlayer(Player player) {
         float x = getCenterX();
         float y = getCenterY() + 30/CelesteGame.PPM;
+
+
+        if (player.isDead)
+            CelesteGame.manager.get("Audio/SoundEffects/die.mp3", Sound.class).play(0.5f);
+
 
         Gdx.app.log("X", x+"");
         Gdx.app.log("Y", y+"");
