@@ -494,8 +494,11 @@ public class Player extends Sprite {
 
                 if((body.getPosition().y < (origYCamPosition - (PlayScreen.trackedBodyHeight * 2.5f)) + 1.9016669f))
                     PlayScreen.trackedBody.setLinearVelocity(0f, -cameraSpeed);
-                else
+                else{
                     PlayScreen.trackedBody.setLinearVelocity(0f, cameraSpeed);
+                    body.applyLinearImpulse(0f, 10f, body.getPosition().x, body.getPosition().y, true);
+                }
+
                 cameraHorizontal = false;
                 toMoveCamera = true;
                 camCurrentlyAdjusting = true;
