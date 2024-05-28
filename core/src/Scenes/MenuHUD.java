@@ -73,9 +73,14 @@ public class MenuHUD {
                 System.out.println("height: " + btnNewGame.getHeight());
                 System.out.println("width: " + btnNewGame.getWidth());
                 String name = "Temp"; //ASk for name
-                //PlayerDatabase.getNewUser(name);
-                game.setScreen(new PlayScreen(new User(1, "temp"), game));
-//                game.setScreen(new PlayScreen(PlayerDatabase.getNewUser(name), game));
+
+                //game.setScreen(new PlayScreen(PlayerDatabase.getNewUser(name), game));
+                User newUser = PlayerDatabase.getNewUser(name);
+                if (newUser != null) {
+                    game.setScreen(new PlayScreen(newUser, game));
+                } else {
+                    System.out.println("Failed to create a new user");
+                }
             }
         });
         btnLoadGame.addListener(new ClickListener() {

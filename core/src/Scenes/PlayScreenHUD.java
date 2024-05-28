@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.baringproductions.celeste.CelesteGame;
+import com.baringproductions.celeste.Database.PlayerDatabase;
 import com.baringproductions.celeste.Screens.GameMenuScreen;
 import com.baringproductions.celeste.Screens.LoadMenuScreen;
 import com.baringproductions.celeste.Screens.MenuScreen;
@@ -83,6 +84,7 @@ public class PlayScreenHUD {
         btnSave.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
+                PlayerDatabase.saveGame(PlayScreen.getUser());
                 table.remove();
                 //SQL update gamit si User
             }

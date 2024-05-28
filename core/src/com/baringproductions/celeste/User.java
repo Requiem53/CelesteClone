@@ -12,6 +12,47 @@ public class User {
     private List<Vector2> berriesCollected;
 
     private static int latestID;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSpawn() {
+        return spawn;
+    }
+
+    public void setSpawn(int spawn) {
+        this.spawn = spawn;
+    }
+
+    public List<Vector2> getBerriesCollected() {
+        return berriesCollected;
+    }
+
+    public void setBerriesCollected(List<Vector2> berriesCollected) {
+        this.berriesCollected = berriesCollected;
+    }
+
+    public static int getLatestID() {
+        return latestID;
+    }
+
+    public static void setLatestID(int latestID) {
+        User.latestID = latestID;
+    }
+
     public User(int id, String name) {
         this.id = id;
         this.name = name;

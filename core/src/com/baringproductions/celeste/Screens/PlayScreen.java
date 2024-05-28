@@ -47,7 +47,7 @@
         private final World world;
         private final Box2DDebugRenderer b2dr;
         private WorldCreator creator;
-        private User user;
+        private static User user;
 
         public static Player player;
         public static Rectangle trackedPoint;
@@ -68,14 +68,14 @@
 
 
         public PlayScreen(User user, CelesteGame game) {
-            currSpawnPoint = 0;
+            currSpawnPoint = user.getSpawn();
             spawnPoints = new ArrayList<>();
             movingPlatforms = new ArrayList<>();
             collapsingPlatforms = new ArrayList<>();
             dashGems = new ArrayList<>();
             springs = new ArrayList<>();
 
-            this.user = user;
+            PlayScreen.user = user;
             this.game = game;
 
             camera = new OrthographicCamera();
@@ -242,6 +242,9 @@
             // draw stuff here
             game.batch.end();
             hud.stage.draw();
+        }
+        public static User getUser() {
+            return PlayScreen.user;
         }
 
         public World getWorld() { return world; }

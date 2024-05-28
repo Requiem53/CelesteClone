@@ -41,27 +41,24 @@ public class PlayerDatabase {
     public static User getNewUser(String name) {
         try (Connection c = MySQLConnection.getConnection();
              PreparedStatement statement = c.prepareStatement(
-                     "INSERT INTO tbluser (name) VALUES (?)");) {
+                     "INSERT INTO tbluser (name, spawn) VALUES (?, ?)", Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, name);
-            int CURRENT_USER_ID = 0;
+            statement.setInt(2, 0); // Assuming initial spawn point is 0
+
             int row = statement.executeUpdate();
             if (row > 0) {
                 try (ResultSet generatedKey = statement.getGeneratedKeys()) {
                     if (generatedKey.next()) {
-                        CURRENT_USER_ID = generatedKey.getInt(1);
-
-
+                        int CURRENT_USER_ID = generatedKey.getInt(1);
                         System.out.println("CURR ID: " + CURRENT_USER_ID);
                         user = new User(CURRENT_USER_ID, name);
                         return user;
                     }
-                    return null;
                 }
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return null;
     }
     public static ArrayList<GameClass> loadGame() {
@@ -79,15 +76,33 @@ public class PlayerDatabase {
         }
         return null;
     }
-    public static void saveGame(String gameID) {
+    public static void saveGame(User user) {
         try (Connection c = MySQLConnection.getConnection();
              PreparedStatement statement = c.prepareStatement(
-                     "UPDATE tbluserberries SET =? WHERE password=? "
+                     "UPDATE tbluser SET spawn=? WHERE id=? "
              )){
+            statement.setInt(1, user.getSpawn());;
+            statement.setInt(2, user.getId());
             int rowsUpdated = statement.executeUpdate();
             System.out.println("rowsUpdated: " + rowsUpdated);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static User loadPlayer(int id) {
+        try (Connection c = MySQLConnection.getConnection();
+             PreparedStatement statement = c.prepareStatement(
+                     "SELECT * FROM tbluser WHERE id=?"
+             )){
+            statement.setInt(1, id);
+            ResultSet res = statement.executeQuery();
+            while (res.next()) {
+                user = new User(res.getInt("id"), res.getString("name"));
+                user.setSpawn(res.getInt("spawn"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
     }
 }

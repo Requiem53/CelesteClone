@@ -52,14 +52,14 @@ public class LoadGameHUD {
 
         loadedGames = PlayerDatabase.loadGame();
 
-        /*for (GameClass gameloaded: loadedGames) {
-            addSavedGameBlock(gameloaded.getName(), game);
-        }*/
+        for (GameClass gameloaded: loadedGames) {
+            addSavedGameBlock(gameloaded.getId(), gameloaded.getName(), game);
+        }
 
         stage.addActor(mainTable);
     }
 
-    private void addSavedGameBlock(String slotName, CelesteGame game) {
+    private void addSavedGameBlock(int id, String slotName, CelesteGame game) {
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
         Label.LabelStyle gameNameStyleLabel = buttonStyle.createLabelStyle(35);
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
@@ -72,7 +72,8 @@ public class LoadGameHUD {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Loading " + slotName);
-                User user = new User(0, "Temp");    //dapat = SQL.getUser()
+                User user = PlayerDatabase.loadPlayer(id);
+                System.out.println("Spawnpoint: " + user.getSpawn());
                 game.setScreen(new PlayScreen(user, game));
             }
         });
