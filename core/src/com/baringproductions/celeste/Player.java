@@ -59,7 +59,7 @@ public class Player extends Sprite {
     private Animation fallAnimHair;
 
     private float stateTimer;
-    private boolean facingRight;
+    boolean facingRight;
 
     public Player(User user, World world) {
         super(new Texture("Player_Sprite/player_spritesheet_body.png"));
@@ -192,6 +192,9 @@ public class Player extends Sprite {
         framesHair.clear();
 
         applyHairTint(Color.WHITE.cpy());
+
+        Thread inputThread = new Thread(new InputThread(this));
+        inputThread.start();
     }
 
     public void update(float dt){
@@ -265,7 +268,7 @@ public class Player extends Sprite {
         onGround = true;
     }
 
-    private Stack<Integer> inputStack = new Stack<>();
+    Stack<Integer> inputStack = new Stack<>();
 
     public void allProcesses(float dt) {
         cameraDebug();
