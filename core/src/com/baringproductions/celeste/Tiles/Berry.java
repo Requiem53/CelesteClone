@@ -3,6 +3,7 @@ package com.baringproductions.celeste.Tiles;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.baringproductions.celeste.CelesteGame;
 import com.baringproductions.celeste.Player;
@@ -24,7 +25,8 @@ public class Berry extends InteractiveTile{
 
     public void onBodyContact(){
         if(fixture.getFilterData().categoryBits != CelesteGame.DESTROYED_BIT){
-            Player.collectBerry(body.getPosition());
+            System.out.println("Berry position: "+ (body.getPosition().x * 4) + ", " + (body.getPosition().y * 4));
+            Player.collectBerry(new Vector2((int)(body.getPosition().x * 4), ((int)(body.getPosition().y * 4))));
             destroyBerry();
         }
     }
@@ -32,6 +34,10 @@ public class Berry extends InteractiveTile{
     public void destroyBerry(){
         setCategoryFilter(CelesteGame.DESTROYED_BIT);
         cell.setTile(null);
+    }
+
+    public boolean comparePosition(Vector2 vector){
+        return vector.x == (int)(body.getPosition().x * 4) && vector.y == (int)(body.getPosition().y * 4);
     }
     @Override
     public void onFeetContact() {

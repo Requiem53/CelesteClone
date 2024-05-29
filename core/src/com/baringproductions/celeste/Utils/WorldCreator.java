@@ -2,10 +2,12 @@ package com.baringproductions.celeste.Utils;
 
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
 import com.baringproductions.celeste.Tiles.*;
+import com.baringproductions.celeste.User;
 
 public class WorldCreator {
 
@@ -68,7 +70,12 @@ public class WorldCreator {
         //berry
         for (RectangleMapObject object :
                 map.getLayers().get("berry").getObjects().getByType(RectangleMapObject.class)) {
-            new Berry(world, map, object);
+            Berry berry = new Berry(world, map, object);
+            for(Vector2 vector : PlayScreen.getUser().getBerriesCollected()){
+                if(berry.comparePosition(vector)){
+                    berry.destroyBerry();
+                }
+            }
         }
 
         // spring

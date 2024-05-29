@@ -1,9 +1,12 @@
 package com.baringproductions.celeste.Database;
 
+import com.badlogic.gdx.math.Vector2;
+import com.baringproductions.celeste.Screens.PlayScreen;
 import com.baringproductions.celeste.User;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDatabase {
     private static String name;
@@ -36,7 +39,43 @@ public class PlayerDatabase {
     public static void loadPlayer() {
 
     }
-    public static void saveGame() throws SQLException {
+    public static void saveGame() {
+        User user = PlayScreen.getUser();
+        try (Connection c = MySQLConnection.getConnection();
+             PreparedStatement statement = c.prepareStatement("SELECT x, y from tbluserberry WHERE userid = ?");
+             PreparedStatement insertStatement = c.prepareStatement("INSERT INTO tbluserberry (userid, x, y) VALUES ("+user.getId()+", ?, ?)")) {
+
+            statement.setInt(1, user.getId());
+            ResultSet rs = statement.executeQuery();
+
+            List<Vector2> alreadySavedBerries = new ArrayList<>();
+
+            while(rs.next()){
+                alreadySavedBerries.add(new Vector2(rs.getInt("x"), rs.getInt("y")));
+            }
+
+            List<Vector2> toInsertVectors = new ArrayList<>();
+            for(Vector2 vector : user.getBerriesCollected()){
+                if(!alreadySavedBerries.contains(vector)){
+                    toInsertVectors.add(vector);
+                }
+            }
+
+            insertStatement.addBatch("UPDATE tbluser SET spawn = " +user.getSpawn() + " WHERE id = " + user.getId());
+            if(!toInsertVectors.isEmpty()){
+                for(Vector2 vector : toInsertVectors){
+                    insertStatement.setInt(1, (int) vector.x);
+                    insertStatement.setInt(2, (int) vector.y);
+                    insertStatement.addBatch();
+                }
+                insertStatement.executeBatch();
+            }
+
+            System.out.println("Saved the game");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public static User getNewUser(String name) {
         try (Connection c = MySQLConnection.getConnection();
@@ -92,13 +131,20 @@ public class PlayerDatabase {
     public static User loadPlayer(int id) {
         try (Connection c = MySQLConnection.getConnection();
              PreparedStatement statement = c.prepareStatement(
-                     "SELECT * FROM tbluser WHERE id=?"
-             )){
+                     "SELECT * FROM tbluser WHERE id=?");
+             PreparedStatement statement1 = c.prepareStatement(
+                     "SELECT x, y FROM tbluserberry WHERE userid="+id
+             )
+             ){
             statement.setInt(1, id);
             ResultSet res = statement.executeQuery();
             while (res.next()) {
                 user = new User(res.getInt("id"), res.getString("name"));
                 user.setSpawn(res.getInt("spawn"));
+            }
+            res = statement1.executeQuery();
+            while(res.next()){
+                user.addBerry(new Vector2(res.getInt("x"), res.getInt("y")));
             }
         } catch (SQLException e) {
             e.printStackTrace();

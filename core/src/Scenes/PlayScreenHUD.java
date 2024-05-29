@@ -84,9 +84,8 @@ public class PlayScreenHUD {
         btnSave.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
-                PlayerDatabase.saveGame(PlayScreen.getUser());
+                PlayerDatabase.saveGame();
                 table.remove();
-                //SQL update gamit si User
             }
         });
         btnExit.addListener(new ClickListener() {

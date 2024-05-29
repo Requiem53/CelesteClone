@@ -69,7 +69,7 @@ public class CelesteGame extends Game {
 //		camera = new OrthographicCamera();
 //		camera.setToOrtho(false, PPMScaled(1280), PPMScaled(720));
 
-//		PlayerDatabase.initTables();
+		PlayerDatabase.initTables();
 		batch = new SpriteBatch();
 
 		manager = new AssetManager();
