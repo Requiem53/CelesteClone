@@ -78,7 +78,7 @@ public class LoadGameHUD {
         Label.LabelStyle gameNameStyleLabel = buttonStyle.createLabelStyle(35);
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
 
-        Label gameName = new Label(slotName, gameNameStyleLabel);
+        Label gameName = new Label(slotName + "(" +PlayerDatabase.getNumBerries(id) + ")", gameNameStyleLabel);
         TextButton loadButton = new TextButton("Load", style3);
         loadButton.pad(5);
         TextButton deleteButton = new TextButton("Delete", style3);

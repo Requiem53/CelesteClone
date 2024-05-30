@@ -9,7 +9,7 @@ import com.baringproductions.celeste.Tiles.*;
 
 public class WorldListener implements ContactListener {
 
-    Player player;
+    private Player player;
 
     public WorldListener(Player player){
         this.player = player;

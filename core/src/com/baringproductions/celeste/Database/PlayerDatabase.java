@@ -167,4 +167,19 @@ public class PlayerDatabase {
             e.printStackTrace();
         }
     }
+
+    public static int getNumBerries(int id){
+        try(Connection c = MySQLConnection.getConnection();
+            PreparedStatement statement = c.prepareStatement(
+                    "SELECT COUNT(*) berryCount from tbluserberry WHERE userid=? GROUP BY userid"
+            )){
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            rs.next();
+            return rs.getInt("berryCount");
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

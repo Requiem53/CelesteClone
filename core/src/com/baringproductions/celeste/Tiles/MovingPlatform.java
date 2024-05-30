@@ -69,7 +69,7 @@ public class MovingPlatform extends InteractiveTile {
         distanceTravelled = 0f;
     }
 
-    public void updatePosition(float newX, float newY) {
+    private void updatePosition(float newX, float newY) {
         // Convert newX and newY from Body position to bounds position
         float newBoundsPosX = newX * CelesteGame.PPM;
         float newBoundsPosY = newY * CelesteGame.PPM;
@@ -78,7 +78,7 @@ public class MovingPlatform extends InteractiveTile {
 
         // Update the RectangleMapObject position
         bounds.setPosition(newBoundsPosX, newBoundsPosY);
-        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2 - 0.075f);
+        sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
     }
     public void update(float delta) {
         // Increase the x-coordinate based on the speed and delta time

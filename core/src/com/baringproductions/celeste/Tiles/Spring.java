@@ -19,10 +19,10 @@ public class Spring extends InteractiveTile {
 
     private static final int FRAME_COLS = 6, FRAME_ROWS = 1;
     private final Animation<TextureRegion> springAnimation;
-    Texture springSheet;
+    private Texture springSheet;
     private float stateTime;
 
-    boolean isActive;
+    private boolean isActive;
     private float activeDuration;
     private float activeTimer;
 

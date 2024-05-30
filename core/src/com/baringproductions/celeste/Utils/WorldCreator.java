@@ -11,8 +11,8 @@ import com.baringproductions.celeste.User;
 
 public class WorldCreator {
 
-    World world;
-    TiledMap map;
+    private World world;
+    private TiledMap map;
 
     public WorldCreator(PlayScreen screen) {
         world = screen.getWorld();
