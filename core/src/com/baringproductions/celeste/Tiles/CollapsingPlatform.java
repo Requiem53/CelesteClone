@@ -52,7 +52,7 @@ public class CollapsingPlatform extends InteractiveTile{
     @Override
     public void onFeetLeave() {
         System.out.println("feet left");
-        stopShaking();
+//        stopShaking();
     }
 
     private void setSpriteRegion(){
@@ -127,6 +127,7 @@ public class CollapsingPlatform extends InteractiveTile{
         public void run() {
             collapsed = false;
             setCategoryFilter(CelesteGame.DEFAULT_BIT);
+            shakeTime = 0;
         }
     };
 }

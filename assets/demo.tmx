@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="361" height="92" tilewidth="16" tileheight="16" infinite="0" nextlayerid="17" nextobjectid="258">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="361" height="92" tilewidth="16" tileheight="16" infinite="0" nextlayerid="18" nextobjectid="265">
  <tileset firstgid="1" source="world_tileset.tsx"/>
  <tileset firstgid="257" source="berry.tsx"/>
  <tileset firstgid="258" source="background_glacial_mountains.tsx"/>
@@ -267,6 +267,8 @@
   <object id="252" x="3984" y="672" width="352" height="16"/>
   <object id="254" x="4320" y="480" width="16" height="192"/>
   <object id="257" x="5760" y="96" width="16" height="320"/>
+  <object id="259" x="5696" y="96" width="16" height="320"/>
+  <object id="262" x="4192" y="176" width="656" height="16"/>
  </objectgroup>
  <objectgroup id="8" name="spawn">
   <object id="17" x="32" y="1424" width="16" height="16"/>
@@ -396,5 +398,8 @@
   <object id="218" x="4400" y="432" width="16" height="316.834"/>
   <object id="227" x="3968" y="544" width="16" height="481"/>
   <object id="231" x="5184" y="112" width="16" height="1057.67"/>
+ </objectgroup>
+ <objectgroup id="17" name="picture">
+  <object id="263" x="4848" y="320.5" width="238.5" height="143.5"/>
  </objectgroup>
 </map>

@@ -66,7 +66,7 @@
         public static ArrayList<CollapsingPlatform> collapsingPlatforms;
         public static ArrayList<DashGem> dashGems;
         public static ArrayList<Spring> springs;
-
+        public static EndingPicture picture;
 
         public PlayScreen(User user, CelesteGame game) {
             currSpawnPoint = user.getSpawn();
@@ -174,7 +174,8 @@
             while(i<spawnPoints.size() && spawnPoints.get(i).body.getPosition().x <= player.body.getPosition().x){
                 i++;
             }
-            if(currSpawnPoint != --i){
+            currSpawnPoint = --i >= 0 ? i : 0;
+            if(currSpawnPoint != i){
                 currSpawnPoint = i;
                 user.updateSpawn(i);
                 PlayerDatabase.saveGame();
@@ -234,10 +235,11 @@
                 spring.update(dt);
                 spring.drawSpring(game.batch);
             }
+            picture.sprite.draw(game.batch);
+//            game.batch.draw(picture.texture, 10, 10);
 
             if(!player.canDash) player.applyHairTint(Color.BLUE);
             else player.applyHairTint(Color.WHITE.cpy());
-
             player.hair_sprite.draw(game.batch);
             player.draw(game.batch);
 

@@ -84,5 +84,12 @@ public class WorldCreator {
 
             PlayScreen.springs.add(new Spring(world, map, object));
         }
+
+        //picture
+        for (RectangleMapObject object :
+                map.getLayers().get("picture").getObjects().getByType(RectangleMapObject.class)) {
+
+            PlayScreen.picture = new EndingPicture(world, map, object);
+        }
     }
 }
