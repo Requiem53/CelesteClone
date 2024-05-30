@@ -203,7 +203,7 @@
             ScreenUtils.clear(0,0,0,1);
 
             renderer.render();
-            b2dr.render(world, camera.combined);
+//            b2dr.render(world, camera.combined);
 
             game.batch.setProjectionMatrix(camera.combined);
             game.batch.begin();
