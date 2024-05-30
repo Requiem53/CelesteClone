@@ -5,13 +5,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class MenuButtonStyle {
@@ -98,6 +95,28 @@ public class MenuButtonStyle {
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.up = new TextureRegionDrawable(new TextureRegion(buttonUpTexture));
         style.down = new TextureRegionDrawable(new TextureRegion(buttonDownTexture));
+        style.font = font;
+        style.fontColor = Color.WHITE;
+
+        return style;
+    }
+    public TextField.TextFieldStyle createTextFieldStyle() {
+
+        Texture buttonUpTexture = new Texture(Gdx.files.internal("menu_button_background2.jpg"));
+        Texture buttonDownTexture = new Texture(Gdx.files.internal("menu_button_background2.jpg"));
+
+
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/ARLRDBD.TTF"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 35;
+        parameter.minFilter = Texture.TextureFilter.Nearest;
+        parameter.magFilter = Texture.TextureFilter.MipMapLinearNearest;
+        parameter.genMipMaps = true;
+        BitmapFont font = generator.generateFont(parameter);
+        generator.dispose();
+
+
+        TextField.TextFieldStyle style = new TextField.TextFieldStyle();
         style.font = font;
         style.fontColor = Color.WHITE;
 

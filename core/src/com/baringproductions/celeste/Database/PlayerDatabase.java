@@ -155,4 +155,16 @@ public class PlayerDatabase {
         }
         return user;
     }
+    public static void deleteGame(int id){
+        try (Connection c = MySQLConnection.getConnection();
+             PreparedStatement statement = c.prepareStatement(
+                     "DELETE from tbluser WHERE id=?"
+             )){
+            statement.setInt(1, id);
+            int rowsUpdated = statement.executeUpdate();
+            System.out.println("rowsUpdated: " + rowsUpdated);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
