@@ -61,7 +61,11 @@ public class PlayerDatabase {
                 }
             }
 
-            insertStatement.addBatch("UPDATE tbluser SET spawn = " +user.getSpawn() + " WHERE id = " + user.getId());
+            Statement statement2 = c.createStatement();
+            if(statement2.executeUpdate("UPDATE tbluser SET spawn = " +user.getSpawn() + " WHERE id = " + user.getId()) <= 0){
+                System.out.println("Nothing saved");
+            };
+            statement2.close();
             if(!toInsertVectors.isEmpty()){
                 for(Vector2 vector : toInsertVectors){
                     insertStatement.setInt(1, (int) vector.x);

@@ -10,7 +10,7 @@ import com.baringproductions.celeste.Player;
 import com.baringproductions.celeste.Screens.PlayScreen;
 
 public class Berry extends InteractiveTile{
-    TiledMapTileLayer.Cell cell;
+    private TiledMapTileLayer.Cell cell;
     public Berry(World world, TiledMap map, MapObject object) {
         super(world, map, object);
 

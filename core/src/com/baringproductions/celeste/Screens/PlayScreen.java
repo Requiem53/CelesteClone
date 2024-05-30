@@ -18,6 +18,7 @@
     import com.badlogic.gdx.utils.ScreenUtils;
     import com.badlogic.gdx.utils.viewport.FitViewport;
     import com.badlogic.gdx.utils.viewport.Viewport;
+    import com.baringproductions.celeste.Database.PlayerDatabase;
     import com.baringproductions.celeste.Statics.Constants;
     import com.baringproductions.celeste.Tiles.*;
     import com.baringproductions.celeste.User;
@@ -176,6 +177,7 @@
             if(currSpawnPoint != --i){
                 currSpawnPoint = i;
                 user.updateSpawn(i);
+                PlayerDatabase.saveGame();
             }
         }
 
