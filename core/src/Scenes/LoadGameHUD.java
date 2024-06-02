@@ -25,13 +25,8 @@ public class LoadGameHUD {
     public Stage stage;
     private Viewport viewport;
 
-    public TextButton btnNewGame;
-    public TextButton btnLoadGame;
-    public TextButton btnBack;
-    public Table mainTable;
-    public Table savedGames;
-    Label title;
-    ArrayList<GameClass> loadedGames;
+    private Table mainTable;
+    private Table savedGames;
 
     public LoadGameHUD(SpriteBatch sb, CelesteGame game) {
         viewport = new FitViewport(CelesteGame.WIDTH, CelesteGame.HEIGHT);
@@ -48,12 +43,12 @@ public class LoadGameHUD {
 
         MenuButtonStyle titleStyle = new MenuButtonStyle();
         Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(85);
-        title = new Label("Load Game", titleStyleLabel);
+        Label title = new Label("Load Game", titleStyleLabel);
 
         mainTable.add(title).colspan(3).center().padTop(10).padBottom(35);
         mainTable.row();
 
-        loadedGames = PlayerDatabase.loadGame();
+        ArrayList<GameClass> loadedGames = PlayerDatabase.loadGame();
 
         for (GameClass gameloaded: loadedGames) {
             addSavedGameBlock(gameloaded.getId(), gameloaded.getName(), game);
@@ -61,7 +56,7 @@ public class LoadGameHUD {
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
         Label.LabelStyle gameNameStyleLabel = buttonStyle.createLabelStyle(35);
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
-        btnBack = new TextButton("Back", style3);
+        TextButton btnBack = new TextButton("Back", style3);
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {
@@ -78,8 +73,9 @@ public class LoadGameHUD {
         Label.LabelStyle gameNameStyleLabel = buttonStyle.createLabelStyle(35);
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
 
-        Label gameName = new Label(slotName + "(" +PlayerDatabase.getNumBerries(id) + ")", gameNameStyleLabel);
-        TextButton loadButton = new TextButton("Load", style3);
+        User user = PlayerDatabase.loadPlayer(id);
+        Label gameName = new Label(slotName + " (Berries: " +PlayerDatabase.getNumBerries(id) + ")", gameNameStyleLabel);
+        TextButton loadButton = new TextButton("Load Floor " + user.getSpawn(), style3);
         loadButton.pad(5);
         TextButton deleteButton = new TextButton("Delete", style3);
         loadButton.pad(5);
@@ -88,7 +84,6 @@ public class LoadGameHUD {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("Loading " + slotName);
-                User user = PlayerDatabase.loadPlayer(id);
                 System.out.println("Spawnpoint: " + user.getSpawn());
                 game.setScreen(new PlayScreen(user, game));
             }

@@ -36,7 +36,7 @@
         private final CelesteGame game;
         private final OrthographicCamera camera;
         private final Viewport viewport;
-        PlayScreenHUD hud;
+        private PlayScreenHUD hud;
         private Music music;
 
         //Tiled map variables
@@ -51,13 +51,12 @@
         private static User user;
 
         public static Player player;
-        public static Rectangle trackedPoint;
-        public ShapeRenderer trackedPointDebug;
-        public static ArrayList<SpawnPoint> spawnPoints;
-        public static int currSpawnPoint;
-
+        private static Rectangle trackedPoint;
         public static Body trackedBody;
-        public static Fixture trackedFixture;
+        private static Fixture trackedFixture;
+        private ShapeRenderer trackedPointDebug;
+        public static ArrayList<SpawnPoint> spawnPoints;
+        private static int currSpawnPoint;
 
         public static float trackedBodyWidth = CelesteGame.V_WIDTH/96f;
         public static float trackedBodyHeight = CelesteGame.V_HEIGHT/96f;
@@ -83,7 +82,7 @@
             viewport = new FitViewport(
                     CelesteGame.V_WIDTH/48f,
                     CelesteGame.V_HEIGHT/48f, camera);
-            hud = new PlayScreenHUD(user, game.batch, game);
+            hud = new PlayScreenHUD(game.batch, game);
 
             maploader = new TmxMapLoader();
             map = maploader.load("demo.tmx");
@@ -174,10 +173,9 @@
             while(i<spawnPoints.size() && spawnPoints.get(i).body.getPosition().x <= player.body.getPosition().x){
                 i++;
             }
-            currSpawnPoint = --i >= 0 ? i : 0;
-            if(currSpawnPoint != i){
+            if(currSpawnPoint != --i){
                 currSpawnPoint = i;
-                user.updateSpawn(i);
+                Player.user.updateSpawn(i);
                 PlayerDatabase.saveGame();
             }
         }

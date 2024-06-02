@@ -36,21 +36,11 @@ public class PlayScreenHUD {
     public Stage stage;
     private Viewport viewport;
 
-    public TextButton btnSave;
-    public TextButton btnExit;
-    public TextButton btnQuit;
-    public TextButton btnClose;
     public Table table;
-    public  Window gameMenu;
-    Label title;
-    User user;
 
-    public PlayScreenHUD(User user, SpriteBatch sb, CelesteGame game) {
-
-        this.user = user;
+    public PlayScreenHUD(SpriteBatch sb, CelesteGame game) {
         MenuButtonStyle titleStyle = new MenuButtonStyle();
-        LoadGameHUD hud = new LoadGameHUD(sb, game);
-        gameMenu = new Window("Game Menu", titleStyle.createWindowStyle(25));
+        Window gameMenu = new Window("Game Menu", titleStyle.createWindowStyle(25));
         gameMenu.top();
         gameMenu.setFillParent(true);
         viewport = new FitViewport(CelesteGame.WIDTH, CelesteGame.HEIGHT);
@@ -63,21 +53,21 @@ public class PlayScreenHUD {
 
         titleStyle = new MenuButtonStyle();
         Label.LabelStyle titleStyleLabel = titleStyle.createPlayScreenTitleStyle(75);
-        title = new Label("Menu", titleStyleLabel);
+        Label title = new Label("Menu", titleStyleLabel);
 
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
 
-        btnSave = new TextButton("", style3);
+        TextButton btnSave = new TextButton("", style3);
         btnSave.setText("Save");
         btnSave.pad(5);
-        btnExit = new TextButton("", style3);
+        TextButton btnExit = new TextButton("", style3);
         btnExit.setText("Exit");
         btnExit.pad(5);
-        btnQuit = new TextButton("", style3);
+        TextButton btnQuit = new TextButton("", style3);
         btnQuit.setText("Quit");
         btnQuit.pad(5);
-        btnClose = new TextButton("", style3);
+        TextButton btnClose = new TextButton("", style3);
         btnClose.setText("Close");
         btnClose.pad(5);
 

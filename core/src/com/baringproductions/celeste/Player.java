@@ -19,7 +19,6 @@ import java.util.Stack;
 
 public class Player extends Sprite {
     public Sprite hair_sprite;
-    public static int berryCount;
     public static User user;
     public enum State { FALLING, JUMPING, STANDING, RUNNING};
     public State currentState;
@@ -31,21 +30,21 @@ public class Player extends Sprite {
     float runSpeed = 2f;
     float jumpHeight = 4.5f;
 
-    float originalXMaxSpeed = 2f / Constants.PPM;
+    private float originalXMaxSpeed = 2f / Constants.PPM;
     float xMaxSpeed = originalXMaxSpeed;
 
     float originalYMaxSpeed = 6f;
     float yMaxSpeed = originalYMaxSpeed;
 
-    float dashStrength = 40f;
+    private final float dashStrength = 40f;
 
     float dashDuration = 0.15f;
-    float moveAfterDashDuration = 0f;
+    private float moveAfterDashDuration = 0f;
 
-    public float cameraSpeed = 20f;
+    private float cameraSpeed = 20f;
 
-    public Fixture bottomFixture;
-    public float originalFriction = 15f;
+    private Fixture bottomFixture;
+    private float originalFriction = 15f;
 
     //Jorash Variables
     public static int PLAYER_SPRITE_PIXELS = 25;
@@ -70,8 +69,7 @@ public class Player extends Sprite {
         init();
     }
 
-    public void init() {
-        berryCount = 0;
+    private void init() {
         canJump = false;
 
         //Body Def and Position
@@ -238,7 +236,7 @@ public class Player extends Sprite {
         setRegion(region);
         hair_sprite.setRegion(regionHair);
     }
-    public State getState(){
+    private State getState(){
         if (body.getLinearVelocity().y > 0) return State.JUMPING;
         if (body.getLinearVelocity().y < 0) return State.FALLING;
         if (Math.abs(body.getLinearVelocity().x) >= 0.05f) return State.RUNNING;
@@ -257,10 +255,10 @@ public class Player extends Sprite {
     public boolean onPlatform = false;
 
     //Camera States
-    public float origXCamPosition;
-    public float origYCamPosition;
-    public boolean cameraHorizontal = false;
-    public boolean toMoveCamera = false;
+    private float origXCamPosition;
+    private float origYCamPosition;
+    private boolean cameraHorizontal = false;
+    private boolean toMoveCamera = false;
 
     public void landed(){
         canJump = true;
@@ -282,7 +280,7 @@ public class Player extends Sprite {
         handleInput();
     }
 
-    public void handleInput(){
+    private void handleInput(){
         inputStackHandling();
 
         if(canMove && canLeft && (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))){
@@ -329,7 +327,7 @@ public class Player extends Sprite {
     //Hashiri Dashing Task
 
 
-    public final Timer.Task dashingTask = new Timer.Task() {
+    final Timer.Task dashingTask = new Timer.Task() {
         @Override
         public void run() {
             isDashing = false;
@@ -367,7 +365,7 @@ public class Player extends Sprite {
         }
     };
 
-    public void inputStackHandling(){
+    private void inputStackHandling(){
         //IMAGINE NUMPAD
         //8 - UP
         //4 - LEFT
@@ -417,7 +415,7 @@ public class Player extends Sprite {
         }
     }
 
-    public void speedClamping(){
+    private void speedClamping(){
         //Speed Clamping
         if(Math.abs(body.getLinearVelocity().x) > xMaxSpeed){
             if(body.getLinearVelocity().x < 0){
@@ -436,7 +434,7 @@ public class Player extends Sprite {
         }
     }
 
-    public void dashingLogic(){
+    private void dashingLogic(){
         if(isDashing){
             //0.04 pang account sa gamayng error
             //SOMEHOW NEED NI ANG SETLINEARVELECOITY UG LINEARIMPLUSE
@@ -463,7 +461,7 @@ public class Player extends Sprite {
             }
         }
     }
-    public void dash(boolean isHorizontal, boolean isRightOrUp){
+    private void dash(boolean isHorizontal, boolean isRightOrUp){
         float xForce = body.getMass()*dashStrength / 3.5f;
         float yForce = body.getMass()*dashStrength / 5f;
 
@@ -481,7 +479,7 @@ public class Player extends Sprite {
         body.setLinearVelocity(xForce, yForce);
     }
 
-    public void diagonalDash(boolean isRight, boolean isUp){
+    private void diagonalDash(boolean isRight, boolean isUp){
         float xForce = body.getMass()*dashStrength / 5f;
         float yForce = body.getMass()*dashStrength / 5f;
 
@@ -492,8 +490,8 @@ public class Player extends Sprite {
         body.setLinearVelocity(xForce, yForce);
     }
 
-    boolean camCurrentlyAdjusting = false;
-    Timer.Task camCooldown = new Timer.Task() {
+    private boolean camCurrentlyAdjusting = false;
+    private Timer.Task camCooldown = new Timer.Task() {
         @Override
         public void run() {
             origXCamPosition = PlayScreen.trackedBody.getPosition().x;
@@ -502,7 +500,7 @@ public class Player extends Sprite {
         }
     };
 
-    public void cameraHandling(){
+    private void cameraHandling(){
         //Detects when the camera should be moved then sets linear velocity of trackedbody
         //Happens when player goes outside of trackedbody area
 
@@ -561,7 +559,7 @@ public class Player extends Sprite {
 
     }
 
-    public void stateValidation(){
+    private void stateValidation(){
         if (onGround){
             canDash = true;
             canJump = true;
@@ -572,7 +570,7 @@ public class Player extends Sprite {
         }
     }
 
-    public void cameraDebug(){
+    private void cameraDebug(){
         //Minor Adjustment
         if(Gdx.input.isKeyJustPressed(Input.Keys.M)){
             PlayScreen.trackedBody.setTransform(PlayScreen.trackedBody.getPosition().x + 1f / Constants.PPM, PlayScreen.trackedBody.getPosition().y, 0);
@@ -630,11 +628,5 @@ public class Player extends Sprite {
 
     public void applyHairTint(Color color) {
         hair_sprite.setColor(color.r, color.g, color.b, color.a);
-    }
-    public static Color customColor(int r, int g, int b, float a) {
-        float rNormalized = r / 255f;
-        float gNormalized = g / 255f;
-        float bNormalized = b / 255f;
-        return new Color(rNormalized, gNormalized, bNormalized, a);
     }
 }

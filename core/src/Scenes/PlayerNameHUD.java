@@ -33,14 +33,7 @@ public class PlayerNameHUD {
     public Stage stage;
     private Viewport viewport;
 
-    public TextButton btnPlayGame;
-    public TextButton btnLoadGame;
-    public TextButton btnQuit;
-    public TextButton btnBack;
-    public Table table;
-    Label title;
-    Label txtName;
-    TextField playerName;
+    private Table table;
 
     public PlayerNameHUD(SpriteBatch sb, CelesteGame game) {
 
@@ -55,17 +48,17 @@ public class PlayerNameHUD {
 
         MenuButtonStyle titleStyle = new MenuButtonStyle();
         Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(155);
-        title = new Label("Celeste", titleStyleLabel);
-        txtName = new Label("Enter name", titleStyle.createLabelStyle(35));
+        Label title = new Label("Celeste", titleStyleLabel);
+        Label txtName = new Label("Enter name", titleStyle.createLabelStyle(35));
 
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
 
-        playerName = new TextField("Name", buttonStyle.createTextFieldStyle());
+        TextField playerName = new TextField("Name", buttonStyle.createTextFieldStyle());
         playerName.setHeight(89);
         playerName.setWidth(255);
 
-        btnPlayGame = new TextButton("", style3);
+        TextButton btnPlayGame = new TextButton("", style3);
         btnPlayGame.setText("Play");
         btnPlayGame.pad(5);
 
@@ -85,7 +78,7 @@ public class PlayerNameHUD {
                 }
             }
         });
-        btnBack = new TextButton("Back", style3);
+        TextButton btnBack = new TextButton("Back", style3);
         btnBack.addListener(new ClickListener() {
             @Override
             public void clicked (InputEvent event, float x, float y) {

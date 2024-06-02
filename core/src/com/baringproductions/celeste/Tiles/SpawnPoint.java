@@ -43,7 +43,6 @@ public class SpawnPoint extends InteractiveTile {
         player.canMove = true;
         player.canLeft = true;
         player.canRight = true;
-
     }
 
 }

@@ -45,11 +45,6 @@ public class CelesteGame extends Game {
 
 	Box2DDebugRenderer debugRenderer;
 
-	World world;
-	Player player;
-	Body playerBody;
-
-
 	public static AssetManager manager;
 
 	@Override
@@ -140,21 +135,4 @@ public class CelesteGame extends Game {
 		}
 	}
 
-	public void platformMaker(int pos){
-		BodyDef platform = new BodyDef();
-		platform.type = BodyDef.BodyType.StaticBody;
-		platform.position.set((((float) Gdx.graphics.getDisplayMode().width / 2) - (float) (64*pos)/2) / Constants.PPM, 200 / Constants.PPM);
-		Body body2 = world.createBody(platform);
-
-		PolygonShape rect = new PolygonShape();
-		rect.setAsBox(100f / Constants.PPM, 50f / Constants.PPM);
-
-		FixtureDef fixtureDef2 = new FixtureDef();
-		fixtureDef2.shape = rect;
-		fixtureDef2.friction = 0.8f;
-		Fixture groundFixture = body2.createFixture(fixtureDef2);
-
-		groundFixture.setUserData("ground");
-		rect.dispose();
-	}
 }

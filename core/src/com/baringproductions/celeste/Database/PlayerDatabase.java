@@ -175,8 +175,9 @@ public class PlayerDatabase {
             )){
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
-            rs.next();
-            return rs.getInt("berryCount");
+            if(rs.next()){
+                return rs.getInt("berryCount");
+            }
         }catch (SQLException e){
             e.printStackTrace();
         }

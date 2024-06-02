@@ -18,7 +18,7 @@ public class InputThread implements Runnable {
         handleInput();
     }
 
-    public void inputStackHandling(){
+    private void inputStackHandling(){
         //IMAGINE NUMPAD
         //8 - UP
         //4 - LEFT
@@ -68,7 +68,7 @@ public class InputThread implements Runnable {
         }
     }
 
-    public void handleInput(){
+    private void handleInput(){
         inputStackHandling();
 
         if(player.canMove && player.canLeft && (Gdx.input.isKeyPressed(Input.Keys.A) || Gdx.input.isKeyPressed(Input.Keys.LEFT))){

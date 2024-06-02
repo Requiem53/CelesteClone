@@ -32,12 +32,8 @@ public class MenuHUD {
     public Stage stage;
     private Viewport viewport;
 
-    public TextButton btnNewGame;
-    public TextButton btnLoadGame;
-    public TextButton btnQuit;
-    public Table table;
-    Label title;
-    ArrayList<GameClass> loadedGames;
+    private Table table;
+    private ArrayList<GameClass> loadedGames;
 
     public MenuHUD(SpriteBatch sb, CelesteGame game) {
 
@@ -52,18 +48,18 @@ public class MenuHUD {
 
         MenuButtonStyle titleStyle = new MenuButtonStyle();
         Label.LabelStyle titleStyleLabel = titleStyle.createTitleTextButtonStyle(155);
-        title = new Label("Celeste", titleStyleLabel);
+        Label title = new Label("Celeste", titleStyleLabel);
 
         MenuButtonStyle buttonStyle = new MenuButtonStyle();
         TextButton.TextButtonStyle style3 = buttonStyle.createTextButtonStyle();
 
-        btnNewGame = new TextButton("", style3);
+        TextButton btnNewGame = new TextButton("", style3);
         btnNewGame.setText("New Game");
         btnNewGame.pad(5);
-        btnLoadGame = new TextButton("", style3);
+        TextButton btnLoadGame = new TextButton("", style3);
         btnLoadGame.setText("Load Game");
         btnLoadGame.pad(5);
-        btnQuit = new TextButton("", style3);
+        TextButton btnQuit = new TextButton("", style3);
         btnQuit.setText("Quit");
         btnQuit.pad(5);
 

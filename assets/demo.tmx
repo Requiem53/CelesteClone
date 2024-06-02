@@ -400,6 +400,6 @@
   <object id="231" x="5184" y="112" width="16" height="1057.67"/>
  </objectgroup>
  <objectgroup id="17" name="picture">
-  <object id="263" x="4848" y="320.5" width="238.5" height="143.5"/>
+  <object id="263" x="4848" y="309.5" width="249" height="154.5"/>
  </objectgroup>
 </map>
